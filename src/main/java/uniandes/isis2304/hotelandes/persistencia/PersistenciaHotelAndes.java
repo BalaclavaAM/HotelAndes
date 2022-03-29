@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import uniandes.isis2304.hotelandes.negocio.TipoHabitacion;
+import uniandes.isis2304.hotelandes.persistencia.SQLTipoHabitacion;
 
 public class PersistenciaHotelAndes {
     private static Logger theLogger = Logger.getLogger(PersistenciaHotelAndes.class.getName());
@@ -25,6 +27,7 @@ public class PersistenciaHotelAndes {
     private static PersistenciaHotelAndes instance;
     private PersistenceManagerFactory pmf;
     private List<String> tablas;
+    private SQLTipoHabitacion sqlTipoHabitacion;
     private SQLUtil sqlUtil;
 
     private PersistenciaHotelAndes() {
@@ -79,12 +82,59 @@ public class PersistenciaHotelAndes {
         theLogger.trace("Accediendo unidad de persistencia " + unidadPersistencia);
         pmf = JDOHelper.getPersistenceManagerFactory(unidadPersistencia);
     }
+    private void crearClasesSQL ()
+    {
+        sqlTipoHabitacion = new SQLTipoHabitacion(this);
+
+    }
 
     private List <String> leerNombresTablas (JsonObject tableConfig){
         JsonArray nombres = tableConfig.getAsJsonArray("tablas");
         List <String> resp = new LinkedList <String> ();
         for (JsonElement nom : nombres){
             resp.add(nom.getAsString());
+        }
+        return resp;
+    }
+    public TipoHabitacion adicionarTipoHabitacion(String tipo, Float precio, String descripcion)
+    {
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        int id=0; //toca hacer una consulta para averiguar cual es la id de este tipo
+        try
+        {
+            tx.begin();
+            long tuplasInsertadas = sqlTipoHabitacion.adicionarTipoHabitacion(pm, tipo, precio, descripcion);
+            tx.commit();
+
+            theLogger.trace ("Inserción de tipo de bebida: " + tipo + ": " + tuplasInsertadas + " tuplas insertadas");
+
+            return new TipoHabitacion (id,tipo,precio, descripcion);
+
+
+        }
+        catch (Exception e)
+        {
+//        	e.printStackTrace();
+            theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
+    private String darDetalleException(Exception e)
+    {
+        String resp = "";
+        if (e.getClass().getName().equals("javax.jdo.JDODataStoreException"))
+        {
+            JDODataStoreException je = (javax.jdo.JDODataStoreException) e;
+            return je.getNestedExceptions() [0].getMessage();
         }
         return resp;
     }
@@ -108,5 +158,6 @@ public class PersistenciaHotelAndes {
     public String obtenerTablaCadenaHotelera(){
         return tablas.get(0);
     }
+
 
 }
