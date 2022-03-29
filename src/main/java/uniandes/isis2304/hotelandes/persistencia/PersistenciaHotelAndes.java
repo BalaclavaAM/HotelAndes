@@ -18,6 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import uniandes.isis2304.hotelandes.negocio.TipoHabitacion;
 import uniandes.isis2304.hotelandes.persistencia.SQLTipoHabitacion;
+import uniandes.isis2304.parranderos.persistencia.PersistenciaParranderos;
 
 public class PersistenciaHotelAndes {
     private static Logger theLogger = Logger.getLogger(PersistenciaHotelAndes.class.getName());
@@ -139,6 +140,15 @@ public class PersistenciaHotelAndes {
         return resp;
     }
 
+    public static PersistenciaHotelAndes getInstance (JsonObject tableConfig)
+    {
+        if (instance == null)
+        {
+            instance = new PersistenciaHotelAndes (tableConfig);
+        }
+        return instance;
+    }
+
     public String obtenerTablaBar(){
         return tablas.get(24);
     }
@@ -157,6 +167,12 @@ public class PersistenciaHotelAndes {
 
     public String obtenerTablaCadenaHotelera(){
         return tablas.get(0);
+    }
+
+    public void cerrarUnidadPersistencia ()
+    {
+        pmf.close ();
+        instance = null;
     }
 
 

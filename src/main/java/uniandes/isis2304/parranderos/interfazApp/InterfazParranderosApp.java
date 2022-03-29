@@ -55,7 +55,7 @@ import uniandes.isis2304.parranderos.negocio.VOTipoBebida;
  */
 @SuppressWarnings("serial")
 
-public class <InterfazParranderosApp extends JFrame implements ActionListener
+public class InterfazParranderosApp extends JFrame implements ActionListener
 {
 	/* ****************************************************************
 	 * 			Constantes
