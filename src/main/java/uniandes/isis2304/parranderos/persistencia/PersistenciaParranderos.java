@@ -145,7 +145,7 @@ public class PersistenciaParranderos
 		tablas.add ("GUSTAN");
 		tablas.add ("SIRVEN");
 		tablas.add ("VISITAN");
-}
+	}
 
 	/**
 	 * Constructor privado, que recibe los nombres de las tablas en un objeto Json - Patrón SINGLETON

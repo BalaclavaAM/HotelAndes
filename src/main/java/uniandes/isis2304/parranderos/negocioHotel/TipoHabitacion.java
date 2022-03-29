@@ -17,7 +17,7 @@ public class TipoHabitacion {
         this.descripcion="Default";
     }
 
-    public TipoHabitacion(int id, String tipo, int precio, String descripcion){
+    public TipoHabitacion(long id, String tipo, long precio, String descripcion){
         this.id=id;
         this.tipo=tipo;
         this.precio=precio;
