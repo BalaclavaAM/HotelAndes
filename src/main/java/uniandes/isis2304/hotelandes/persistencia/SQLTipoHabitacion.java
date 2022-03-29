@@ -10,7 +10,7 @@ public class SQLTipoHabitacion {
         this.pHotelAndes = pHotelAndes;
     }
 
-    public long adicionarTipoHabitacion(PersistenceManager pm, Integer tipo, Float precio, String descripcion) {
+    public long adicionarTipoHabitacion(PersistenceManager pm, String tipo, Float precio, String descripcion) {
         long id = 0;
         try {
             String sql = "INSERT INTO " + pHotelAndes.obtenerTablaTipoHabitacion() + " (tipo, precio, descripcion) VALUES (?, ?, ?)";
@@ -21,4 +21,5 @@ public class SQLTipoHabitacion {
         }
         return id;
     }
+
 }
