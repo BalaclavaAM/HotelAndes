@@ -1,24 +1,16 @@
 package uniandes.isis2304.hotelandes.persistencia;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.jdo.JDODataStoreException;
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Transaction;
-
-import oracle.sql.SQLUtil;
-import org.apache.log4j.Logger;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import uniandes.isis2304.hotelandes.negocio.TipoHabitacion;
-import uniandes.isis2304.hotelandes.persistencia.SQLTipoHabitacion;
-import uniandes.isis2304.parranderos.persistencia.PersistenciaParranderos;
+import oracle.sql.SQLUtil;
+import org.apache.log4j.Logger;
+import uniandes.isis2304.hotelandes.negocio.*;
+import uniandes.isis2304.parranderos.negocio.TipoBebida;
+
+import javax.jdo.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PersistenciaHotelAndes {
     private static Logger theLogger = Logger.getLogger(PersistenciaHotelAndes.class.getName());
@@ -30,6 +22,8 @@ public class PersistenciaHotelAndes {
     private List<String> tablas;
     private SQLTipoHabitacion sqlTipoHabitacion;
     private SQLUtil sqlUtil;
+    private SQLUsuario sqlUsuario;
+    private HotelAndes hotelAndes;
 
     private PersistenciaHotelAndes() {
         pmf = JDOHelper.getPersistenceManagerFactory(PMF_NAME);
@@ -110,7 +104,7 @@ public class PersistenciaHotelAndes {
 
             theLogger.trace ("Inserción de tipo de bebida: " + tipo + ": " + tuplasInsertadas + " tuplas insertadas");
 
-            return new TipoHabitacion (id,tipo,precio, descripcion);
+            return new TipoHabitacion(id,tipo,precio, descripcion);
 
 
         }
@@ -129,6 +123,7 @@ public class PersistenciaHotelAndes {
             pm.close();
         }
     }
+
     private String darDetalleException(Exception e)
     {
         String resp = "";
@@ -147,6 +142,10 @@ public class PersistenciaHotelAndes {
             instance = new PersistenciaHotelAndes (tableConfig);
         }
         return instance;
+    }
+    public List<Usuario> darUsuarioPorLogin (String login)
+    {
+        return sqlUsuario.darUsuarioPorLogin (pmf.getPersistenceManager(), login);
     }
 
     public String obtenerTablaBar(){
@@ -173,6 +172,14 @@ public class PersistenciaHotelAndes {
     {
         pmf.close ();
         instance = null;
+    }
+    public String darTablaUsuario ()
+    {
+        return tablas.get (15);
+    }
+    public String darTablaTipoUsuario ()
+    {
+        return tablas.get (4);
     }
 
 
