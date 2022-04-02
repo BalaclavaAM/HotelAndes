@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
+import uniandes.isis2304.hotelandes.negocio.HotelAndes;
 import uniandes.isis2304.parranderos.interfazApp.InterfazParranderosApp;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
 import uniandes.isis2304.parranderos.negocio.Parranderos;
@@ -75,7 +76,7 @@ public class InterfazHotelAndesApp {
     /**
      * Asociación a la clase principal del negocio.
      */
-    private Parranderos parranderos;
+    private HotelAndes hotelAndes;
 
     /* ****************************************************************
      * 			Atributos de interfaz
