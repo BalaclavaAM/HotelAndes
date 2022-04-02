@@ -128,9 +128,11 @@ CREATE TABLE Usuario(
                         tipoPlan NUMBER REFERENCES TipoPlan(id) NOT NULL,
                         tipoDocumento NUMBER REFERENCES TipoDocumento(id) NOT NULL,
                         tipoUsuario NUMBER REFERENCES TipoUsuario(id) NOT NULL,
+                        login NOT NULL,
 
                         CONSTRAINT usuarioPk PRIMARY KEY (id)
 );
+Alter table  usuario ADD constraint LOGIN_ND UNIQUE (login) ENABLE;
 
 CREATE TABLE Reserva(
                         id NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
@@ -343,3 +345,5 @@ CREATE TABLE usoUsuario(
                            idUso NUMBER REFERENCES PersonasHabitacion(idUso),
                            idUsuario NUMBER REFERENCES Usuario(id)
 );
+
+COMMIT;
