@@ -128,7 +128,7 @@ CREATE TABLE Usuario(
                         tipoPlan NUMBER REFERENCES TipoPlan(id) NOT NULL,
                         tipoDocumento NUMBER REFERENCES TipoDocumento(id) NOT NULL,
                         tipoUsuario NUMBER REFERENCES TipoUsuario(id) NOT NULL,
-                        login NOT NULL,
+                        login VARCHAR2(255) NOT NULL,
 
                         CONSTRAINT usuarioPk PRIMARY KEY (id)
 );
@@ -345,5 +345,4 @@ CREATE TABLE usoUsuario(
                            idUso NUMBER REFERENCES PersonasHabitacion(idUso),
                            idUsuario NUMBER REFERENCES Usuario(id)
 );
-
 COMMIT;
