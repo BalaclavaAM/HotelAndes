@@ -37,9 +37,9 @@ public class HotelAndes {
         pp.cerrarUnidadPersistencia ();
     }
     public TipoHabitacion adicionarTipoHabitacion(String tipo, Float precio, String descripcion){
-        log.info ("Adicionando Tipo de bebida: " + tipo);
+        log.info ("Adicionando Tipo de Habitacion: " + tipo);
         TipoHabitacion tipoHabitacion = pp.adicionarTipoHabitacion (tipo,precio, descripcion);
-        log.info ("Adicionando Tipo de bebida: " + tipoHabitacion);
+        log.info ("Adicionando Tipo de Habitacion: " + tipoHabitacion);
         return tipoHabitacion;
     }
     public Usuario darUsuarioPorLogin(String login)
@@ -48,5 +48,14 @@ public class HotelAndes {
         log.info ("Buscando Usuario por login : " + login);
         List<Usuario> tb = pp.darUsuarioPorLogin(login);
         return !tb.isEmpty () ? tb.get (0) : null;
+    }
+
+    public VOHabitacion adicionarHabitacion(long tipo, long hotel, long numberoHabitacion) {
+        System.out.println("entro a hotelandes");
+        log.info ("Adicionando Habitacion: " + tipo);
+        Habitacion Habitacion = pp.adicionarHabitacion (tipo,hotel, numberoHabitacion);
+        log.info ("Adicionando Habitacion: " + Habitacion);
+
+        return Habitacion;
     }
 }

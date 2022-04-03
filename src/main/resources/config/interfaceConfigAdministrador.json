@@ -10,7 +10,7 @@
       [
         {
           "label": "Adicionar",
-          "event": "adicionarTipoBebida"
+          "event": "adicionarTipoHabitacion"
         },
         {
           "label": "Listar",
@@ -26,12 +26,12 @@
         }
       ]
     },
-    { "menuTitle": "Mantenimiento",
+    { "menuTitle": "Habitacion",
       "options":
       [
         {
-          "label": "Mostrar log Parranderos",
-          "event": "mostrarLogParranderos"
+          "label": "Añadir habitacion",
+          "event": "adicionarHabitacion"
         },
         {
           "label": "Mostrar log datanucleus",

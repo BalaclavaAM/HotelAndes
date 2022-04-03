@@ -1,14 +1,14 @@
 package uniandes.isis2304.hotelandes.negocio;
 
-public class TipoHabitacion {
+public class TipoHabitacion implements VOTipoHabitacion{
 
-    private long id;
+    public long id;
 
-    private String tipo;
+    public String tipo;
 
-    private Float precio;
+    public Float precio;
 
-    private String descripcion;
+    public String descripcion;
 
     public TipoHabitacion(){
         this.id=0;
@@ -55,4 +55,13 @@ public class TipoHabitacion {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    @Override
+    public String toString()
+    {
+        return "TipoHabitacion [tipo=" + tipo + ", descripcion=" + descripcion + "]";
+    }
+
+
+
 }

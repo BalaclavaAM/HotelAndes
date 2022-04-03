@@ -1,6 +1,7 @@
 package uniandes.isis2304.hotelandes.persistencia;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 public class SQLTipoHabitacion {
     private final static String SQL = PersistenciaHotelAndes.SQL;
@@ -11,15 +12,10 @@ public class SQLTipoHabitacion {
     }
 
     public long adicionarTipoHabitacion(PersistenceManager pm, String tipo, Float precio, String descripcion) {
-        long id = 0;
-        try {
-            String sql = "INSERT INTO " + pHotelAndes.obtenerTablaTipoHabitacion() + " (tipo, precio, descripcion) VALUES (?, ?, ?)";
-            id = (long) pm.newQuery(sql).execute(tipo, precio, descripcion);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return id;
-    }
 
+        String sql = "INSERT INTO " + pHotelAndes.obtenerTablaTipoHabitacion() + " (tipo, precio, descripcion) VALUES (?, ?, ?)";
+        Query q=pm.newQuery(SQL, sql);
+        q.setParameters(tipo, precio, descripcion);
+        return (long) q.executeUnique();
+    }
 }

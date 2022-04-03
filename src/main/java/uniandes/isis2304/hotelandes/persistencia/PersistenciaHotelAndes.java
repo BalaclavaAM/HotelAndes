@@ -22,6 +22,7 @@ public class PersistenciaHotelAndes {
     private SQLTipoHabitacion sqlTipoHabitacion;
     private SQLUtil sqlUtil;
     private SQLUsuario sqlUsuario;
+    private SQLHabitacion sqlHabitacion;
 
     private PersistenciaHotelAndes() {
         pmf = JDOHelper.getPersistenceManagerFactory(PMF_NAME);
@@ -81,6 +82,7 @@ public class PersistenciaHotelAndes {
         sqlTipoHabitacion = new SQLTipoHabitacion(this);
         sqlUtil= new SQLUtil(this);
         sqlUsuario= new SQLUsuario(this);
+        sqlHabitacion= new SQLHabitacion(this);
 
     }
 
@@ -103,9 +105,44 @@ public class PersistenciaHotelAndes {
             long tuplasInsertadas = sqlTipoHabitacion.adicionarTipoHabitacion(pm, tipo, precio, descripcion);
             tx.commit();
 
-            theLogger.trace ("Inserción de tipo de bebida: " + tipo + ": " + tuplasInsertadas + " tuplas insertadas");
+            theLogger.trace ("Inserción de tipo habitacion: " + tipo + ": " + tuplasInsertadas + " tuplas insertadas");
 
             return new TipoHabitacion(id,tipo,precio, descripcion);
+
+
+        }
+        catch (Exception e)
+        {
+//        	e.printStackTrace();
+            theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
+    public Habitacion adicionarHabitacion(long tipo, long hotel, long numberoHabitacion)
+    {
+        System.out.println("entro a persistencia");
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        int id=0; //toca hacer una consulta para averiguar cual es la id de este tipo
+        try
+        {
+            System.out.println("entro al try");
+            tx.begin();
+            System.out.println("tx begin");
+            long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, tipo, hotel, numberoHabitacion);
+            tx.commit();
+            System.out.println("salio del sql");
+            theLogger.trace ("Inserción de tipo habitacion: " + tipo + ": " + tuplasInsertadas + " tuplas insertadas");
+
+            return new Habitacion(id,tipo,hotel, numberoHabitacion);
 
 
         }
@@ -157,12 +194,15 @@ public class PersistenciaHotelAndes {
         return tablas.get(24);
     }
 
-    public String obtenerTablaHabitacion(){
+    public String obtenerTablaTipoUsuario(){
         return tablas.get(4);
     }
 
     public String obtenerTablaTipoHabitacion(){
         return tablas.get(2);
+    }
+    public String obtenerTablaHabitacion(){
+        return tablas.get(3);
     }
 
     public String obtenerTablaHotel(){

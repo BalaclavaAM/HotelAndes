@@ -25,14 +25,14 @@ CREATE TABLE TipoHabitacion(
 );
 
 CREATE TABLE Habitacion(
-                           id NUMBER,
+                           id NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
                            tipo NUMBER REFERENCES TipoHabitacion(id),
                            hotel NUMBER REFERENCES Hotel(id),
-                           numberoHabitacion NUMBER,
+                           numeroHabitacion NUMBER,
 
                            CONSTRAINT habitacionPk PRIMARY KEY(id)
 );
-
+Alter table  Habitacion ADD constraint HOTEL_HAB_UNIQUE UNIQUE (hotel,numeroHabitacion) ENABLE;
 --ENUM
 CREATE TABLE TipoUsuario(
                             id NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
