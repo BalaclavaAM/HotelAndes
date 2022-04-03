@@ -24,7 +24,12 @@ public class PersistenciaHotelAndes {
     private SQLUtil sqlUtil;
     private SQLUsuario sqlUsuario;
     private SQLHabitacion sqlHabitacion;
+<<<<<<< HEAD
     private SQLReserva sqlReserva;
+=======
+    private SQLTipoUsuario sqlTUsuario;
+    private Logger logger;
+>>>>>>> 7e909d140bb4f4c87fa47a8b69849dc7416a395e
 
     private PersistenciaHotelAndes() {
         pmf = JDOHelper.getPersistenceManagerFactory(PMF_NAME);
@@ -129,6 +134,30 @@ public class PersistenciaHotelAndes {
             pm.close();
         }
     }
+    public TipoUsuario adicionarTipoUsuario(String name){
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long id = SQLTipoUsuario.insertTipoUsuario(pm, name);
+            tx.commit();
+            return new TipoUsuario(id,name);
+        }
+        catch (Exception e)
+        {
+            logger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return null;
+        }
+        finally{
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
+
     public Habitacion adicionarHabitacion(long tipo, long hotel, long numberoHabitacion)
     {
         System.out.println("entro a persistencia");
@@ -146,8 +175,6 @@ public class PersistenciaHotelAndes {
             theLogger.trace ("Inserción de tipo habitacion: " + tipo + ": " + tuplasInsertadas + " tuplas insertadas");
 
             return new Habitacion(id,tipo,hotel, numberoHabitacion);
-
-
         }
         catch (Exception e)
         {

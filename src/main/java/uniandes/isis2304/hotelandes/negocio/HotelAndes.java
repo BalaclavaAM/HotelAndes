@@ -61,10 +61,16 @@ public class HotelAndes {
     }
     public VOReserva registrarReserva(Timestamp fechaentrada, Timestamp fechasalida, long idUsuario) {
         System.out.println("entro a hotelandes");
-        log.info ("Adicionando Habitacion: " + fechaentrada);
-        Reserva reserva = pp.registrarReserva(fechaentrada,fechasalida, idUsuario);
-        log.info ("Adicionando Habitacion: " + reserva);
+        log.info("Adicionando Habitacion: " + fechaentrada);
+        Reserva reserva = pp.registrarReserva(fechaentrada, fechasalida, idUsuario);
+        log.info("Adicionando Habitacion: " + reserva);
 
         return reserva;
+    }
+    public TipoUsuario adicionaTipoUsuario(String name){
+        log.info ("Adicionando Tipo de Usuario: ");
+        TipoUsuario tipoUsuario = pp.adicionarTipoUsuario(name);
+        log.info ("Adicionando Tipo de Usuario: " + tipoUsuario);
+        return tipoUsuario;
     }
 }

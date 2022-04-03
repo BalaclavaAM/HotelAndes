@@ -5,6 +5,12 @@
   "bannerPath": "./src/main/resources/config/logo.png",
   "menuBar":
   [
+    {"menuTitle":"Usuario",
+    "options":[
+      {"label":"Crear tipo de usuario",
+      "event": "createUserType"
+    }
+    ]},
     { "menuTitle": "TipoHabitacion",
       "options":
       [

@@ -7,11 +7,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.HotelAndes;
+import uniandes.isis2304.hotelandes.negocio.TipoUsuario;
 import uniandes.isis2304.hotelandes.negocio.VOHabitacion;
 import uniandes.isis2304.hotelandes.negocio.VOTipoHabitacion;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
-import uniandes.isis2304.parranderos.negocio.Parranderos;
-import uniandes.isis2304.parranderos.negocio.VOTipoBebida;
 
 import javax.jdo.JDODataStoreException;
 import javax.swing.*;
@@ -20,7 +19,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.lang.reflect.Method;
-import java.util.List;
 
 @SuppressWarnings("serial")
 public class Administrador extends JFrame implements ActionListener {
@@ -258,8 +256,28 @@ public class Administrador extends JFrame implements ActionListener {
             String resultado = generarMensajeError(e);
             panelDatos.actualizarInterfaz(resultado);
         }
+    }
 
-
+    public void createUserType(){
+        try{
+            String nombreTipo = JOptionPane.showInputDialog(this, "Nombre del tipo de usuario?", "Adicionar Nombre tipo usuario", JOptionPane.QUESTION_MESSAGE);
+            if (nombreTipo != null) {
+                TipoUsuario tb = hotelAndes.adicionaTipoUsuario(nombreTipo);
+                if (tb == null) {
+                    throw new Exception("No se pudo crear un tipo de usuario con nombre: " + nombreTipo);
+                }
+                String resultado = "En adicionarTipoBebida\n\n";
+                resultado += "Tipo de bebida adicionado exitosamente: " + tb;
+                resultado += "\n Operación terminada";
+                panelDatos.actualizarInterfaz(resultado);
+            } else {
+                panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            }
+        } catch (Exception e) {
+//			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
     }
 
 
