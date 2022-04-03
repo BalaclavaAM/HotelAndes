@@ -8,6 +8,7 @@ import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.parranderos.negocio.TipoBebida;
 
 import javax.jdo.*;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class PersistenciaHotelAndes {
     private SQLUtil sqlUtil;
     private SQLUsuario sqlUsuario;
     private SQLHabitacion sqlHabitacion;
+    private SQLReserva sqlReserva;
 
     private PersistenciaHotelAndes() {
         pmf = JDOHelper.getPersistenceManagerFactory(PMF_NAME);
@@ -83,6 +85,7 @@ public class PersistenciaHotelAndes {
         sqlUtil= new SQLUtil(this);
         sqlUsuario= new SQLUsuario(this);
         sqlHabitacion= new SQLHabitacion(this);
+        sqlReserva = new SQLReserva(this);
 
     }
 
@@ -225,6 +228,41 @@ public class PersistenciaHotelAndes {
     public String darTablaTipoUsuario ()
     {
         return tablas.get (4);
+    }
+    public String obtenerTablaReserva() {
+        return tablas.get (16);
+    }
+
+    public Reserva registrarReserva(Timestamp fechaentrada, Timestamp fechasalida, long idUsuario) {
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        int id=0; //toca hacer una consulta para averiguar cual es la id de este tipo
+        try
+        {
+            tx.begin();
+            long tuplasInsertadas = sqlReserva.registrarReserva(pm, fechaentrada, fechasalida, idUsuario);
+            tx.commit();
+
+            theLogger.trace ("Inserción de Reserva iniciando: " + fechaentrada + " terminando: " + fechasalida+"añadidas:"+ tuplasInsertadas + " tuplas insertadas");
+
+            return new Reserva(id, fechaentrada,fechasalida, idUsuario);
+
+
+        }
+        catch (Exception e)
+        {
+//        	e.printStackTrace();
+            theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
     }
 
 

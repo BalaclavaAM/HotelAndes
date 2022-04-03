@@ -5,33 +5,12 @@
   "bannerPath": "./src/main/resources/config/logo.png",
   "menuBar":
   [
-    { "menuTitle": "Reserva",
+    { "menuTitle": "Reservas",
       "options":
       [
         {
-          "label": "Adicionar",
-          "event": "adicionarTipoHabitacion"
-        },
-        {
-          "label": "Listar",
-          "event": "listarTipoBebida"
-        },
-        {
-          "label": "Borrar por Id",
-          "event": "eliminarTipoBebidaPorId"
-        },
-        {
-          "label": "Buscar por Nombre",
-          "event": "buscarTipoBebidaPorNombre"
-        }
-      ]
-    },
-    { "menuTitle": "Habitacion",
-      "options":
-      [
-        {
-          "label": "Añadir habitacion",
-          "event": "adicionarHabitacion"
+          "label": "Añadir Reserva",
+          "event": "registrarReserva"
         },
         {
           "label": "Mostrar log datanucleus",

@@ -9,6 +9,7 @@ import uniandes.isis2304.parranderos.negocio.TipoBebida;
 
 import uniandes.isis2304.parranderos.persistencia.PersistenciaParranderos;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class HotelAndes {
@@ -57,5 +58,13 @@ public class HotelAndes {
         log.info ("Adicionando Habitacion: " + Habitacion);
 
         return Habitacion;
+    }
+    public VOReserva registrarReserva(Timestamp fechaentrada, Timestamp fechasalida, long idUsuario) {
+        System.out.println("entro a hotelandes");
+        log.info ("Adicionando Habitacion: " + fechaentrada);
+        Reserva reserva = pp.registrarReserva(fechaentrada,fechasalida, idUsuario);
+        log.info ("Adicionando Habitacion: " + reserva);
+
+        return reserva;
     }
 }

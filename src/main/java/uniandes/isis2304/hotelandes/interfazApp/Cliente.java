@@ -5,8 +5,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import oracle.sql.TIMESTAMP;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.HotelAndes;
+import uniandes.isis2304.hotelandes.negocio.VOReserva;
+import uniandes.isis2304.hotelandes.negocio.VOTipoHabitacion;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
 
 import javax.jdo.JDODataStoreException;
@@ -16,6 +19,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Cliente extends JFrame implements ActionListener {
 
@@ -127,6 +133,46 @@ public class Cliente extends JFrame implements ActionListener {
         setTitle(titulo);
         setSize(ancho, alto);
     }
+    public void registrarReserva() {
+        try {
+
+            int anoReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "AÑO RESERVA:", "AÑO RESERVA (ponga un numero)", JOptionPane.QUESTION_MESSAGE));
+            int mesReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "MES RESERVA (siendo 0 enero y diciembre 11): ", "MES RESERVA", JOptionPane.QUESTION_MESSAGE));
+            int diaReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "DIA RESERVA", "DIA RESERVA(ponga un numero)", JOptionPane.QUESTION_MESSAGE));
+            int horaReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "HoraReserva", "HoraReserva(ponga un numero de 0 a 23)", JOptionPane.QUESTION_MESSAGE));
+            int hastaQuemesReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "hastaQuemesReserva(siendo 0 enero y diciembre 11) (ponga un numero)", "hastaQuemesReserva", JOptionPane.QUESTION_MESSAGE));
+            int hastaQueanoReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "hastaQueAñoReserva (ponga un numero)", "hastaQueAñoReserva", JOptionPane.QUESTION_MESSAGE));
+            int hastaQueDiaReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "hastaQueDiaReserva(ponga un numero)", "hastaQueDiaReserva", JOptionPane.QUESTION_MESSAGE));
+            int hastaQueHoraReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "hastaQueHoraReserva(ponga un numero de 0 a 23)", "hastaQueHoraReserva", JOptionPane.QUESTION_MESSAGE));
+            long idusuario=Long.parseLong(JOptionPane.showInputDialog(this, "idUsuario", "IDUSUARIO", JOptionPane.QUESTION_MESSAGE));
+            if (anoReserva >0 && mesReserva>=0 && diaReserva<32 && mesReserva<12 && diaReserva>0 && horaReserva>=0 && horaReserva<24 && hastaQuemesReserva>=0 &&hastaQuemesReserva<12 && hastaQueanoReserva>0 && hastaQueDiaReserva>0 && hastaQueDiaReserva<32 && hastaQueHoraReserva>0 && hastaQueHoraReserva<24) {
+                System.out.println("HOLA");
+                Calendar fechaentrada = new GregorianCalendar(anoReserva,mesReserva,diaReserva,horaReserva,0,0);
+                Calendar fechasalida= new GregorianCalendar(hastaQueanoReserva,hastaQuemesReserva,hastaQueDiaReserva,hastaQueHoraReserva,0,0);
+                Timestamp fechaentradats= new Timestamp(fechaentrada.getTimeInMillis());
+                Timestamp fechasalidats= new Timestamp(fechasalida.getTimeInMillis());
+
+                VOReserva tb = hotelAndes.registrarReserva(fechaentradats,fechasalidats,idusuario);
+
+                if (tb == null) {
+                    throw new Exception("No se pudo crear un reserva con fecha inicio: " + fechaentradats);
+                }
+                String resultado = "En adicionarTipoBebida\n\n";
+                resultado += "Tipo de bebida adicionado exitosamente: " + tb;
+                resultado += "\n Operación terminada";
+                panelDatos.actualizarInterfaz(resultado);
+
+            } else {
+                panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            }
+        } catch (Exception e) {
+//			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
+
+
+    }
 
     /**
      * Método para crear el menú de la aplicación con base em el objeto JSON leído
@@ -180,7 +226,8 @@ public class Cliente extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent pEvento) {
         String evento = pEvento.getActionCommand();
         try {
-            Method req = Administrador.class.getMethod(evento);
+            System.out.println(evento);
+            Method req = Cliente.class.getMethod(evento);
             req.invoke(this);
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,4 +259,6 @@ public class Cliente extends JFrame implements ActionListener {
         resultado += "\n\nRevise datanucleus.log y parranderos.log para más detalles";
         return resultado;
     }
+
+
 }
