@@ -24,12 +24,10 @@ public class PersistenciaHotelAndes {
     private SQLUtil sqlUtil;
     private SQLUsuario sqlUsuario;
     private SQLHabitacion sqlHabitacion;
-<<<<<<< HEAD
     private SQLReserva sqlReserva;
-=======
     private SQLTipoUsuario sqlTUsuario;
     private Logger logger;
->>>>>>> 7e909d140bb4f4c87fa47a8b69849dc7416a395e
+
 
     private PersistenciaHotelAndes() {
         pmf = JDOHelper.getPersistenceManagerFactory(PMF_NAME);
@@ -91,6 +89,7 @@ public class PersistenciaHotelAndes {
         sqlUsuario= new SQLUsuario(this);
         sqlHabitacion= new SQLHabitacion(this);
         sqlReserva = new SQLReserva(this);
+        sqlTUsuario = new SQLTipoUsuario(this);
 
     }
 
