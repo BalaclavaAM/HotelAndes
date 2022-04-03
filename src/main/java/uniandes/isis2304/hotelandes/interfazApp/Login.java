@@ -28,7 +28,6 @@ public class Login extends JFrame{
     private HotelAndes hotelAndes;
     private JsonObject tableConfig;
     private static final String CONFIG_TABLAS = "./src/main/resources/config/TablasBD_HotelAndes.json";
-    private static Logger log = Logger.getLogger(InterfazParranderosApp.class.getName());
     public Login(){
         frame=new JFrame("Login Frame");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -42,20 +41,15 @@ public class Login extends JFrame{
                 new ActionListener() {
 
                     public void actionPerformed(ActionEvent e) {
+                        String login=userText.getText();
                         String password = new String(passwordText.getPassword());
-                        JOptionPane.showMessageDialog(frame,
-                                "Password is " + password);
+                        iniciarSesion(login,password);
                     }
                 });
         //parte hotelandes
         tableConfig = openConfig ("Tablas BD", CONFIG_TABLAS);
         hotelAndes = new HotelAndes(tableConfig);
 
-    }
-    private void jButtonActionPerformed(){
-        String user = userText.getText();
-        String pass = new String(passwordText.getPassword());
-        JOptionPane.showMessageDialog(frame, "Password is " + pass);
     }
     private JsonObject openConfig (String tipo, String archConfig)
     {
@@ -66,12 +60,10 @@ public class Login extends JFrame{
             FileReader file = new FileReader (archConfig);
             JsonReader reader = new JsonReader ( file );
             config = gson.fromJson(reader, JsonObject.class);
-            log.info ("Se encontró un archivo de configuración válido: " + tipo);
         }
         catch (Exception e)
         {
 //			e.printStackTrace ();
-            log.info ("NO se encontró un archivo de configuración válido");
             JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "Parranderos App", JOptionPane.ERROR_MESSAGE);
         }
         return config;
@@ -81,39 +73,49 @@ public class Login extends JFrame{
         // TODO: place custom component creation code here
     }
 
-    public void buscarTipoBebidaPorNombre( )
+    public void iniciarSesion(String login, String contrasena)//no le he puesto contraseña
     {
         try
         {
-            String login = JOptionPane.showInputDialog (this, "Nombre del tipo de bedida?", "Buscar tipo de bebida por nombre", JOptionPane.QUESTION_MESSAGE);
             if (login != null)
             {
+                System.out.println(login);
+                System.out.println(contrasena);
+
                 VOUsuario usuario = hotelAndes.darUsuarioPorLogin (login);
-                String resultado = "En buscar Tipo Bebida por nombre\n\n";
+
+                String resultado = "En buscar usuario por login\n\n";
                 if (usuario!= null)
                 {
-                    resultado += "El tipo de bebida es: " + usuario;
-                    JOptionPane.showMessageDialog(frame, "Ingreso de " + login +"succesfull");
+                    resultado += "El Usuario es : " + usuario;
+
                     String tipoUsuario=usuario.getNombreTipoUsuario();
-                    if(tipoUsuario.toUpperCase(Locale.ROOT) =="CLIENTE"){//Cliente
+                    String contrasenausuario=usuario.getContrasena();
+                    System.out.println(tipoUsuario);
+                    if(tipoUsuario.toUpperCase(Locale.ROOT).equals("CLIENTE") && contrasena.equals(contrasenausuario)){//Cliente
+                        JOptionPane.showMessageDialog(frame, "Ingreso de " + login +"succesfull");
                         Cliente cliente = new Cliente();
                         cliente.setLocationRelativeTo(null);
                         cliente.setVisible(true);
                         this.setVisible(false);
                     }
-                    else if(tipoUsuario.toUpperCase(Locale.ROOT) =="ADMINISTRADOR"){
+                    else if(tipoUsuario.toUpperCase(Locale.ROOT).equals("ADMINISTRADOR") && contrasena.equals(contrasenausuario)){
+                        JOptionPane.showMessageDialog(frame, "Ingreso de " + login +"succesfull");
+                        System.out.println("ADMIN");
                         Administrador admin= new Administrador();
                         admin.setLocationRelativeTo(null);
                         admin.setVisible(true);
                         this.setVisible(false);
                     }
-                    else if(tipoUsuario.toUpperCase(Locale.ROOT) =="EMPLEADO"){
+                    else if(tipoUsuario.toUpperCase(Locale.ROOT).equals("EMPLEADO") && contrasena.equals(contrasenausuario)){
+                        JOptionPane.showMessageDialog(frame, "Ingreso de " + login +"succesfull");
                         Empleado empleado= new Empleado();
                         empleado.setLocationRelativeTo(null);
                         empleado.setVisible(true);
                         this.setVisible(false);
                     }
-                    else if(tipoUsuario.toUpperCase(Locale.ROOT) =="GERENTE"){
+                    else if(tipoUsuario.toUpperCase(Locale.ROOT).equals("GERENTE") && contrasena.equals(contrasenausuario)){
+                        JOptionPane.showMessageDialog(frame, "Ingreso de " + login +"succesfull");
                         Gerente gerente = new Gerente();
                         gerente.setLocationRelativeTo(null);
                         gerente.setVisible(true);
@@ -126,6 +128,7 @@ public class Login extends JFrame{
                     JOptionPane.showMessageDialog(frame, resultado);
                 }
                 resultado += "\n Operación terminada";
+
             }
         }
         catch (Exception e)

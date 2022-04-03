@@ -1,6 +1,7 @@
 package uniandes.isis2304.hotelandes.negocio;
 
 import com.google.gson.JsonObject;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.persistencia.PersistenciaHotelAndes;
 import uniandes.isis2304.hotelandes.negocio.TipoHabitacion;
@@ -29,6 +30,7 @@ public class HotelAndes {
     public HotelAndes (JsonObject tableConfig)
     {
         pp = PersistenciaHotelAndes.getInstance (tableConfig);
+        BasicConfigurator.configure();
     }
     public void cerrarUnidadPersistencia ()
     {
@@ -42,7 +44,8 @@ public class HotelAndes {
     }
     public Usuario darUsuarioPorLogin(String login)
     {
-        log.info ("Buscando Tipo de bebida por nombre: " + login);
+        System.out.println("llego a hotelandes");
+        log.info ("Buscando Usuario por login : " + login);
         List<Usuario> tb = pp.darUsuarioPorLogin(login);
         return !tb.isEmpty () ? tb.get (0) : null;
     }

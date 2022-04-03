@@ -3,7 +3,6 @@ package uniandes.isis2304.hotelandes.persistencia;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import oracle.sql.SQLUtil;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.parranderos.negocio.TipoBebida;
@@ -23,7 +22,6 @@ public class PersistenciaHotelAndes {
     private SQLTipoHabitacion sqlTipoHabitacion;
     private SQLUtil sqlUtil;
     private SQLUsuario sqlUsuario;
-    private HotelAndes hotelAndes;
 
     private PersistenciaHotelAndes() {
         pmf = JDOHelper.getPersistenceManagerFactory(PMF_NAME);
@@ -70,16 +68,19 @@ public class PersistenciaHotelAndes {
     }
 
     private PersistenciaHotelAndes (JsonObject tableConfig){
+        crearClasesSQL();
         //TODO Crear clases SQL
         tablas = leerNombresTablas (tableConfig);
 
-        String unidadPersistencia = tableConfig.get("unidadPersistencia").getAsString();
+        String unidadPersistencia = tableConfig.get("persistencia").getAsString();
         theLogger.trace("Accediendo unidad de persistencia " + unidadPersistencia);
         pmf = JDOHelper.getPersistenceManagerFactory(unidadPersistencia);
     }
     private void crearClasesSQL ()
     {
         sqlTipoHabitacion = new SQLTipoHabitacion(this);
+        sqlUtil= new SQLUtil(this);
+        sqlUsuario= new SQLUsuario(this);
 
     }
 
@@ -145,7 +146,11 @@ public class PersistenciaHotelAndes {
     }
     public List<Usuario> darUsuarioPorLogin (String login)
     {
+        System.out.println("llego a PERSISTENCIAHOTELANDES");
+
         return sqlUsuario.darUsuarioPorLogin (pmf.getPersistenceManager(), login);
+
+
     }
 
     public String obtenerTablaBar(){

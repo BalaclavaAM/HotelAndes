@@ -28,6 +28,14 @@ public interface VOUsuario {
     public String getNombreTipoUsuario();
 
     public void setNombreTipoUsuario(String nombreTipoUsuario);
+
+    public String getContrasena();
+
+    public void setContrasena(String contrasena);
+
+    public long getTipoPlan();
+
+    public void setTipoPlan(long tipoPlan);
     @Override
     public String toString();
 

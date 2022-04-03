@@ -3,19 +3,45 @@ package uniandes.isis2304.hotelandes.negocio;
 import java.util.LinkedList;
 
 public class Usuario implements VOUsuario{
-    private String nombreTipoUsuario;
-    private String login;
-    private long id;
-    private String nombre;
-    private long documento;
-    private long tipoUsuario;
-    private long tipoDocumento;
+    public String nombreTipoUsuario;
+    public String login;
+    public String contrasena;
+    public long id;
+    public String nombre;
+    public long documento;
+    public long tipoUsuario;
+    public long tipoDocumento;
+    public long tipoPlan;
     public Usuario() {
         this.id = 0;
         this.nombre = "";
         this.documento = 0;
         this.tipoUsuario = 0;
         this.tipoDocumento = 0;
+        this.contrasena="";
+    }
+    public Usuario(long id, String nombre, long documento, long tipoUsuario, long tipoDocumento, String login, String nombreTipoUsuario, String contrasena, long tipoPlan)
+    {
+        this.id = id;
+        this.nombre = nombre;
+        this.documento = documento;
+        this.tipoUsuario = tipoUsuario;
+        this.tipoDocumento = tipoDocumento;
+        this.login=login;
+        this.nombreTipoUsuario=nombreTipoUsuario;//esta variable no esta en la tabla perse del usuario, esta en tipo usuario, pero se pone aca por conveniencia
+        this.contrasena=contrasena;
+        this.tipoPlan=tipoPlan;
+
+        // Estos valores no se conocen en el momento de la construcción del bebedor
+
+    }
+
+    public long getTipoPlan() {
+        return tipoPlan;
+    }
+
+    public void setTipoPlan(long tipoPlan) {
+        this.tipoPlan = tipoPlan;
     }
 
     public long getId() {
@@ -74,19 +100,16 @@ public class Usuario implements VOUsuario{
         this.login = login;
     }
 
-    public Usuario(long id, String nombre, long documento, long tipoUsuario, long tipoDocumento, String login, String nombreTipoUsuario)
-    {
-        this.id = id;
-        this.nombre = nombre;
-        this.documento = documento;
-        this.tipoUsuario = tipoUsuario;
-        this.tipoDocumento = tipoDocumento;
-        this.login=login;
-        this.nombreTipoUsuario=nombreTipoUsuario;//esta variable no esta en la tabla perse del usuario, esta en tipo usuario, pero se pone aca por conveniencia
 
-        // Estos valores no se conocen en el momento de la construcción del bebedor
 
+    public String getContrasena() {
+        return contrasena;
     }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
     @Override
     public String toString()
     {

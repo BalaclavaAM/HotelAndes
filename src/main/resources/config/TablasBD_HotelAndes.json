@@ -1,7 +1,7 @@
 {
   "description": "Tablas de la base de datos del HotelAndes:",
   "persistencia": "HotelAndes",
-  "tables":["CadenaHotelera",
+  "tablas":["CadenaHotelera",
     "Hotel",
     "TipoHabitacion",
     "Habitacion",

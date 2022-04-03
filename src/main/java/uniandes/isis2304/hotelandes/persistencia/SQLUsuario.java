@@ -33,10 +33,11 @@ public class SQLUsuario {
 
     public List<Usuario> darUsuarioPorLogin(PersistenceManager pm, String login) {
 
-
-        String select= "SELECT " + pp.darTablaUsuario()+ ".id ,"+ pp.darTablaUsuario()+ ".nombre, "+ pp.darTablaUsuario()+ ".documento, "+ pp.darTablaUsuario()+ ".tipoPlan, "+ pp.darTablaUsuario()+ ".tipoUsuario, "+ pp.darTablaUsuario()+ ".tipoDocumento, "+ pp.darTablaUsuario()+ ".login, "+ pp.darTablaTipoUsuario()+ ".tipo as nombreTipoUsuario ";
+        System.out.println("llego a SQLUSUARIO");
+        String select= "SELECT " + pp.darTablaUsuario()+ ".id ,"+ pp.darTablaUsuario()+ ".nombre, "+ pp.darTablaUsuario()+ ".documento, "+ pp.darTablaUsuario()+ ".tipoPlan, "+ pp.darTablaUsuario()+ ".tipoUsuario, "+ pp.darTablaUsuario()+ ".tipoDocumento, "+ pp.darTablaUsuario()+ ".login, "+ pp.darTablaUsuario()+ ".contrasena, "+  pp.darTablaTipoUsuario()+ ".tipo as nombreTipoUsuario ";
         String from = "FROM " + pp.darTablaUsuario() +" INNER JOIN "+pp.darTablaTipoUsuario()+" ON " + pp.darTablaUsuario() +"."+pp.darTablaTipoUsuario()+" = "+pp.darTablaTipoUsuario()+".ID ";
         String where = "WHERE USUARIO.LOGIN= ?";
+        System.out.println(select+from+where);
         Query q = pm.newQuery(SQL, select+from+where);
 
         q.setResultClass(Usuario.class);
