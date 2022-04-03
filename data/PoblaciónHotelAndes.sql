@@ -60,29 +60,27 @@ INSERT INTO TIPOUSUARIO
 VALUES
 ('GERENTE');
 
-SELECT *
-FROM TIPOUSUARIO;
+INSERT INTO USUARIO
+(nombre,documento,tipoplan, tipodocumento,tipousuario,login,contrasena)
+VALUES
+('SOYADMIN',1000827182,2,2,4,'ADMIN','hello');
 
 INSERT INTO USUARIO
-(nombre,documento,tipoplan, tipodocumento,tipousuario,login)
+(nombre,documento,tipoplan, tipodocumento,tipousuario,login,contrasena)
 VALUES
-('SOYADMIN',1000827182,2,2,4,'ADMIN');
+('CLIENTE',100082719352,2,2,1,'CLIENTE','hello');
 
 INSERT INTO USUARIO
-(nombre,documento,tipoplan, tipodocumento,tipousuario,login)
+(nombre,documento,tipoplan, tipodocumento,tipousuario,login,contrasena)
 VALUES
-('CLIENTE',100082719352,2,2,1,'CLIENTE');
-
+('RECEPCIONISTA',10002347182,2,2,2,'RECEPCIONISTA','hello');
 INSERT INTO USUARIO
-(nombre,documento,tipoplan, tipodocumento,tipousuario,login)
+(nombre,documento,tipoplan, tipodocumento,tipousuario,login,contrasena)
 VALUES
-('RECEPCIONISTA',10002347182,2,2,2,'RECEPCIONISTA');
+('EMPLEADO',11052347182,2,2,3,'EMPLEADO','hello');
 INSERT INTO USUARIO
-(nombre,documento,tipoplan, tipodocumento,tipousuario,login)
+(nombre,documento,tipoplan, tipodocumento,tipousuario,login,contrasena)
 VALUES
-('EMPLEADO',11052347182,2,2,3,'EMPLEADO');
-INSERT INTO USUARIO
-(nombre,documento,tipoplan, tipodocumento,tipousuario,login)
-VALUES
-('GERENTE',11052347182,2,2,5,'GERENTE');
+('GERENTE',11052347182,2,2,5,'GERENTE','hello');
+COMMIT;
 

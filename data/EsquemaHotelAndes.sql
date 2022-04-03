@@ -129,7 +129,7 @@ CREATE TABLE Usuario(
                         tipoDocumento NUMBER REFERENCES TipoDocumento(id) NOT NULL,
                         tipoUsuario NUMBER REFERENCES TipoUsuario(id) NOT NULL,
                         login VARCHAR2(255) NOT NULL,
-
+                        contrasena VARCHAR2(255) NOT NULL,
                         CONSTRAINT usuarioPk PRIMARY KEY (id)
 );
 Alter table  usuario ADD constraint LOGIN_ND UNIQUE (login) ENABLE;
