@@ -1,21 +1,23 @@
 package uniandes.isis2304.hotelandes.persistencia;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 
 public class SQLHabitacion {
     private final static String SQL = PersistenciaHotelAndes.SQL;
-    private PersistenciaHotelAndes pHotelAndes;
 
     public SQLHabitacion(PersistenciaHotelAndes pHotelAndes) {
-        this.pHotelAndes = pHotelAndes;
-    }
-    public long adicionarHabitacion(PersistenceManager pm, long tipo, long hotel, long numberoHabitacion)
-    {
-        System.out.println("entro al sql");
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pHotelAndes.obtenerTablaHabitacion() + "(tipo, hotel, numeroHabitacion) values (?, ?, ?)");
-        q.setParameters(tipo,hotel, numberoHabitacion);
-        return (long) q.executeUnique();
     }
 
+
+    public long adicionarHabitacion(PersistenceManager pm, long tipo, long hotel, long numberoHabitacion) {
+        long id = -1;
+        try {
+            String sqlQuery = "INSERT INTO HABITACION (ID, TIPO, HOTEL, NUMEROHABITACION) VALUES (?, ?, ?, ?)";
+            id = (long) pm.newQuery(sqlQuery).execute(tipo, hotel, numberoHabitacion);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
 }

@@ -1,4 +1,22 @@
 package uniandes.isis2304.hotelandes.persistencia;
 
+import javax.jdo.PersistenceManager;
+
 public class SQLTipoUsuario {
+    public final static String SQL = PersistenciaHotelAndes.SQL;
+    private static PersistenciaHotelAndes pHotelAndes;
+
+    SQLTipoUsuario(PersistenciaHotelAndes pHotelAndes) {
+        SQLTipoUsuario.pHotelAndes = pHotelAndes;
+    }
+
+    public static long insertTipoUsuario(PersistenceManager pm, String tipo){
+        long id = 0;
+        try{
+            id = (long)pm.newQuery(SQL, "INSERT INTO TipoUsuario (tipo) VALUES (?1)").execute(tipo);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return id;
+    }
 }
