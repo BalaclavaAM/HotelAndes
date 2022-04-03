@@ -266,21 +266,6 @@ public class Administrador extends JFrame implements ActionListener {
     /* ****************************************************************
      * 			Métodos privados para la presentación de resultados y otras operaciones
      *****************************************************************/
-    /**
-     * Genera una cadena de caracteres con la lista de los tipos de bebida recibida: una línea por cada tipo de bebida
-     * @param lista - La lista con los tipos de bebida
-     * @return La cadena con una líea para cada tipo de bebida recibido
-     */
-    private String listarTiposBebida(List<VOTipoBebida> lista)
-    {
-        String resp = "Los tipos de bebida existentes son:\n";
-        int i = 1;
-        for (VOTipoBebida tb : lista)
-        {
-            resp += i++ + ". " + tb.toString() + "\n";
-        }
-        return resp;
-    }
 
     /**
      * Genera una cadena de caracteres con la descripción de la excepcion e, haciendo énfasis en las excepcionsde JDO
