@@ -116,11 +116,11 @@ INSERT INTO HOTEL
 VALUES
 ('BELLAVISTA', 4, 1);
 INSERT INTO HABITACION
-(TIPO, HOTEL,numberoHabitacion)
+(TIPO, HOTEL,numeroHabitacion)
 VALUES
 (1,1,765);
 INSERT INTO HABITACION
-(TIPO, HOTEL,numberoHabitacion)
+(TIPO, HOTEL,numeroHabitacion)
 VALUES
 (1,1,763);
 

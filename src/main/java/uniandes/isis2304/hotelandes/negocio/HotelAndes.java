@@ -58,4 +58,11 @@ public class HotelAndes {
 
         return Habitacion;
     }
+
+    public TipoUsuario adicionaTipoUsuario(String name){
+        log.info ("Adicionando Tipo de Usuario: ");
+        TipoUsuario tipoUsuario = pp.adicionarTipoUsuario(name);
+        log.info ("Adicionando Tipo de Usuario: " + tipoUsuario);
+        return tipoUsuario;
+    }
 }

@@ -38,13 +38,10 @@ public class Login extends JFrame{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         loginButton.addActionListener(
-                new ActionListener() {
-
-                    public void actionPerformed(ActionEvent e) {
-                        String login=userText.getText();
-                        String password = new String(passwordText.getPassword());
-                        iniciarSesion(login,password);
-                    }
+                e -> {
+                    String login=userText.getText();
+                    String password = new String(passwordText.getPassword());
+                    iniciarSesion(login,password);
                 });
         //parte hotelandes
         tableConfig = openConfig ("Tablas BD", CONFIG_TABLAS);
