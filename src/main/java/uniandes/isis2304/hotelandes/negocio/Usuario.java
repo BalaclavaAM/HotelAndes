@@ -74,11 +74,11 @@ public class Usuario implements VOUsuario{
         this.login = login;
     }
 
-    public Usuario(long id, String nombre, long ciudad, long tipoUsuario, long tipoDocumento, String login, String nombreTipoUsuario)
+    public Usuario(long id, String nombre, long documento, long tipoUsuario, long tipoDocumento, String login, String nombreTipoUsuario)
     {
         this.id = id;
         this.nombre = nombre;
-        this.documento = ciudad;
+        this.documento = documento;
         this.tipoUsuario = tipoUsuario;
         this.tipoDocumento = tipoDocumento;
         this.login=login;
