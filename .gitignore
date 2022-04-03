@@ -1,3 +1,6 @@
 # Project exclude paths
 /target/classes/
+/src/main/resources/META-INF/persistence.xml
 src/main/resources/META-INF/persistence.xml
+.idea/misc.xml
+.project
