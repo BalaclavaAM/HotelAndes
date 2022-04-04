@@ -237,6 +237,7 @@ public class Recepcionista extends JFrame implements ActionListener {
                     throw new Exception("No hay una habitacion con esa id: " + idHabitacion);
                 }
                 VOPersonasHabitacion tb = hotelAndes.obtenerPersonasHabitacion(idHabitacion);
+
                 if (tb == null) {
                     throw new Exception("No hay un servicio activo en esa habitacion: " + idHabitacion);
                 }
