@@ -131,6 +131,7 @@ CREATE TABLE Usuario(
                         tipoUsuario NUMBER REFERENCES TipoUsuario(id) NOT NULL,
                         login VARCHAR2(255) NOT NULL,
                         contrasena VARCHAR2(255) NOT NULL,
+                        email VARCHAR2(255),
                         CONSTRAINT usuarioPk PRIMARY KEY (id)
 );
 Alter table  usuario ADD constraint LOGIN_ND UNIQUE (login) ENABLE;

@@ -45,5 +45,16 @@ public class SQLUsuario {
         return (List<Usuario>) q.executeList();
     }
 
+    public long adicionarUsuario(PersistenceManager pm, String nombre, String documento, int tipoPlan, int tipoUsuario, int tipoDocumento, String login, String contrasena, String email) {
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaUsuario() + "(nombre, documento, tipoplan, tipodocumento, tipousuario, login, contrasena, email) values (?, ?, ?, ?, ?, ?, ?, ?)");
+        q.setParameters(nombre, documento, tipoPlan, tipoUsuario, tipoDocumento, login, contrasena, email);
+        return (long) q.executeUnique();
+    }
+
+    public long adicionarUsuario(PersistenceManager pm, String nombre, String documento, int tipoPlan, int tipoUsuario,
+            String tipoDocumento, String login, String contrasena, String correo) {
+        return 0;
+    }
+
 
 }

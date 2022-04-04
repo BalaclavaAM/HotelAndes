@@ -159,6 +159,28 @@ public class PersistenciaHotelAndes {
         }
     }
 
+    public List obtenerTiposPlanes(){
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            List<TipoPlan> tipos = SQLTipoPlan.getTiposPlanes(pm);
+            return tipos;
+        }
+        catch (Exception e)
+        {
+            logger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return null;
+        }
+        finally{
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
+
     public Habitacion adicionarHabitacion(long tipo, long hotel, long numberoHabitacion)
     {
         System.out.println("entro a persistencia");
@@ -217,8 +239,36 @@ public class PersistenciaHotelAndes {
         System.out.println("llego a PERSISTENCIAHOTELANDES");
 
         return sqlUsuario.darUsuarioPorLogin (pmf.getPersistenceManager(), login);
+    }
 
+    public long adicionarUsuario( String nombre, String documento, String tipoPlan, String tipoUsuario, String tipoDocumento, String login, String contrasena){
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long tuplasInsertadas = sqlUsuario.adicionarUsuario(pm, nombre, documento, tipoPlan, tipoUsuario, tipoDocumento, login, contrasena);
+            tx.commit();
+            return tuplasInsertadas;
+        }
+        catch (Exception e)
+        {
+            logger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return 0;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
 
+    public List<TipoUsuario> getUserTypes()
+    {
+        return SQLTipoUsuario.getUserTypes(pmf.getPersistenceManager());
     }
 
     public String obtenerTablaBar(){
