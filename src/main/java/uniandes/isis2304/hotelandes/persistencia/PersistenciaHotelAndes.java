@@ -28,6 +28,7 @@ public class PersistenciaHotelAndes {
     private SQLTipoUsuario sqlTUsuario;
     private SQLServicio sqlServicio;
     private SQLPersonasHabitacion sqlPersonasHabitacion;
+    private SQLRegistroServicio sqlRegistroServicio;
     private Logger logger;
 
 
@@ -94,6 +95,7 @@ public class PersistenciaHotelAndes {
         sqlTUsuario = new SQLTipoUsuario(this);
         sqlPersonasHabitacion = new SQLPersonasHabitacion(this);
         sqlServicio = new SQLServicio(this);
+        sqlRegistroServicio= new SQLRegistroServicio(this);
 
     }
 
@@ -470,11 +472,15 @@ public class PersistenciaHotelAndes {
         }
     }
 
-    public List<Servicio> veinteServiciosPopulares(String inicio, String finals) {
+    public List<VOServicio> veinteServiciosPopulares(String inicio, String finals) {
         return sqlServicio.veinteServiciosPopulares(pmf.getPersistenceManager(),inicio, finals);
     }
 
     public List<DineroPorHabitacion> dineroPorHabitacion(String inicio, String finals) {
         return sqlHabitacion.dineroServiciosPorHabitacion(pmf.getPersistenceManager(),inicio, finals);
+    }
+
+    public long agregarConsumoServicio(long idHabitacion, String lugarConsumo, String nombreCliente, long costoTotal, long idservicio, String fecha) {
+        return sqlRegistroServicio.agregarConsumoServicio(pmf.getPersistenceManager(),idHabitacion, lugarConsumo, nombreCliente,  costoTotal, idservicio, fecha);
     }
 }

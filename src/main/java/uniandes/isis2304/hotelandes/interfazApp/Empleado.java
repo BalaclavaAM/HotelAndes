@@ -7,6 +7,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.HotelAndes;
+import uniandes.isis2304.hotelandes.negocio.VOHabitacion;
+import uniandes.isis2304.hotelandes.negocio.VOReserva;
+import uniandes.isis2304.hotelandes.negocio.VOUsuario;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
 
 import javax.jdo.JDODataStoreException;
@@ -125,6 +128,31 @@ public class Empleado extends JFrame implements ActionListener {
 
         setTitle(titulo);
         setSize(ancho, alto);
+    }
+    public void agregarConsumoServicio() {
+        System.out.println("entro en la interfaz");
+        try {
+            long idHabitacion= Long.parseLong(JOptionPane.showInputDialog(this, "idHabitacion (dado que el recepcionista sabe, que habitaciones hay, el debe elegir en cual ponerlo):", "idHabitacion", JOptionPane.QUESTION_MESSAGE));
+            String lugarConsumo = JOptionPane.showInputDialog(this, "Donde se hizo este consumo?:", "Lugar", JOptionPane.QUESTION_MESSAGE);
+            String nombreCliente = JOptionPane.showInputDialog(this, "Nombre del cliente:", "Lugar", JOptionPane.QUESTION_MESSAGE);
+            long costoTotal= Long.parseLong(JOptionPane.showInputDialog(this, "costo total: diguite un numero:", "costototal", JOptionPane.QUESTION_MESSAGE));
+            long idservicio= Long.parseLong(JOptionPane.showInputDialog(this, "idservicio:", "idservicio", JOptionPane.QUESTION_MESSAGE));
+            String fecha= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 2012-11-01 (si el numero no tiene decena poner 0)año-mes-dia", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
+            fecha+= " 00:00:01.742000000";
+            long tb  = hotelAndes.agregarConsumoServicio(idHabitacion,lugarConsumo,nombreCliente,costoTotal,idservicio,fecha);
+            if(tb!=1){
+                throw new Exception("no se realizo: ");
+            }
+
+            String resultado = "En agregarConsumoServicio\n\n";
+            resultado += "agregarConsumoServicio: " + tb;
+            resultado += "\n Operación terminada";
+            panelDatos.actualizarInterfaz(resultado);
+        } catch (Exception e) {
+//			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
     }
     /**
      * Método para crear el menú de la aplicación con base em el objeto JSON leído

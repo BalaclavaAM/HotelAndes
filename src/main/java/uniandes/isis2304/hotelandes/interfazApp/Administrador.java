@@ -233,9 +233,9 @@ public class Administrador extends JFrame implements ActionListener {
         String inicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 12-01-2012 dia-mes-año", "FECHA INICIO", JOptionPane.QUESTION_MESSAGE);
         inicio+= " 00:00:01";
         String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 12-01-2012 dia-mes-año", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
-        inicio+= " 00:00:01";
+        finals+= " 00:00:01";
         try {
-            List<Servicio> tb = hotelAndes.veinteServiciosPopulares(inicio, finals);
+            List<VOServicio> tb = hotelAndes.veinteServiciosPopulares(inicio, finals);
             if (tb.get(0) == null) {
                 throw new Exception("No hay servicios con ese nombre: ");
             }
@@ -258,8 +258,8 @@ public class Administrador extends JFrame implements ActionListener {
         finals+= " 00:00:01";
         try {
             List<DineroPorHabitacion> tb = hotelAndes.dineroPorHabitacion(inicio, finals);
-            if (tb.get(0) == null) {
-                throw new Exception("No hay habitaciones, o registros de servicios a esa cuenta: ");
+            if (tb.isEmpty()) {
+                throw new Exception("No hay habitaciones, o registros de servicios: ");
             }
             String resultado = "En Servicios\n\n";
             resultado += "Busqueda existosa : " + tb;
@@ -273,7 +273,6 @@ public class Administrador extends JFrame implements ActionListener {
             panelDatos.actualizarInterfaz(resultado);
         }
     }
-
     public void adicionarHabitacion() {
         System.out.println("entro en la interfaz");
         try {

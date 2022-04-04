@@ -191,7 +191,6 @@ CREATE TABLE RegistroServicio(
                                  lugarConsumo VARCHAR2(255) NOT NULL,
                                  nombreCliente VARCHAR2(255) NOT NULL,
                                  costoTotal NUMBER NOT NULL,
-                                 habitacion NUMBER REFERENCES HABITACION(id),
                                  servicio NUMBER REFERENCES SERVICIO(id),
                                  fecha TIMESTAMP NOT NULL,
                                  CONSTRAINT registroServicioPk PRIMARY KEY (id)

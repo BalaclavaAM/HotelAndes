@@ -147,9 +147,9 @@ public class HotelAndes {
         return tb;
     }
 
-    public List<Servicio> veinteServiciosPopulares(String inicio, String finals) {
+    public List<VOServicio> veinteServiciosPopulares(String inicio, String finals) {
         log.info ("20 servicios más populares: ");
-        List<Servicio> tb = pp.veinteServiciosPopulares(inicio, finals);
+        List<VOServicio> tb = pp.veinteServiciosPopulares(inicio, finals);
         log.info ("20 servicios más populares:" );
         return tb;
     }
@@ -158,6 +158,13 @@ public class HotelAndes {
         log.info ("20 servicios más populares: ");
         List<DineroPorHabitacion> tb = pp.dineroPorHabitacion(inicio, finals);
         log.info ("20 servicios más populares:" );
+        return tb;
+    }
+
+    public long agregarConsumoServicio(long idHabitacion, String lugarConsumo, String nombreCliente, long costoTotal, long idservicio, String fecha) {
+        log.info ("agregarConsumoServicio: ");
+        long tb = pp.agregarConsumoServicio(idHabitacion, lugarConsumo, nombreCliente, costoTotal, idservicio, fecha);
+        log.info ("agregarConsumoServicio:" );
         return tb;
     }
 }
