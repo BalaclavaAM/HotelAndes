@@ -5,18 +5,21 @@ public class Habitacion implements VOHabitacion{
     public long tipo;
     public long hotel;
     public long numberoHabitacion;
+    public long valorAPagar;
 
     public Habitacion(){
         this.id=0;
         this.tipo=0;
         this.hotel=0;
         this.numberoHabitacion=0;
+        this.valorAPagar=0;
     }
-    public Habitacion(long id, long tipo, long hotel, long numberoHabitacion){
+    public Habitacion(long id, long tipo, long hotel, long numberoHabitacion, long valorAPagar){
         this.id=id;
         this.tipo=tipo;
         this.hotel=hotel;
         this.numberoHabitacion=numberoHabitacion;
+        this.valorAPagar=valorAPagar;
     }
 
     @Override
@@ -53,6 +56,15 @@ public class Habitacion implements VOHabitacion{
     public void setNumberoHabitacion(long numberoHabitacion) {
         this.numberoHabitacion = numberoHabitacion;
     }
+
+    public long getValorAPagar() {
+        return valorAPagar;
+    }
+
+    public void setValorAPagar(long valorAPagar) {
+        this.valorAPagar = valorAPagar;
+    }
+
     @Override
     public String toString()
     {

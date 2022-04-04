@@ -118,6 +118,13 @@ public class Login extends JFrame{
                         gerente.setVisible(true);
                         this.setVisible(false);
                     }
+                    else if(tipoUsuario.toUpperCase(Locale.ROOT).equals("RECEPCIONISTA") && contrasena.equals(contrasenausuario)){
+                        JOptionPane.showMessageDialog(frame, "Ingreso de " + login +"succesfull");
+                        Recepcionista recepcionista = new Recepcionista();
+                        recepcionista.setLocationRelativeTo(null);
+                        recepcionista.setVisible(true);
+                        this.setVisible(false);
+                    }
                 }
                 else
                 {

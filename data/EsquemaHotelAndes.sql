@@ -28,7 +28,8 @@ CREATE TABLE Habitacion(
                            id NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
                            tipo NUMBER REFERENCES TipoHabitacion(id),
                            hotel NUMBER REFERENCES Hotel(id),
-                           numeroHabitacion NUMBER,
+                           numeroHabitacion NUMBER NOT NULL,
+                           valorAPagar NUMBER NOT NULL,
 
                            CONSTRAINT habitacionPk PRIMARY KEY(id)
 );
@@ -148,10 +149,13 @@ CREATE TABLE PersonasHabitacion(
                                    fechaEntrada TIMESTAMP NOT NULL,
                                    fechaSalida TIMESTAMP NOT NULL,
                                    idUso NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+                                   Uso NUMBER NOT NULL,
 
                                    CONSTRAINT personasHabitacionPK PRIMARY KEY (idUso)
 );
-
+ALTER TABLE PersonasHabitacion
+ADD CONSTRAINT CKUso
+CHECK (Uso=0 OR Uso=1);
 CREATE TABLE PromocionesParticulares(
                                         idUser NUMBER REFERENCES Usuario(id) NOT NULL,
                                         descuentoHospedaje NUMBER CHECK (descuentoHospedaje BETWEEN 0 AND 1) NOT NULL,

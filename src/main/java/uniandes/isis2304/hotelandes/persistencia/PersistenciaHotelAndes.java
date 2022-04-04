@@ -26,6 +26,7 @@ public class PersistenciaHotelAndes {
     private SQLHabitacion sqlHabitacion;
     private SQLReserva sqlReserva;
     private SQLTipoUsuario sqlTUsuario;
+    private SQLPersonasHabitacion sqlPersonasHabitacion;
     private Logger logger;
 
 
@@ -90,6 +91,7 @@ public class PersistenciaHotelAndes {
         sqlHabitacion= new SQLHabitacion(this);
         sqlReserva = new SQLReserva(this);
         sqlTUsuario = new SQLTipoUsuario(this);
+        sqlPersonasHabitacion = new SQLPersonasHabitacion(this);
 
     }
 
@@ -173,7 +175,7 @@ public class PersistenciaHotelAndes {
             System.out.println("salio del sql");
             theLogger.trace ("Inserción de tipo habitacion: " + tipo + ": " + tuplasInsertadas + " tuplas insertadas");
 
-            return new Habitacion(id,tipo,hotel, numberoHabitacion);
+            return new Habitacion(id,tipo,hotel, numberoHabitacion,0);
         }
         catch (Exception e)
         {
@@ -258,6 +260,9 @@ public class PersistenciaHotelAndes {
     public String obtenerTablaReserva() {
         return tablas.get (16);
     }
+    public String obtenerTablaPersonasHabitacion() {
+        return tablas.get (17);
+    }
 
     public Reserva registrarReserva(Timestamp fechaentrada, Timestamp fechasalida, long idUsuario) {
         PersistenceManager pm = pmf.getPersistenceManager();
@@ -292,4 +297,40 @@ public class PersistenciaHotelAndes {
     }
 
 
+    public List<PersonasHabitacion> obtenerPersonasHabitacion (long idHabitacion)
+    {
+        return sqlPersonasHabitacion.obtenerPersonasHabitacion(pmf.getPersistenceManager(), idHabitacion);
+    }
+
+    public List<Habitacion> obtenerHabitacion(long idHabitacion) {
+        return sqlHabitacion.obtenerHabitacion(pmf.getPersistenceManager(), idHabitacion);
+    }
+
+    public long cambiarEstadoUso(long idHabitacion) {
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long resp = sqlPersonasHabitacion.cambiarEstadoUso(pmf.getPersistenceManager(),idHabitacion);
+            tx.commit();
+
+            return resp;
+        }
+        catch (Exception e)
+        {
+//        	e.printStackTrace();
+            theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return -1;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+
+    }
 }

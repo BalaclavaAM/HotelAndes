@@ -20,6 +20,10 @@ public interface VOHabitacion {
 
     public void setNumberoHabitacion(long numberoHabitacion);
 
+    public long getValorAPagar();
+
+    public void setValorAPagar(long valorAPagar);
+
     @Override
     public String toString();
 }

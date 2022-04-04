@@ -73,4 +73,24 @@ public class HotelAndes {
         log.info ("Adicionando Tipo de Usuario: " + tipoUsuario);
         return tipoUsuario;
     }
+
+    public VOPersonasHabitacion obtenerPersonasHabitacion(long idHabitacion) {
+        log.info ("Buscando Tipo de bebida por idHabitacion: " + idHabitacion);
+        List<PersonasHabitacion> tb = pp.obtenerPersonasHabitacion(idHabitacion);
+        return !tb.isEmpty () ? (VOPersonasHabitacion) tb.get (0) : null;
+    }
+
+    public VOHabitacion obtenerHabitacion(long idHabitacion) {
+        log.info ("Buscando Tipo de bebida por idHabitacion: " + idHabitacion);
+        List<Habitacion> tb = pp.obtenerHabitacion(idHabitacion);
+        return !tb.isEmpty () ? (VOHabitacion) tb.get (0) : null;
+    }
+
+
+    public long cambiarEstadoUso(long idHabitacion) {
+        log.info ("Buscando Tipo de bebida por idHabitacion: " + idHabitacion);
+        long tb = pp.cambiarEstadoUso(idHabitacion);
+        log.info ("Eliminando bebida por id: " + idHabitacion + " tuplas eliminadas");
+        return tb;
+    }
 }
