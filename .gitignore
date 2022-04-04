@@ -4,3 +4,4 @@
 src/main/resources/META-INF/persistence.xml
 .idea/misc.xml
 .project
+datanucleus.log

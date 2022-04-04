@@ -1,5 +1,7 @@
 package uniandes.isis2304.hotelandes.persistencia;
 
+import java.util.List;
+
 import javax.jdo.PersistenceManager;
 
 public class SQLTipoUsuario {
@@ -18,5 +20,15 @@ public class SQLTipoUsuario {
             e.printStackTrace();
         }
         return id;
+    }
+
+    public static List getUserTypes(PersistenceManager pm){
+        List tiposUsuarios = null;
+        try{
+            tiposUsuarios = (List)pm.newQuery(SQL, "SELECT * FROM TipoUsuario").execute();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return tiposUsuarios;
     }
 }

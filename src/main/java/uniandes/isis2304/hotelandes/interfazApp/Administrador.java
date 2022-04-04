@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.HotelAndes;
+import uniandes.isis2304.hotelandes.negocio.TipoPlan;
 import uniandes.isis2304.hotelandes.negocio.TipoUsuario;
 import uniandes.isis2304.hotelandes.negocio.VOHabitacion;
 import uniandes.isis2304.hotelandes.negocio.VOTipoHabitacion;
@@ -19,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class Administrador extends JFrame implements ActionListener {
@@ -266,8 +268,8 @@ public class Administrador extends JFrame implements ActionListener {
                 if (tb == null) {
                     throw new Exception("No se pudo crear un tipo de usuario con nombre: " + nombreTipo);
                 }
-                String resultado = "En adicionarTipoBebida\n\n";
-                resultado += "Tipo de bebida adicionado exitosamente: " + tb;
+                String resultado = "En adicionarTipoUsuario\n\n";
+                resultado += "Tipo de usuario adicionado exitosamente: " + tb.getIdUsuario() + " " + tb.getTipo();
                 resultado += "\n Operación terminada";
                 panelDatos.actualizarInterfaz(resultado);
             } else {
@@ -275,6 +277,21 @@ public class Administrador extends JFrame implements ActionListener {
             }
         } catch (Exception e) {
 //			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
+    }
+
+    public void createUser(){
+        try{
+            String nombreUsuario = JOptionPane.showInputDialog(this, "Nombre del usuario?", "Adicionar Nombre usuario", JOptionPane.QUESTION_MESSAGE);
+            String passwordUsuario = JOptionPane.showInputDialog(this, "Password del usuario?", "Adicionar Password usuario", JOptionPane.QUESTION_MESSAGE);
+            //dropdown to tipousuario
+            List<TipoPlan> tiposPlan = hotelAndes.obtenerTiposPlanes();
+            int idTipoPlan = JOptionPane.showOptionDialog(this, "Seleccione el tipo de plan", "Adicionar tipo plan", JOptionPane.QUESTION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, tiposPlan.toArray(), null);
+            List<TipoUsuario> tiposUsuario = hotelAndes.getUserTypes();
+            int idTipoUsuario = JOptionPane.showOptionDialog(this, "Seleccione el tipo de usuario", "Adicionar tipo usuario", JOptionPane.QUESTION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, tiposUsuario.toArray(), null);
+            } catch (Exception e){
             String resultado = generarMensajeError(e);
             panelDatos.actualizarInterfaz(resultado);
         }
