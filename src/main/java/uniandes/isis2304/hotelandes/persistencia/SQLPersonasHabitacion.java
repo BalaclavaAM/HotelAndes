@@ -23,7 +23,7 @@ public class SQLPersonasHabitacion {
     }
 
     public long cambiarEstadoUso(PersistenceManager pm, long idHabitacion) {
-        Query q = pm.newQuery(SQL, "UPDATE " + pHotelAndes.obtenerTablaPersonasHabitacion() + " USO = 0 WHERE" + " USO=1 AND IDHABITACION=?");
+        Query q = pm.newQuery(SQL, "UPDATE " + pHotelAndes.obtenerTablaPersonasHabitacion() + " SET USO = 0 WHERE" + " USO=1 AND IDHABITACION=?");
         q.setParameters(idHabitacion);
         return (long) q.executeUnique();
     }

@@ -7,7 +7,7 @@ public interface VOPersonasHabitacion {
 
     public void setIdHabitacion(long idHabitacion);
 
-    public Timestamp getFechaEntrada() ;
+    public Timestamp getFechaEntrada();
 
     public void setFechaEntrada(Timestamp fechaEntrada);
 
@@ -22,10 +22,6 @@ public interface VOPersonasHabitacion {
     public long getUso();
 
     public void setUso(long uso);
-
-    public long getValorAPagar();
-
-    public void setValorAPagar(long valorAPagar);
     @Override
     public String toString();
 }

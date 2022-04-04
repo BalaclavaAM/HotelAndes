@@ -236,24 +236,30 @@ public class Recepcionista extends JFrame implements ActionListener {
                 if (hb == null) {
                     throw new Exception("No hay una habitacion con esa id: " + idHabitacion);
                 }
-                VOPersonasHabitacion tb = hotelAndes.obtenerPersonasHabitacion(idHabitacion);
+                if (hb.getValorAPagar()!=0){
+                    throw new Exception("Falta Pagar: " + idHabitacion);
+                }
+                else{
+                    VOPersonasHabitacion tb = hotelAndes.obtenerPersonasHabitacion(idHabitacion);
 
-                if (tb == null) {
-                    throw new Exception("No hay un servicio activo en esa habitacion: " + idHabitacion);
-                }
-                long valorAPagar=hb.getValorAPagar();
-                long cambiar=0;
-                if(valorAPagar==0){
-                    cambiar = hotelAndes.cambiarEstadoUso(idHabitacion);
-                }
-                else {
-                    throw new Exception("No se ha pagado todo por ende no se puede hacer check out: " + idHabitacion);
-                }
+                    if (tb == null) {
+                        throw new Exception("No hay un servicio activo en esa habitacion: " + idHabitacion);
+                    }
+                    long valorAPagar=hb.getValorAPagar();
+                    long cambiar=0;
+                    System.out.println("ya creo el VO");
+                    if(valorAPagar==0){
+                        cambiar = hotelAndes.cambiarEstadoUso(idHabitacion);
+                    }
+                    else {
+                        throw new Exception("No se ha pagado todo por ende no se puede hacer check out: " + idHabitacion);
+                    }
 
-                String resultado = "En adicionarTipoBebida\n\n";
-                resultado += "Tipo de bebida adicionado exitosamente: " + cambiar;
-                resultado += "\n Operación terminada";
-                panelDatos.actualizarInterfaz(resultado);
+                    String resultado = "En adicionarTipoBebida\n\n";
+                    resultado += "Tipo de bebida adicionado exitosamente: " + cambiar;
+                    resultado += "\n Operación terminada";
+                    panelDatos.actualizarInterfaz(resultado);
+                }
             } else {
                 panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
             }

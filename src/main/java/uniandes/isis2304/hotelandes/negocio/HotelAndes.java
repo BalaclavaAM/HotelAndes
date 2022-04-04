@@ -11,7 +11,7 @@ import uniandes.isis2304.parranderos.persistencia.PersistenciaParranderos;
 
 import java.sql.Timestamp;
 import java.util.List;
-
+@SuppressWarnings("serial")
 public class HotelAndes {
     private static Logger log = Logger.getLogger(HotelAndes.class.getName());
 
@@ -77,13 +77,13 @@ public class HotelAndes {
     public VOPersonasHabitacion obtenerPersonasHabitacion(long idHabitacion) {
         log.info ("Buscando Tipo de bebida por idHabitacion: " + idHabitacion);
         List<PersonasHabitacion> tb = pp.obtenerPersonasHabitacion(idHabitacion);
-        return !tb.isEmpty () ? (VOPersonasHabitacion) tb.get (0) : null;
+        return !tb.isEmpty () ? tb.get (0) : null;
     }
 
     public VOHabitacion obtenerHabitacion(long idHabitacion) {
         log.info ("Buscando Tipo de bebida por idHabitacion: " + idHabitacion);
         List<Habitacion> tb = pp.obtenerHabitacion(idHabitacion);
-        return !tb.isEmpty () ? (VOHabitacion) tb.get (0) : null;
+        return !tb.isEmpty () ? tb.get (0) : null;
     }
 
 
