@@ -92,6 +92,7 @@ public class HotelAndes {
         long tb = pp.cambiarEstadoUso(idHabitacion);
         log.info ("Eliminando bebida por id: " + idHabitacion + " tuplas eliminadas");
         return tb;
+
     public List obtenerTiposPlanes(){
         log.info ("Obteniendo Tipos de Planes: ");
         List<TipoPlan> tipoPlan = pp.obtenerTiposPlanes();
