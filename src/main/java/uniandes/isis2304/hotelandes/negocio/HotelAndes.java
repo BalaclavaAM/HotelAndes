@@ -93,6 +93,7 @@ public class HotelAndes {
         log.info ("Eliminando bebida por id: " + idHabitacion + " tuplas eliminadas");
         return tb;
 
+    }
     public List obtenerTiposPlanes(){
         log.info ("Obteniendo Tipos de Planes: ");
         List<TipoPlan> tipoPlan = pp.obtenerTiposPlanes();
@@ -105,5 +106,18 @@ public class HotelAndes {
         List tiposUsuarios = pp.getUserTypes();
         log.info ("Obteniendo Tipos de Usuarios: " + tiposUsuarios);
         return tiposUsuarios;
+    }
+	public List<TipoDocumento> getDocumentTypes() {
+		log.info("Obteniendo Tipos de Documentos: ");
+        List<TipoDocumento> tiposDocumentos = pp.getDocumentTypes();
+        log.info("Obteniendo Tipos de Documentos: " + tiposDocumentos);
+        return tiposDocumentos;
+	}
+
+    public long adicionarUsuario(String nombre, String documento, int tipoPlan, int tipoDocumento, int tipoUsuario, String login, String contrasena, String email){
+        log.info ("Adicionando Usuario: " + nombre);
+        long usuarioId = pp.adicionarUsuario(nombre, documento, tipoPlan, tipoDocumento, tipoUsuario, login, contrasena, email);
+        log.info ("Adicionando Usuario: " + usuarioId);
+        return usuarioId;
     }
 }
