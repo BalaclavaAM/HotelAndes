@@ -32,7 +32,7 @@ public class SQLHabitacion {
     }
 
     public List<Habitacion> obtenerHabitacion(PersistenceManager pm, long idHabitacion) {
-        String query="SELECT * FROM "+ pHotelAndes.obtenerTablaHabitacion() +" WHERE ID = ? ; ";
+        String query="SELECT * FROM "+ pHotelAndes.obtenerTablaHabitacion() +" WHERE ID = ? ";
         Query q = pm.newQuery(SQL, query);
         q.setResultClass(Habitacion.class);
         q.setParameters(idHabitacion);

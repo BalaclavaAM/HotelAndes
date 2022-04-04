@@ -16,7 +16,7 @@ public class SQLPersonasHabitacion {
     }
 
     public List<PersonasHabitacion> obtenerPersonasHabitacion(PersistenceManager pm, long idHabitacion) {
-        Query q = pm.newQuery(SQL, "select * from" + pHotelAndes.obtenerTablaPersonasHabitacion() + " WHERE IDHABITACION=? AND USO=?;");
+        Query q = pm.newQuery(SQL, "select * from " + pHotelAndes.obtenerTablaPersonasHabitacion() + " WHERE IDHABITACION= ? AND USO= ?");
         q.setResultClass(PersonasHabitacion.class);
         q.setParameters(idHabitacion, 1);
         return (List<PersonasHabitacion>) q.executeList();

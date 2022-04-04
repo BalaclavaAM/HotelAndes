@@ -18,7 +18,7 @@ public interface VOHabitacion {
 
     public long getNumberoHabitacion();
 
-    public void setNumberoHabitacion(long numberoHabitacion);
+    public void setNumberoHabitacion(long numeroHabitacion);
 
     public long getValorAPagar();
 

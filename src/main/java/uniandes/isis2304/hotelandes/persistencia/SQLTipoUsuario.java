@@ -13,7 +13,7 @@ public class SQLTipoUsuario {
     public static long insertTipoUsuario(PersistenceManager pm, String tipo){
         long id = 0;
         try{
-            id = (long)pm.newQuery(SQL, "INSERT INTO TipoUsuario (tipo) VALUES (?1)").execute(tipo);
+            id = (long)pm.newQuery(SQL, "INSERT INTO TipoUsuario (tipo) VALUES (?)").execute(tipo);
         }catch(Exception e){
             e.printStackTrace();
         }
