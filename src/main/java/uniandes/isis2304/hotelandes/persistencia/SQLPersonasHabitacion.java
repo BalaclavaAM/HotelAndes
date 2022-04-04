@@ -30,7 +30,7 @@ public class SQLPersonasHabitacion {
     }
 
     public long adicionarPersonasHabitacion(PersistenceManager pm, long id, Timestamp horaInicio, Timestamp horaFinal, int uso) {
-        String sql = "INSERT INTO " + pHotelAndes.obtenerTablaPersonasHabitacion() + " (idHabitacion ,fechaEntrada, fechaSalida , Uso) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO " + pHotelAndes.obtenerTablaPersonasHabitacion() + " (idHabitacion ,fechaEntrada, fechaSalida , Uso) VALUES (?, ?, ?, ?)";
         Query q=pm.newQuery(SQL, sql);
         q.setParameters(id, horaInicio, horaFinal, uso);
         return (long) q.executeUnique();

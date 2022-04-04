@@ -290,7 +290,7 @@ public class Recepcionista extends JFrame implements ActionListener {
                 }
                 long cambioReservaEstado= hotelAndes.reservaCambiarEstado(usuario.getId());
                 int Uso=1;
-                long tb  = hotelAndes.crearPersonasHabitacion(habitacion.getId(),reserva.getHoraInicio(),reserva.getHoraFinal(),Uso);
+                long tb  = hotelAndes.crearPersonasHabitacion(habitacion.getId(),reserva.getHoraInicio(),reserva.getHoraFin(),Uso);
 
                 String resultado = "En adicionarTipoBebida\n\n";
                 resultado += "Tipo de bebida PersonasHabitacion: " + numeroHabitacion;

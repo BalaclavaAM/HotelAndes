@@ -5,20 +5,20 @@ import java.sql.Timestamp;
 public class Reserva implements VOReserva{
     public long id;
     public Timestamp horaInicio;
-    public Timestamp horaFinal;
+    public Timestamp horaFin;
     public long idUsuario;
     public long activo;
     public Reserva(){
         this.id=0;
         this.horaInicio=null;
-        this.horaFinal=null;
+        this.horaFin=null;
         this.idUsuario=0;
         this.activo=0;
     }
     public Reserva(long id,Timestamp horaInicio, Timestamp horaFinal,long idUsuario, long activo){
         this.id=id;
         this.horaInicio=horaInicio;
-        this.horaFinal=horaFinal;
+        this.horaFin=horaFinal;
         this.idUsuario=idUsuario;
         this.activo=activo;
     }
@@ -39,14 +39,6 @@ public class Reserva implements VOReserva{
         this.horaInicio = horaInicio;
     }
 
-    public Timestamp getHoraFinal() {
-        return horaFinal;
-    }
-
-    public void setHoraFinal(Timestamp horaFinal) {
-        this.horaFinal = horaFinal;
-    }
-
     public long getIdUsuario() {
         return idUsuario;
     }
@@ -63,9 +55,17 @@ public class Reserva implements VOReserva{
         this.activo = activo;
     }
 
+    public Timestamp getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(Timestamp horaFin) {
+        this.horaFin = horaFin;
+    }
+
     @Override
     public String toString()
     {
-        return "Usuario [Fecha inicio=" + horaInicio + ", HoraFinal=" + horaFinal + "]";
+        return "Usuario [Fecha inicio=" + horaInicio + ", HoraFinal=" + horaFin + "]";
     }
 }

@@ -11,10 +11,6 @@ public interface VOReserva {
 
     public void setHoraInicio(Timestamp horaInicio);
 
-    public Timestamp getHoraFinal();
-
-    public void setHoraFinal(Timestamp horaFinal);
-
     public long getIdUsuario();
 
     public void setIdUsuario(long idUsuario);
@@ -22,6 +18,11 @@ public interface VOReserva {
     public long getActivo();
 
     public void setActivo(long activo);
+
+    public Timestamp getHoraFin();
+
+    public void setHoraFin(Timestamp horaFin);
+
     @Override
     public String toString();
 }
