@@ -103,6 +103,9 @@ public class PersistenciaHotelAndes {
         }
         return resp;
     }
+    public String darTablaTipoDocumento(){
+        return tablas.get(13);
+    }
     public TipoHabitacion adicionarTipoHabitacion(String tipo, Float precio, String descripcion)
     {
         PersistenceManager pm = pmf.getPersistenceManager();
@@ -241,13 +244,18 @@ public class PersistenciaHotelAndes {
         return sqlUsuario.darUsuarioPorLogin (pmf.getPersistenceManager(), login);
     }
 
-    public long adicionarUsuario( String nombre, String documento, String tipoPlan, String tipoUsuario, String tipoDocumento, String login, String contrasena){
+    public List<TipoDocumento> getDocumentTypes()
+    {
+        return SQLTipoDocumento.getDocumentTypes(pmf.getPersistenceManager());
+    }
+
+    public long adicionarUsuario( String nombre, String documento, int tipoPlan, int tipoUsuario, int tipoDocumento, String login, String contrasena, String email){
         PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         try
         {
             tx.begin();
-            long tuplasInsertadas = sqlUsuario.adicionarUsuario(pm, nombre, documento, tipoPlan, tipoUsuario, tipoDocumento, login, contrasena);
+            long tuplasInsertadas = sqlUsuario.adicionarUsuario(pm, nombre, documento, tipoPlan, tipoUsuario, tipoDocumento, login, contrasena, email);
             tx.commit();
             return tuplasInsertadas;
         }
@@ -314,38 +322,6 @@ public class PersistenciaHotelAndes {
         return tablas.get (17);
     }
 
-    public Reserva registrarReserva(Timestamp fechaentrada, Timestamp fechasalida, long idUsuario) {
-        PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        int id=0; //toca hacer una consulta para averiguar cual es la id de este tipo
-        try
-        {
-            tx.begin();
-            long tuplasInsertadas = sqlReserva.registrarReserva(pm, fechaentrada, fechasalida, idUsuario);
-            tx.commit();
-
-            theLogger.trace ("Inserción de Reserva iniciando: " + fechaentrada + " terminando: " + fechasalida+"añadidas:"+ tuplasInsertadas + " tuplas insertadas");
-
-            return new Reserva(id, fechaentrada,fechasalida, idUsuario);
-
-
-        }
-        catch (Exception e)
-        {
-//        	e.printStackTrace();
-            theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-            return null;
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
-    }
-
 
     public List<PersonasHabitacion> obtenerPersonasHabitacion (long idHabitacion)
     {
@@ -383,4 +359,40 @@ public class PersistenciaHotelAndes {
         }
 
     }
+
+
+
+    public Reserva registrarReserva(Timestamp fechaentrada, Timestamp fechasalida, long idUsuario) {
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        int id=0; //toca hacer una consulta para averiguar cual es la id de este tipo
+        try
+        {
+            tx.begin();
+            long tuplasInsertadas = sqlReserva.registrarReserva(pm, fechaentrada, fechasalida, idUsuario);
+            tx.commit();
+
+            theLogger.trace ("Inserción de Reserva iniciando: " + fechaentrada + " terminando: " + fechasalida+"añadidas:"+ tuplasInsertadas + " tuplas insertadas");
+
+            return new Reserva(id, fechaentrada,fechasalida, idUsuario);
+
+
+        }
+        catch (Exception e)
+        {
+//        	e.printStackTrace();
+            theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
+
+
 }

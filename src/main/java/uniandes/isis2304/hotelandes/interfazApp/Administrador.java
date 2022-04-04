@@ -7,10 +7,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.HotelAndes;
+import uniandes.isis2304.hotelandes.negocio.TipoDocumento;
 import uniandes.isis2304.hotelandes.negocio.TipoPlan;
 import uniandes.isis2304.hotelandes.negocio.TipoUsuario;
 import uniandes.isis2304.hotelandes.negocio.VOHabitacion;
 import uniandes.isis2304.hotelandes.negocio.VOTipoHabitacion;
+import uniandes.isis2304.hotelandes.negocio.VOUsuario;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
 
 import javax.jdo.JDODataStoreException;
@@ -291,6 +293,20 @@ public class Administrador extends JFrame implements ActionListener {
             int idTipoPlan = JOptionPane.showOptionDialog(this, "Seleccione el tipo de plan", "Adicionar tipo plan", JOptionPane.QUESTION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, tiposPlan.toArray(), null);
             List<TipoUsuario> tiposUsuario = hotelAndes.getUserTypes();
             int idTipoUsuario = JOptionPane.showOptionDialog(this, "Seleccione el tipo de usuario", "Adicionar tipo usuario", JOptionPane.QUESTION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, tiposUsuario.toArray(), null);
+            List<TipoDocumento> tiposDocumento = hotelAndes.getDocumentTypes();
+            int idTipoDocumento = JOptionPane.showOptionDialog(this, "Seleccione el tipo de documento", "Adicionar tipo documento", JOptionPane.QUESTION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, tiposDocumento.toArray(), null);
+            String numeroDocumento = JOptionPane.showInputDialog(this, "Numero de documento?", "Adicionar numero documento", JOptionPane.QUESTION_MESSAGE);
+            if (nombreUsuario != null && passwordUsuario != null && idTipoPlan>=0 && idTipoUsuario>=0 && idTipoDocumento>=0 && numeroDocumento != null) {
+                if (null == null) {
+                    throw new Exception("No se pudo crear un usuario con nombre: " + nombreUsuario);
+                }
+                String resultado = "En adicionarUsuario\n\n";
+                //resultado += "Usuario adicionado exitosamente: " + tb.getIdUsuario() + " " + tb.getTipo();
+                resultado += "\n Operación terminada";
+                panelDatos.actualizarInterfaz(resultado);
+            } else {
+                panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            }
             } catch (Exception e){
             String resultado = generarMensajeError(e);
             panelDatos.actualizarInterfaz(resultado);

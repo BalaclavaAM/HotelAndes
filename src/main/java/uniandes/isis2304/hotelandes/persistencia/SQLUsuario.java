@@ -9,52 +9,48 @@ import javax.jdo.Query;
 import java.util.List;
 
 public class SQLUsuario {
-    private final static String SQL = PersistenciaHotelAndes.SQL;
+	private final static String SQL = PersistenciaHotelAndes.SQL;
 
-    /* ****************************************************************
-     * 			Atributos
-     *****************************************************************/
-    /**
-     * El manejador de persistencia general de la aplicación
-     */
-    private PersistenciaHotelAndes pp;
+	/* ****************************************************************
+		* Atributos
+		*****************************************************************/
+	/**
+		* El manejador de persistencia general de la aplicación
+		*/
+	private PersistenciaHotelAndes pp;
 
-    /* ****************************************************************
-     * 			Métodos
-     *****************************************************************/
-    /**
-     * Constructor
-     * @param pp - El Manejador de persistencia de la aplicación
-     */
-    public SQLUsuario (PersistenciaHotelAndes pp)
-    {
-        this.pp = pp;
-    }
+	/* ****************************************************************
+		* Métodos
+		*****************************************************************/
+	/**
+		* Constructor
+		* @param pp - El Manejador de persistencia de la aplicación
+		*/
+	public SQLUsuario (PersistenciaHotelAndes pp)
+	{
+		this.pp = pp;
+	}
 
-    public List<Usuario> darUsuarioPorLogin(PersistenceManager pm, String login) {
+	public List<Usuario> darUsuarioPorLogin(PersistenceManager pm, String login) {
 
-        System.out.println("llego a SQLUSUARIO");
-        String select= "SELECT " + pp.darTablaUsuario()+ ".id ,"+ pp.darTablaUsuario()+ ".nombre, "+ pp.darTablaUsuario()+ ".documento, "+ pp.darTablaUsuario()+ ".tipoPlan, "+ pp.darTablaUsuario()+ ".tipoUsuario, "+ pp.darTablaUsuario()+ ".tipoDocumento, "+ pp.darTablaUsuario()+ ".login, "+ pp.darTablaUsuario()+ ".contrasena, "+  pp.darTablaTipoUsuario()+ ".tipo as nombreTipoUsuario ";
-        String from = "FROM " + pp.darTablaUsuario() +" INNER JOIN "+pp.darTablaTipoUsuario()+" ON " + pp.darTablaUsuario() +"."+pp.darTablaTipoUsuario()+" = "+pp.darTablaTipoUsuario()+".ID ";
-        String where = "WHERE USUARIO.LOGIN= ?";
-        System.out.println(select+from+where);
-        Query q = pm.newQuery(SQL, select+from+where);
+		System.out.println("llego a SQLUSUARIO");
+		String select= "SELECT " + pp.darTablaUsuario()+ ".id ,"+ pp.darTablaUsuario()+ ".nombre, "+ pp.darTablaUsuario()+ ".documento, "+ pp.darTablaUsuario()+ ".tipoPlan, "+ pp.darTablaUsuario()+ ".tipoUsuario, "+ pp.darTablaUsuario()+ ".tipoDocumento, "+ pp.darTablaUsuario()+ ".login, "+ pp.darTablaUsuario()+ ".contrasena, "+ pp.darTablaTipoUsuario()+ ".tipo as nombreTipoUsuario ";
+		String from = "FROM " + pp.darTablaUsuario() +" INNER JOIN "+pp.darTablaTipoUsuario()+" ON " + pp.darTablaUsuario() +"."+pp.darTablaTipoUsuario()+" = "+pp.darTablaTipoUsuario()+".ID ";
+		String where = "WHERE USUARIO.LOGIN= ?";
+		System.out.println(select+from+where);
+		Query q = pm.newQuery(SQL, select+from+where);
 
-        q.setResultClass(Usuario.class);
-        q.setParameters(login);
-        return (List<Usuario>) q.executeList();
-    }
+		q.setResultClass(Usuario.class);
+		q.setParameters(login);
+		return (List<Usuario>) q.executeList();
+	}
 
-    public long adicionarUsuario(PersistenceManager pm, String nombre, String documento, int tipoPlan, int tipoUsuario, int tipoDocumento, String login, String contrasena, String email) {
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaUsuario() + "(nombre, documento, tipoplan, tipodocumento, tipousuario, login, contrasena, email) values (?, ?, ?, ?, ?, ?, ?, ?)");
-        q.setParameters(nombre, documento, tipoPlan, tipoUsuario, tipoDocumento, login, contrasena, email);
-        return (long) q.executeUnique();
-    }
-
-    public long adicionarUsuario(PersistenceManager pm, String nombre, String documento, int tipoPlan, int tipoUsuario,
-            String tipoDocumento, String login, String contrasena, String correo) {
-        return 0;
-    }
+	public long adicionarUsuario(PersistenceManager pm, String nombre, String documento, int tipoPlan, int tipoUsuario,
+		int tipoDocumento, String login, String contrasena, String email) {
+			Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaUsuario() + "(nombre, documento, tipoplan, tipodocumento, tipousuario, login, contrasena, email) values (?, ?, ?, ?, ?, ?, ?, ?)");
+			q.setParameters(nombre, documento, tipoPlan, tipoUsuario, tipoDocumento, login, contrasena, email);
+			return (long) q.executeUnique();		
+		}
 
 
 }

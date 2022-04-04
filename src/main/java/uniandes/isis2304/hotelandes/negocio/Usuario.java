@@ -12,6 +12,7 @@ public class Usuario implements VOUsuario{
     public long tipoUsuario;
     public long tipoDocumento;
     public long tipoPlan;
+    public String email;
     public Usuario() {
         this.id = 0;
         this.nombre = "";
@@ -19,8 +20,9 @@ public class Usuario implements VOUsuario{
         this.tipoUsuario = 0;
         this.tipoDocumento = 0;
         this.contrasena="";
+        this.email = "";
     }
-    public Usuario(long id, String nombre, long documento, long tipoUsuario, long tipoDocumento, String login, String nombreTipoUsuario, String contrasena, long tipoPlan)
+    public Usuario(long id, String nombre, long documento, long tipoUsuario, long tipoDocumento, String login, String nombreTipoUsuario, String contrasena, long tipoPlan, String email)
     {
         this.id = id;
         this.nombre = nombre;
@@ -31,6 +33,7 @@ public class Usuario implements VOUsuario{
         this.nombreTipoUsuario=nombreTipoUsuario;//esta variable no esta en la tabla perse del usuario, esta en tipo usuario, pero se pone aca por conveniencia
         this.contrasena=contrasena;
         this.tipoPlan=tipoPlan;
+        this.email = email;
 
         // Estos valores no se conocen en el momento de la construcción del bebedor
 
