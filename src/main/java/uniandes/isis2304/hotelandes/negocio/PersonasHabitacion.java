@@ -31,6 +31,15 @@ public class PersonasHabitacion implements VOPersonasHabitacion{
         this.idUso=idUso.longValue();
         this.Uso=Uso.longValue();
     }
+    public PersonasHabitacion(long idUso, Timestamp fechaEntrada, Timestamp fechaSalida,long idHabitacion, long Uso) throws SQLException {
+
+        this.idHabitacion=idHabitacion;
+        this.fechaEntrada=fechaEntrada;
+        this.fechaSalida=fechaSalida;
+        this.idUso=idUso;
+        this.Uso=Uso;
+    }
+
 
     public long getIdHabitacion() {
         return idHabitacion;

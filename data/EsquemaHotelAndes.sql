@@ -138,12 +138,14 @@ Alter table  usuario ADD constraint LOGIN_ND UNIQUE (login) ENABLE;
 
 CREATE TABLE Reserva(
                         id NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
-                        horaInicio TIMESTAMP,
-                        horaFin TIMESTAMP,
+                        horaInicio TIMESTAMP NOT NULL,
+                        horaFin TIMESTAMP NOT NULL ,
                         idUsuario NUMBER REFERENCES Usuario(id) NOT NULL,
+                        activo NUMBER NOT NULL,
 
                         CONSTRAINT reservaPk PRIMARY KEY (id)
 );
+ALTER TABLE RESERVA ADD CONSTRAINT ACTIVO_CK CHECK(activo=0 OR activo=1);
 
 CREATE TABLE PersonasHabitacion(
                                    idHabitacion REFERENCES HABITACION(id),
@@ -191,7 +193,7 @@ CREATE TABLE RegistroServicio(
                                  costoTotal NUMBER NOT NULL,
                                  habitacion NUMBER REFERENCES HABITACION(id),
                                  servicio NUMBER REFERENCES SERVICIO(id),
-
+                                 fecha TIMESTAMP NOT NULL,
                                  CONSTRAINT registroServicioPk PRIMARY KEY (id)
 );
 

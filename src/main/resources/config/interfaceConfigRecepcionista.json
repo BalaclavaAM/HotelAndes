@@ -5,10 +5,13 @@
   "bannerPath": "./src/main/resources/config/logo.png",
   "menuBar":
   [
-    {"menuTitle":"RECERVA",
+    {"menuTitle":"RESERVA",
       "options":[
         {"label":"hacer checkout",
           "event": "checkout"
+        },
+        {"label":"hacer checkin",
+          "event": "checkIn"
         }
       ]},
     { "menuTitle": "TipoHabitacion",

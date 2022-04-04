@@ -136,35 +136,21 @@ public class Cliente extends JFrame implements ActionListener {
     public void registrarReserva() {
         try {
 
-            int anoReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "AÑO RESERVA:", "AÑO RESERVA (ponga un numero)", JOptionPane.QUESTION_MESSAGE));
-            int mesReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "MES RESERVA (siendo 0 enero y diciembre 11): ", "MES RESERVA", JOptionPane.QUESTION_MESSAGE));
-            int diaReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "DIA RESERVA", "DIA RESERVA(ponga un numero)", JOptionPane.QUESTION_MESSAGE));
-            int horaReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "HoraReserva", "HoraReserva(ponga un numero de 0 a 23)", JOptionPane.QUESTION_MESSAGE));
-            int hastaQuemesReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "hastaQuemesReserva(siendo 0 enero y diciembre 11) (ponga un numero)", "hastaQuemesReserva", JOptionPane.QUESTION_MESSAGE));
-            int hastaQueanoReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "hastaQueAñoReserva (ponga un numero)", "hastaQueAñoReserva", JOptionPane.QUESTION_MESSAGE));
-            int hastaQueDiaReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "hastaQueDiaReserva(ponga un numero)", "hastaQueDiaReserva", JOptionPane.QUESTION_MESSAGE));
-            int hastaQueHoraReserva=Integer.parseInt(JOptionPane.showInputDialog(this, "hastaQueHoraReserva(ponga un numero de 0 a 23)", "hastaQueHoraReserva", JOptionPane.QUESTION_MESSAGE));
+            String inicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 2012-11-01 (si el numero no tiene decena poner 0) año-mes-dia ->dia(numero mayor que 0 y menor que 32, esto depende del mes )-mes(de 0 a 11 donde 0 es enero)-año(numerormayor que 0)", "FECHA INICIO", JOptionPane.QUESTION_MESSAGE);
+            inicio+= " 00:00:01.742000000";
+            String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 2012-11-01 (si el numero no tiene decena poner 0)año-mes-dia", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
+            finals+= " 00:00:01.742000000";
             long idusuario=Long.parseLong(JOptionPane.showInputDialog(this, "idUsuario", "IDUSUARIO", JOptionPane.QUESTION_MESSAGE));
-            if (anoReserva >0 && mesReserva>=0 && diaReserva<32 && mesReserva<12 && diaReserva>0 && horaReserva>=0 && horaReserva<24 && hastaQuemesReserva>=0 &&hastaQuemesReserva<12 && hastaQueanoReserva>0 && hastaQueDiaReserva>0 && hastaQueDiaReserva<32 && hastaQueHoraReserva>0 && hastaQueHoraReserva<24) {
-                System.out.println("HOLA");
-                Calendar fechaentrada = new GregorianCalendar(anoReserva,mesReserva,diaReserva,horaReserva,0,0);
-                Calendar fechasalida= new GregorianCalendar(hastaQueanoReserva,hastaQuemesReserva,hastaQueDiaReserva,hastaQueHoraReserva,0,0);
-                Timestamp fechaentradats= new Timestamp(fechaentrada.getTimeInMillis());
-                Timestamp fechasalidats= new Timestamp(fechasalida.getTimeInMillis());
 
-                VOReserva tb = hotelAndes.registrarReserva(fechaentradats,fechasalidats,idusuario);
+            long tb = hotelAndes.registrarReserva(inicio,finals,idusuario);
 
-                if (tb == null) {
-                    throw new Exception("No se pudo crear un reserva con fecha inicio: " + fechaentradats);
-                }
-                String resultado = "En adicionarTipoBebida\n\n";
-                resultado += "Tipo de bebida adicionado exitosamente: " + tb;
-                resultado += "\n Operación terminada";
-                panelDatos.actualizarInterfaz(resultado);
-
-            } else {
-                panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            if (tb == 0) {
+                throw new Exception("No se pudo crear un reserva con fecha inicio: " + inicio);
             }
+            String resultado = "En adicionarTipoBebida\n\n";
+            resultado += "Tipo de bebida adicionado exitosamente: " + tb;
+            resultado += "\n Operación terminada";
+            panelDatos.actualizarInterfaz(resultado);
         } catch (Exception e) {
 //			e.printStackTrace();
             String resultado = generarMensajeError(e);

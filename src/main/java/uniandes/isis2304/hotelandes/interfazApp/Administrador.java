@@ -6,13 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
-import uniandes.isis2304.hotelandes.negocio.HotelAndes;
-import uniandes.isis2304.hotelandes.negocio.TipoDocumento;
-import uniandes.isis2304.hotelandes.negocio.TipoPlan;
-import uniandes.isis2304.hotelandes.negocio.TipoUsuario;
-import uniandes.isis2304.hotelandes.negocio.VOHabitacion;
-import uniandes.isis2304.hotelandes.negocio.VOTipoHabitacion;
-import uniandes.isis2304.hotelandes.negocio.VOUsuario;
+import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
 
 import javax.jdo.JDODataStoreException;
@@ -234,9 +228,52 @@ public class Administrador extends JFrame implements ActionListener {
             String resultado = generarMensajeError(e);
             panelDatos.actualizarInterfaz(resultado);
         }
-
-
     }
+    public void veinteServiciosPopulares() {
+        String inicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 12-01-2012 dia-mes-año", "FECHA INICIO", JOptionPane.QUESTION_MESSAGE);
+        inicio+= " 00:00:01";
+        String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 12-01-2012 dia-mes-año", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
+        inicio+= " 00:00:01";
+        try {
+            List<Servicio> tb = hotelAndes.veinteServiciosPopulares(inicio, finals);
+            if (tb.get(0) == null) {
+                throw new Exception("No hay servicios con ese nombre: ");
+            }
+            String resultado = "En Servicios\n\n";
+            resultado += "Busqueda existosa : " + tb;
+            resultado += "\n Operación terminada";
+            resultado += tb.toString();
+            panelDatos.actualizarInterfaz(resultado);
+        } catch (Exception e) {
+            e.printStackTrace();
+            panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
+    }
+    public void dineroPorHabitacion() {
+        String inicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 12-01-2012 dia-mes-año", "FECHA INICIO", JOptionPane.QUESTION_MESSAGE);
+        inicio+= " 00:00:01";
+        String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 12-01-2012 dia-mes-año", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
+        finals+= " 00:00:01";
+        try {
+            List<DineroPorHabitacion> tb = hotelAndes.dineroPorHabitacion(inicio, finals);
+            if (tb.get(0) == null) {
+                throw new Exception("No hay habitaciones, o registros de servicios a esa cuenta: ");
+            }
+            String resultado = "En Servicios\n\n";
+            resultado += "Busqueda existosa : " + tb;
+            resultado += "\n Operación terminada";
+            resultado += tb.toString();
+            panelDatos.actualizarInterfaz(resultado);
+        } catch (Exception e) {
+            e.printStackTrace();
+            panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
+    }
+
     public void adicionarHabitacion() {
         System.out.println("entro en la interfaz");
         try {
@@ -312,6 +349,7 @@ public class Administrador extends JFrame implements ActionListener {
             panelDatos.actualizarInterfaz(resultado);
         }
     }
+
 
 
     /* ****************************************************************

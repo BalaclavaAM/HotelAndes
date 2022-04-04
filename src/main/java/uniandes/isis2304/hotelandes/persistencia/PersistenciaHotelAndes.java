@@ -26,6 +26,7 @@ public class PersistenciaHotelAndes {
     private SQLHabitacion sqlHabitacion;
     private SQLReserva sqlReserva;
     private SQLTipoUsuario sqlTUsuario;
+    private SQLServicio sqlServicio;
     private SQLPersonasHabitacion sqlPersonasHabitacion;
     private Logger logger;
 
@@ -92,6 +93,7 @@ public class PersistenciaHotelAndes {
         sqlReserva = new SQLReserva(this);
         sqlTUsuario = new SQLTipoUsuario(this);
         sqlPersonasHabitacion = new SQLPersonasHabitacion(this);
+        sqlServicio = new SQLServicio(this);
 
     }
 
@@ -362,19 +364,24 @@ public class PersistenciaHotelAndes {
 
 
 
-    public Reserva registrarReserva(Timestamp fechaentrada, Timestamp fechasalida, long idUsuario) {
+    public long registrarReserva(String fechaentrada, String fechasalida, long idUsuario) {
         PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         int id=0; //toca hacer una consulta para averiguar cual es la id de este tipo
         try
         {
-            tx.begin();
-            long tuplasInsertadas = sqlReserva.registrarReserva(pm, fechaentrada, fechasalida, idUsuario);
-            tx.commit();
+            try {
+                tx.begin();
+                long tuplasInsertadas = sqlReserva.registrarReserva(pm, fechaentrada, fechasalida, idUsuario);
+                tx.commit();
 
-            theLogger.trace ("Inserción de Reserva iniciando: " + fechaentrada + " terminando: " + fechasalida+"añadidas:"+ tuplasInsertadas + " tuplas insertadas");
+                theLogger.trace ("Inserción de Reserva iniciando: " + fechaentrada + " terminando: " + fechasalida+"añadidas:"+ tuplasInsertadas + " tuplas insertadas");
 
-            return new Reserva(id, fechaentrada,fechasalida, idUsuario);
+                return 1;
+            }catch (Exception e){
+                theLogger.error ("Fallo registro reserva");
+                return 0;
+            }
 
 
         }
@@ -382,7 +389,7 @@ public class PersistenciaHotelAndes {
         {
 //        	e.printStackTrace();
             theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-            return null;
+            return 0;
         }
         finally
         {
@@ -395,4 +402,79 @@ public class PersistenciaHotelAndes {
     }
 
 
+    public List<Habitacion> obtenerHabitacionConNumero(long numeroHabitacion) {
+        return sqlHabitacion.obtenerHabitacionConNumero(pmf.getPersistenceManager(), numeroHabitacion);
+    }
+
+    public List<Reserva> obtenerReservaActivaConUsuario( long usuario) {
+        return sqlReserva.obtenerReservaActivaConUsuario(pmf.getPersistenceManager(), usuario);
+    }
+
+
+    public long reservaCambiarEstado(long id) {
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long resp = sqlReserva.reservaCambiarEstado(pmf.getPersistenceManager(),id);
+            tx.commit();
+
+            return resp;
+        }
+        catch (Exception e)
+        {
+//        	e.printStackTrace();
+            theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return -1;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
+
+    public long adicionarPersonasHabitacion(long id, Timestamp horaInicio, Timestamp horaFinal, int uso) {
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        int ida=0; //toca hacer una consulta para averiguar cual es la id de este tipo
+        try
+        {
+            tx.begin();
+            long tuplasInsertadas = sqlPersonasHabitacion.adicionarPersonasHabitacion(pm, id, horaInicio, horaFinal, uso);
+            tx.commit();
+
+            theLogger.trace ("Inserción de PERSONAS HABITACION: " + horaInicio + " terminando: " + horaFinal+"añadidas:"+ tuplasInsertadas + " tuplas insertadas");
+
+            return tuplasInsertadas;
+
+
+        }
+        catch (Exception e)
+        {
+//        	e.printStackTrace();
+            theLogger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return 0;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
+
+    public List<Servicio> veinteServiciosPopulares(String inicio, String finals) {
+        return sqlServicio.veinteServiciosPopulares(pmf.getPersistenceManager(),inicio, finals);
+    }
+
+    public List<DineroPorHabitacion> dineroPorHabitacion(String inicio, String finals) {
+        return sqlHabitacion.dineroServiciosPorHabitacion(pmf.getPersistenceManager(),inicio, finals);
+    }
 }

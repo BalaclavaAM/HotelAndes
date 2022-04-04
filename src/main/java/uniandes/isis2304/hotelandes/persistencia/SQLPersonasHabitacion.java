@@ -5,6 +5,7 @@ import uniandes.isis2304.hotelandes.negocio.Usuario;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class SQLPersonasHabitacion {
@@ -28,4 +29,10 @@ public class SQLPersonasHabitacion {
         return (long) q.executeUnique();
     }
 
+    public long adicionarPersonasHabitacion(PersistenceManager pm, long id, Timestamp horaInicio, Timestamp horaFinal, int uso) {
+        String sql = "INSERT INTO " + pHotelAndes.obtenerTablaPersonasHabitacion() + " (idHabitacion ,fechaEntrada, fechaSalida , Uso) VALUES (?, ?, ?)";
+        Query q=pm.newQuery(SQL, sql);
+        q.setParameters(id, horaInicio, horaFinal, uso);
+        return (long) q.executeUnique();
+    }
 }

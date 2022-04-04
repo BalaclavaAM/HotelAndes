@@ -7,17 +7,20 @@ public class Reserva implements VOReserva{
     public Timestamp horaInicio;
     public Timestamp horaFinal;
     public long idUsuario;
+    public long activo;
     public Reserva(){
         this.id=0;
         this.horaInicio=null;
         this.horaFinal=null;
         this.idUsuario=0;
+        this.activo=0;
     }
-    public Reserva(long id,Timestamp horaInicio, Timestamp horaFinal,long idUsuario){
+    public Reserva(long id,Timestamp horaInicio, Timestamp horaFinal,long idUsuario, long activo){
         this.id=id;
         this.horaInicio=horaInicio;
         this.horaFinal=horaFinal;
         this.idUsuario=idUsuario;
+        this.activo=activo;
     }
 
     public long getId() {
@@ -51,6 +54,15 @@ public class Reserva implements VOReserva{
     public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+    public long getActivo() {
+        return activo;
+    }
+
+    public void setActivo(long activo) {
+        this.activo = activo;
+    }
+
     @Override
     public String toString()
     {

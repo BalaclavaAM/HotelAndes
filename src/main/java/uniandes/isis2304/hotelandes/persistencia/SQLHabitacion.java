@@ -1,5 +1,6 @@
 package uniandes.isis2304.hotelandes.persistencia;
 
+import uniandes.isis2304.hotelandes.negocio.DineroPorHabitacion;
 import uniandes.isis2304.hotelandes.negocio.Habitacion;
 import uniandes.isis2304.hotelandes.negocio.Usuario;
 
@@ -38,4 +39,20 @@ public class SQLHabitacion {
         q.setParameters(idHabitacion);
         return (List<Habitacion>) q.executeList();
     }
+
+    public List<Habitacion> obtenerHabitacionConNumero(PersistenceManager pm, long numeroHabitacion) {
+        String query="SELECT * FROM "+ pHotelAndes.obtenerTablaHabitacion() +" WHERE numeroHabitacion = ? ";
+        Query q = pm.newQuery(SQL, query);
+        q.setResultClass(Habitacion.class);
+        q.setParameters(numeroHabitacion);
+        return (List<Habitacion>) q.executeList();
+    }
+    public List<DineroPorHabitacion> dineroServiciosPorHabitacion(PersistenceManager pm, String inicio, String finals) {
+        String query ="SELECT REGISTROSERVICIO.HABITACION as numHabitacion, SUM(COSTOTOTAL) as dinero FROM REGISTROSERVICIO WHERE REGISTROSERVICIO.fecha> to_timestamp('"+inicio+"', 'dd-mm-yyyy hh24:mi:ss') and REGISTROSERVICIO.fecha< to_timestamp('"+finals+"', 'dd-mm-yyyy hh24:mi:ss') GROUP BY REGISTROSERVICIO.HABITACION";
+        Query q = pm.newQuery(SQL, query);
+        q.setResultClass(DineroPorHabitacion.class);
+        return (List<DineroPorHabitacion>) q.executeList();
+    }
+
+
 }

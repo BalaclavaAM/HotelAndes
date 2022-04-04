@@ -6,9 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
-import uniandes.isis2304.hotelandes.negocio.HotelAndes;
-import uniandes.isis2304.hotelandes.negocio.VOHabitacion;
-import uniandes.isis2304.hotelandes.negocio.VOPersonasHabitacion;
+import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
 
 import javax.jdo.JDODataStoreException;
@@ -260,6 +258,45 @@ public class Recepcionista extends JFrame implements ActionListener {
                     resultado += "\n Operación terminada";
                     panelDatos.actualizarInterfaz(resultado);
                 }
+            } else {
+                panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            }
+        } catch (Exception e) {
+//			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
+    }
+    public void checkIn() {
+        System.out.println("entro en la interfaz");
+        try {
+            long numeroHabitacion= Long.parseLong(JOptionPane.showInputDialog(this, "numeroHabitacion (dado que el recepcionista sabe, que habitaciones hay, el debe elegir en cual ponerlo):", "Check IN numeroHabitacion", JOptionPane.QUESTION_MESSAGE));
+            String usuarios = JOptionPane.showInputDialog(this, "Usuario con el que se hizo la reserva:", "Check IN Usuario", JOptionPane.QUESTION_MESSAGE);
+
+            if (numeroHabitacion >0) {
+                VOUsuario usuario = hotelAndes.darUsuarioPorLogin(usuarios);
+
+                if (usuario == null) {
+                    throw new Exception("No hay usuario con ese login: " + usuarios);
+                }
+
+                VOHabitacion habitacion = hotelAndes.obtenerHabitacionConNumero(numeroHabitacion);
+                if (habitacion == null) {
+                    throw new Exception("No hay habitaciones con ese numero: " + numeroHabitacion);
+                }
+                VOReserva reserva = hotelAndes.obtenerReservaActivaConUsuario(usuario.getId());
+                if (reserva == null) {
+                    throw new Exception("No hay reserva activa a nombre de ese usuario: " + numeroHabitacion);
+                }
+                long cambioReservaEstado= hotelAndes.reservaCambiarEstado(usuario.getId());
+                int Uso=1;
+                long tb  = hotelAndes.crearPersonasHabitacion(habitacion.getId(),reserva.getHoraInicio(),reserva.getHoraFinal(),Uso);
+
+                String resultado = "En adicionarTipoBebida\n\n";
+                resultado += "Tipo de bebida PersonasHabitacion: " + numeroHabitacion;
+                resultado += "\n Operación terminada";
+                panelDatos.actualizarInterfaz(resultado);
+
             } else {
                 panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
             }

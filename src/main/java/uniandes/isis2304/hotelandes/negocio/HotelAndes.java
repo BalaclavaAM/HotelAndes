@@ -59,10 +59,10 @@ public class HotelAndes {
 
         return Habitacion;
     }
-    public VOReserva registrarReserva(Timestamp fechaentrada, Timestamp fechasalida, long idUsuario) {
+    public long registrarReserva(String fechaentrada, String fechasalida, long idUsuario) {
         System.out.println("entro a hotelandes");
         log.info("Adicionando Habitacion: " + fechaentrada);
-        Reserva reserva = pp.registrarReserva(fechaentrada, fechasalida, idUsuario);
+        long reserva = pp.registrarReserva(fechaentrada, fechasalida, idUsuario);
         log.info("Adicionando Habitacion: " + reserva);
 
         return reserva;
@@ -119,5 +119,45 @@ public class HotelAndes {
         long usuarioId = pp.adicionarUsuario(nombre, documento, tipoPlan, tipoDocumento, tipoUsuario, login, contrasena, email);
         log.info ("Adicionando Usuario: " + usuarioId);
         return usuarioId;
+    }
+
+    public Habitacion obtenerHabitacionConNumero(long numeroHabitacion) {
+        log.info ("Buscando Tipo de bebida por idHabitacion: " + numeroHabitacion);
+        List<Habitacion> tb = pp.obtenerHabitacionConNumero(numeroHabitacion);
+        return !tb.isEmpty () ? tb.get (0) : null;
+    }
+
+    public Reserva obtenerReservaActivaConUsuario( long usuario) {
+        log.info ("Buscando Reserva con id de habitacion: " + usuario);
+        List<Reserva> tb = pp.obtenerReservaActivaConUsuario(usuario);
+        return !tb.isEmpty () ? tb.get (0) : null;
+    }
+
+    public long reservaCambiarEstado(long id) {
+        log.info ("Buscando Tipo de bebida por idHabitacion: " + id);
+        long tb = pp.reservaCambiarEstado(id);
+        log.info ("Eliminando bebida por id: " + id + " tuplas eliminadas");
+        return tb;
+    }
+
+    public long crearPersonasHabitacion(long id, Timestamp horaInicio, Timestamp horaFinal, int uso) {
+        log.info ("Adicionando PersonasHabitacion con idHabitacion: " + id);
+        long tb = pp.adicionarPersonasHabitacion( id, horaInicio,  horaFinal, uso);
+        log.info ("Adicionando PersonasHabitacion con idHabitacion: " + id);
+        return tb;
+    }
+
+    public List<Servicio> veinteServiciosPopulares(String inicio, String finals) {
+        log.info ("20 servicios más populares: ");
+        List<Servicio> tb = pp.veinteServiciosPopulares(inicio, finals);
+        log.info ("20 servicios más populares:" );
+        return tb;
+    }
+
+    public List<DineroPorHabitacion> dineroPorHabitacion(String inicio, String finals) {
+        log.info ("20 servicios más populares: ");
+        List<DineroPorHabitacion> tb = pp.dineroPorHabitacion(inicio, finals);
+        log.info ("20 servicios más populares:" );
+        return tb;
     }
 }

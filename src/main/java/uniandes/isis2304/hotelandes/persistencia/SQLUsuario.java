@@ -49,8 +49,8 @@ public class SQLUsuario {
 		int tipoDocumento, String login, String contrasena, String email) {
 			Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaUsuario() + "(nombre, documento, tipoplan, tipodocumento, tipousuario, login, contrasena, email) values (?, ?, ?, ?, ?, ?, ?, ?)");
 			q.setParameters(nombre, documento, tipoPlan, tipoUsuario, tipoDocumento, login, contrasena, email);
-			return (long) q.executeUnique();		
-		}
-
+			return (long) q.executeUnique();
+	}
 
 }
+

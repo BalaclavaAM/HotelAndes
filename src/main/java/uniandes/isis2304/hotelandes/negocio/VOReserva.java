@@ -18,6 +18,10 @@ public interface VOReserva {
     public long getIdUsuario();
 
     public void setIdUsuario(long idUsuario);
+
+    public long getActivo();
+
+    public void setActivo(long activo);
     @Override
     public String toString();
 }
