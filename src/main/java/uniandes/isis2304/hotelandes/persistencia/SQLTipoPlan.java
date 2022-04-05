@@ -27,4 +27,10 @@ public class SQLTipoPlan {
         }
         return tiposPlanes;
     }
+
+    public long agregarTIpoPlan(PersistenceManager persistenceManager, String nombreTipoPlan) {
+        Query q = persistenceManager.newQuery(SQL, "INSERT INTO TipoPlan (TIPO) VALUES (?)");
+        q.setParameters(nombreTipoPlan);
+        return (long) q.executeUnique();
+    }
 }

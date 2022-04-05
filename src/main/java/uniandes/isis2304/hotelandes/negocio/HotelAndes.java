@@ -187,4 +187,10 @@ public class HotelAndes {
         log.info ("Adicionando Servicio: " + tb);
         return tb;
     }
+    public long adicionarTipoPlan(String nombreTipoPlan) {
+        log.info ("Adicionando Tipo de Plan: " + nombreTipoPlan);
+        long tb = pp.adicionarTipoPlan(nombreTipoPlan);
+        log.info ("Adicionando Tipo de Plan: " + tb);
+        return tb;
+    }
 }

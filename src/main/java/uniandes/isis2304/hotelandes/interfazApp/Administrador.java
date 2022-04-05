@@ -391,7 +391,6 @@ public class Administrador extends JFrame implements ActionListener {
 
     public void registrarServicio(){
         try{
-            System.out.println("Registrar servicio");
             String nombreServicio = JOptionPane.showInputDialog(this, "Nombre del servicio?", "Adicionar Nombre servicio", JOptionPane.QUESTION_MESSAGE);
             List<TipoServicio> tiposServicio = hotelAndes.gTipoServicios(); 
             List<String> tiposServicioString = new ArrayList<String>();
@@ -413,6 +412,29 @@ public class Administrador extends JFrame implements ActionListener {
             } else {
                 panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
             }
+        } catch (Exception e) {
+//			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
+    }
+
+    public void createPlan(){
+        try{
+            String nombreTipoPlan = JOptionPane.showInputDialog(this, "Nombre del tipo de plan?", "Adicionar Nombre tipo plan", JOptionPane.QUESTION_MESSAGE);
+            if (nombreTipoPlan != null) {
+                long tb = hotelAndes.adicionarTipoPlan(nombreTipoPlan);
+                if (tb == 0) {
+                    throw new Exception("No se pudo crear un tipo de plan con nombre: " + nombreTipoPlan);
+                }
+                String resultado = "En adicionarTipoPlan\n\n";
+                resultado += "Tipo de plan adicionado exitosamente: " + tb;
+                resultado += "\n Operación terminada";
+                panelDatos.actualizarInterfaz(resultado);
+            } else {
+                panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            }
+        
         } catch (Exception e) {
 //			e.printStackTrace();
             String resultado = generarMensajeError(e);

@@ -64,7 +64,16 @@
 				}
 			]
 		},
-		{ "menuTitle": "SERVICIOS",
+		{
+			"menuTitle": "Planes",
+			"options":[
+				{
+					"label":"Crear plan",
+					"event": "createPlan"
+				}
+			]
+		},
+		{ "menuTitle": "Servicios",
 			"options":
 			[
 				{

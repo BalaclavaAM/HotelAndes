@@ -30,6 +30,7 @@ public class PersistenciaHotelAndes {
     private SQLPersonasHabitacion sqlPersonasHabitacion;
     private SQLRegistroServicio sqlRegistroServicio;
     private SQLTipoServicio sqlTipoServicio;
+    private SQLTipoPlan sqlTipoPlan;
     private Logger logger;
 
 
@@ -98,6 +99,7 @@ public class PersistenciaHotelAndes {
         sqlServicio = new SQLServicio(this);
         sqlRegistroServicio= new SQLRegistroServicio(this);
         sqlTipoServicio = new SQLTipoServicio(this);
+        sqlTipoPlan = new SQLTipoPlan(this);
 
     }
 
@@ -496,5 +498,9 @@ public class PersistenciaHotelAndes {
 
     public long adicionarServicio(String nombreServicio, long idTipoServicio, boolean tipoServicio) {
         return sqlServicio.agregarServicio(pmf.getPersistenceManager(),nombreServicio, idTipoServicio, tipoServicio);
+    }
+
+    public long adicionarTipoPlan(String nombreTipoPlan) {
+        return sqlTipoPlan.agregarTIpoPlan(pmf.getPersistenceManager(),nombreTipoPlan);
     }
 }
