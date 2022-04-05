@@ -193,4 +193,10 @@ public class HotelAndes {
         log.info ("Adicionando Tipo de Plan: " + tb);
         return tb;
     }
+    public long addReservaServicioHotel(long idusuario, long idhotel, long idhabitacion, long idservicio) {
+        log.info("Agregando ReservaServicioHotel: ");
+        long tb = pp.addReservaServicioHotel(idusuario, idhotel, idhabitacion, idservicio);
+        log.info("Agregando ReservaServicioHotel: " + tb);
+        return tb;
+    }
 }

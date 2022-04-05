@@ -27,6 +27,10 @@
         {
           "label": "Limpiar Base de Datos",
           "event": "limpiarBD"
+        },
+        {
+          "label": "Añadir Reserva Servicio Hotel",
+          "event": "addReservaServicioHotel"
         }
       ]
     },

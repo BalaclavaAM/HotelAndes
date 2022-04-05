@@ -503,4 +503,8 @@ public class PersistenciaHotelAndes {
     public long adicionarTipoPlan(String nombreTipoPlan) {
         return sqlTipoPlan.agregarTIpoPlan(pmf.getPersistenceManager(),nombreTipoPlan);
     }
+
+    public long addReservaServicioHotel(long idusuario, long idhotel, long idhabitacion, long idservicio) {
+        return 0;
+    }
 }

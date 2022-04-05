@@ -156,7 +156,29 @@ public class Cliente extends JFrame implements ActionListener {
             String resultado = generarMensajeError(e);
             panelDatos.actualizarInterfaz(resultado);
         }
+    }
 
+    public void addReservaServicioHotel(){
+        try {
+            long idusuario=Long.parseLong(JOptionPane.showInputDialog(this, "idUsuario", "IDUSUARIO", JOptionPane.QUESTION_MESSAGE));
+            long idhotel=Long.parseLong(JOptionPane.showInputDialog(this, "idHotel", "IDHOTEL", JOptionPane.QUESTION_MESSAGE));
+            long idhabitacion=Long.parseLong(JOptionPane.showInputDialog(this, "idHabitacion", "IDHABITACION", JOptionPane.QUESTION_MESSAGE));
+            long idservicio=Long.parseLong(JOptionPane.showInputDialog(this, "idServicio", "IDSERVICIO", JOptionPane.QUESTION_MESSAGE));
+
+            long tb = hotelAndes.addReservaServicioHotel(idusuario,idhotel,idhabitacion,idservicio);
+
+            if (tb == 0) {
+                throw new Exception("No se pudo crear una reserva con id usuario: " + idusuario);
+            }
+            String resultado = "En addReservaServicioHotel\n\n";
+            resultado += "Reserva servicio adicionado exitosamente: " + tb;
+            resultado += "\n Operación terminada";
+            panelDatos.actualizarInterfaz(resultado);
+        } catch (Exception e) {
+//			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
 
     }
 
