@@ -1,0 +1,19 @@
+{
+  "title": "SOY EMPLEADO",
+  "frameH": 600,
+  "frameW": 800,
+  "bannerPath": "./src/main/resources/config/logo.png",
+  "menuBar":
+  [
+    {
+      "menuTitle":"agregarConsumoServicio",
+      "options":[
+        {
+          "label":"agregarConsumoServicio",
+          "event": "agregarConsumoServicio"
+        }
+      ]
+    }
+
+  ]
+}
