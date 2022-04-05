@@ -28,10 +28,12 @@
             <property name="javax.jdo.option.ConnectionUserName" value="ISIS2304D27202210"/>
             <property name="javax.jdo.option.ConnectionPassword" value="wMVGcQVSpKwA"/>
             <property name="javax.jdo.option.Mapping" value="oracle"/>
+
             <property name="datanucleus.schema.autoCreateAll" value="false"/>
             <property name="datanucleus.query.sql.allowAll" value="true"/>
         </properties>
     </persistence-unit>
+
 
 
     <!-- ParranderosError "unit" Definición de una base de datos que no existe, para verificar el comportamiento en caso de error o caida de la BD-->

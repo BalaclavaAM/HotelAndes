@@ -3,6 +3,9 @@ package uniandes.isis2304.hotelandes.persistencia;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+
+import uniandes.isis2304.hotelandes.negocio.TipoUsuario;
 
 public class SQLTipoUsuario {
     public final static String SQL = PersistenciaHotelAndes.SQL;
@@ -25,7 +28,9 @@ public class SQLTipoUsuario {
     public static List getUserTypes(PersistenceManager pm){
         List tiposUsuarios = null;
         try{
-            tiposUsuarios = (List)pm.newQuery(SQL, "SELECT * FROM TipoUsuario").execute();
+            Query q = pm.newQuery(SQL, "SELECT ID, TIPO FROM TipoUsuario");
+            q.setResultClass(TipoUsuario.class);
+            tiposUsuarios = (List) q.execute();
         }catch(Exception e){
             e.printStackTrace();
         }

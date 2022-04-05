@@ -29,6 +29,8 @@ public class PersistenciaHotelAndes {
     private SQLServicio sqlServicio;
     private SQLPersonasHabitacion sqlPersonasHabitacion;
     private SQLRegistroServicio sqlRegistroServicio;
+    private SQLTipoServicio sqlTipoServicio;
+    private SQLTipoPlan sqlTipoPlan;
     private Logger logger;
 
 
@@ -96,6 +98,8 @@ public class PersistenciaHotelAndes {
         sqlPersonasHabitacion = new SQLPersonasHabitacion(this);
         sqlServicio = new SQLServicio(this);
         sqlRegistroServicio= new SQLRegistroServicio(this);
+        sqlTipoServicio = new SQLTipoServicio(this);
+        sqlTipoPlan = new SQLTipoPlan(this);
 
     }
 
@@ -265,7 +269,7 @@ public class PersistenciaHotelAndes {
         }
         catch (Exception e)
         {
-            logger.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            System.out.println("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
             return 0;
         }
         finally
@@ -482,5 +486,25 @@ public class PersistenciaHotelAndes {
 
     public long agregarConsumoServicio(long idHabitacion, String lugarConsumo, String nombreCliente, long costoTotal, long idservicio, String fecha) {
         return sqlRegistroServicio.agregarConsumoServicio(pmf.getPersistenceManager(),idHabitacion, lugarConsumo, nombreCliente,  costoTotal, idservicio, fecha);
+    }
+
+    public long adicionarTipoServicio(String nombreTipo) {
+        return sqlServicio.agregarTipoServicio(pmf.getPersistenceManager(),nombreTipo);
+    }
+
+    public List<TipoServicio> gTipoServicios() {
+        return sqlTipoServicio.getTiposServicios(pmf.getPersistenceManager());
+    }
+
+    public long adicionarServicio(String nombreServicio, long idTipoServicio, boolean tipoServicio) {
+        return sqlServicio.agregarServicio(pmf.getPersistenceManager(),nombreServicio, idTipoServicio, tipoServicio);
+    }
+
+    public long adicionarTipoPlan(String nombreTipoPlan) {
+        return sqlTipoPlan.agregarTIpoPlan(pmf.getPersistenceManager(),nombreTipoPlan);
+    }
+
+    public long addReservaServicioHotel(long idusuario, long idhotel, long idhabitacion, long idservicio) {
+        return 0;
     }
 }

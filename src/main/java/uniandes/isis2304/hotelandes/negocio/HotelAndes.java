@@ -167,4 +167,36 @@ public class HotelAndes {
         log.info ("agregarConsumoServicio:" );
         return tb;
     }
+    public long adicionarTipoServicio(String nombreTipo) {
+        log.info ("Adicionando Tipo de Servicio: " + nombreTipo);
+        long tb = pp.adicionarTipoServicio(nombreTipo);
+        log.info ("Adicionando Tipo de Servicio: " + tb);
+        return tb;
+    }
+
+    public List<TipoServicio> gTipoServicios() {
+        log.info ("Obteniendo Tipos de Servicios: ");
+        List<TipoServicio> tb = pp.gTipoServicios();
+        log.info ("Obteniendo Tipos de Servicios: " + tb);
+        return tb;
+    }
+
+    public long adicionarServicio(String nombreServicio, long idTipoServicio, boolean tipoServicio) {
+        log.info ("Adicionando Servicio: " + nombreServicio);
+        long tb = pp.adicionarServicio(nombreServicio, idTipoServicio, tipoServicio);
+        log.info ("Adicionando Servicio: " + tb);
+        return tb;
+    }
+    public long adicionarTipoPlan(String nombreTipoPlan) {
+        log.info ("Adicionando Tipo de Plan: " + nombreTipoPlan);
+        long tb = pp.adicionarTipoPlan(nombreTipoPlan);
+        log.info ("Adicionando Tipo de Plan: " + tb);
+        return tb;
+    }
+    public long addReservaServicioHotel(long idusuario, long idhotel, long idhabitacion, long idservicio) {
+        log.info("Agregando ReservaServicioHotel: ");
+        long tb = pp.addReservaServicioHotel(idusuario, idhotel, idhabitacion, idservicio);
+        log.info("Agregando ReservaServicioHotel: " + tb);
+        return tb;
+    }
 }

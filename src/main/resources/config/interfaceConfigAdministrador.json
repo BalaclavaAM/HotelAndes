@@ -64,12 +64,29 @@
 				}
 			]
 		},
-		{ "menuTitle": "SERVICIOS",
+		{
+			"menuTitle": "Planes",
+			"options":[
+				{
+					"label":"Crear plan",
+					"event": "createPlan"
+				}
+			]
+		},
+		{ "menuTitle": "Servicios",
 			"options":
 			[
 				{
 					"label": "veinteServiciosPopulares",
 					"event": "veinteServiciosPopulares"
+				},
+				{
+					"label": "Registrar un tipo de servicio",
+					"event": "registrarTipoServicio"
+				},
+				{
+					"label": "Registrar un servicio",
+					"event": "registrarServicio"
 				}
 			]
 		},

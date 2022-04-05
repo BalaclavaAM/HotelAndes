@@ -1,0 +1,132 @@
+{
+  "title": "SOY RECEPCIONISTA",
+  "frameH": 600,
+  "frameW": 800,
+  "bannerPath": "./src/main/resources/config/logo.png",
+  "menuBar":
+  [
+    {"menuTitle":"RESERVA",
+      "options":[
+        {"label":"hacer checkout",
+          "event": "checkout"
+        },
+        {"label":"hacer checkin",
+          "event": "checkIn"
+        }
+      ]},
+    { "menuTitle": "TipoHabitacion",
+      "options":
+      [
+        {
+          "label": "Adicionar",
+          "event": "adicionarTipoHabitacion"
+        },
+        {
+          "label": "Listar",
+          "event": "listarTipoBebida"
+        },
+        {
+          "label": "Borrar por Id",
+          "event": "eliminarTipoBebidaPorId"
+        },
+        {
+          "label": "Buscar por Nombre",
+          "event": "buscarTipoBebidaPorNombre"
+        }
+      ]
+    },
+    { "menuTitle": "Habitacion",
+      "options":
+      [
+        {
+          "label": "Añadir habitacion",
+          "event": "adicionarHabitacion"
+        },
+        {
+          "label": "Mostrar log datanucleus",
+          "event": "mostrarLogDatanuecleus"
+        },
+        {
+          "label": "Limpiar log de parranderos",
+          "event": "limpiarLogParranderos"
+        },
+        {
+          "label": "Limpiar log de datanucleus",
+          "event": "limpiarLogDatanucleus"
+        },
+        {
+          "label": "Limpiar Base de Datos",
+          "event": "limpiarBD"
+        }
+      ]
+    },
+    { "menuTitle": "Documentación",
+      "options":
+      [
+        {
+          "label": "Presentación general",
+          "event": "mostrarPresentacionGeneral"
+        },
+        {
+          "label": "Modelo conceptual",
+          "event": "mostrarModeloConceptual"
+        },
+        {
+          "label": "Esquema de la BD",
+          "event": "mostrarEsquemaBD"
+        },
+        {
+          "label": "Script creación de la BD",
+          "event": "mostrarScriptBD"
+        },
+        {
+          "label": "Arquitectura de referencia",
+          "event": "mostrarArqRef"
+        },
+        {
+          "label": "Javadoc Parranderos",
+          "event": "mostrarJavadoc"
+        }
+      ]
+    },
+    { "menuTitle": "Acerca de ...",
+      "options":
+      [
+        {
+          "label": "Acerca de ...",
+          "event": "acercaDe"
+        }
+      ]
+    },
+    { "menuTitle": "a",
+      "options":
+      [
+        {
+          "label": "Presentación general",
+          "event": "mostrarPresentacionGeneral"
+        },
+        {
+          "label": "Modelo conceptual",
+          "event": "mostrarModeloConceptual"
+        },
+        {
+          "label": "Esquema de la BD",
+          "event": "mostrarEsquemaBD"
+        },
+        {
+          "label": "Script creación de la BD",
+          "event": "mostrarScriptBD"
+        },
+        {
+          "label": "Arquitectura de referencia",
+          "event": "mostrarArqRef"
+        },
+        {
+          "label": "Javadoc Parranderos",
+          "event": "mostrarJavadoc"
+        }
+      ]
+    }
+
+  ]
+}
