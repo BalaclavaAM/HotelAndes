@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -307,7 +308,7 @@ public class Administrador extends JFrame implements ActionListener {
                     throw new Exception("No se pudo crear un tipo de usuario con nombre: " + nombreTipo);
                 }
                 String resultado = "En adicionarTipoUsuario\n\n";
-                resultado += "Tipo de usuario adicionado exitosamente: " + tb.getIdUsuario() + " " + tb.getTipo();
+                resultado += "Tipo de usuario adicionado exitosamente: " + tb.getId() + " " + tb.getTipo();
                 resultado += "\n Operación terminada";
                 panelDatos.actualizarInterfaz(resultado);
             } else {
@@ -322,22 +323,38 @@ public class Administrador extends JFrame implements ActionListener {
 
     public void createUser(){
         try{
+            String nombrePersona = JOptionPane.showInputDialog(this, "Nombre de la persona?", "Adicionar Nombre persona", JOptionPane.QUESTION_MESSAGE);
+            String emailPersona = JOptionPane.showInputDialog(this, "Email de la persona?", "Adicionar Email persona", JOptionPane.QUESTION_MESSAGE);
             String nombreUsuario = JOptionPane.showInputDialog(this, "Nombre del usuario?", "Adicionar Nombre usuario", JOptionPane.QUESTION_MESSAGE);
             String passwordUsuario = JOptionPane.showInputDialog(this, "Password del usuario?", "Adicionar Password usuario", JOptionPane.QUESTION_MESSAGE);
             //dropdown to tipousuario
             List<TipoPlan> tiposPlan = hotelAndes.obtenerTiposPlanes();
-            int idTipoPlan = JOptionPane.showOptionDialog(this, "Seleccione el tipo de plan", "Adicionar tipo plan", JOptionPane.QUESTION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, tiposPlan.toArray(), null);
             List<TipoUsuario> tiposUsuario = hotelAndes.getUserTypes();
-            int idTipoUsuario = JOptionPane.showOptionDialog(this, "Seleccione el tipo de usuario", "Adicionar tipo usuario", JOptionPane.QUESTION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, tiposUsuario.toArray(), null);
+            List<String> tiposUsuarioString = new ArrayList<String>();
             List<TipoDocumento> tiposDocumento = hotelAndes.getDocumentTypes();
-            int idTipoDocumento = JOptionPane.showOptionDialog(this, "Seleccione el tipo de documento", "Adicionar tipo documento", JOptionPane.QUESTION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, tiposDocumento.toArray(), null);
+            System.out.println(tiposUsuario.size());
+            for (TipoUsuario tipoUsuario : tiposUsuario) {
+                tiposUsuarioString.add(tipoUsuario.getTipo()+'-'+tipoUsuario.getId());
+            }
+            List<String> tiposDocumentoString = new ArrayList<String>();
+            for (TipoDocumento tipoDocumento : tiposDocumento) {
+                tiposDocumentoString.add(tipoDocumento.getTipo()+'-'+tipoDocumento.getId());
+            }
+            List<String> tiposPlanString = new ArrayList<String>();
+            for (TipoPlan tipoPlan : tiposPlan) {
+                tiposPlanString.add(tipoPlan.getTipo()+'-'+tipoPlan.getId());
+            }
+            int idTipoPlan = JOptionPane.showOptionDialog(this, "Seleccione el tipo de plan", "Adicionar tipo plan", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tiposPlanString.toArray(), null);
+            int idTipoUsuario = JOptionPane.showOptionDialog(this, "Seleccione el tipo de usuario", "Adicionar tipo usuario", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tiposUsuarioString.toArray(), null);
+            int idTipoDocumento = JOptionPane.showOptionDialog(this, "Seleccione el tipo de documento", "Adicionar tipo documento", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tiposDocumentoString.toArray(), null);
             String numeroDocumento = JOptionPane.showInputDialog(this, "Numero de documento?", "Adicionar numero documento", JOptionPane.QUESTION_MESSAGE);
             if (nombreUsuario != null && passwordUsuario != null && idTipoPlan>=0 && idTipoUsuario>=0 && idTipoDocumento>=0 && numeroDocumento != null) {
-                if (null == null) {
+                long idUser = hotelAndes.adicionarUsuario(nombrePersona, numeroDocumento, idTipoUsuario, idTipoDocumento, idTipoPlan, nombreUsuario, passwordUsuario, emailPersona);
+                if (idUser == 0) {
                     throw new Exception("No se pudo crear un usuario con nombre: " + nombreUsuario);
                 }
                 String resultado = "En adicionarUsuario\n\n";
-                //resultado += "Usuario adicionado exitosamente: " + tb.getIdUsuario() + " " + tb.getTipo();
+                resultado += "Usuario adicionado exitosamente: " + idUser;
                 resultado += "\n Operación terminada";
                 panelDatos.actualizarInterfaz(resultado);
             } else {
@@ -349,6 +366,59 @@ public class Administrador extends JFrame implements ActionListener {
         }
     }
 
+    public void registrarTipoServicio(){
+        try{
+            System.out.println("Registrar tipo de servicio");
+            String nombreTipo = JOptionPane.showInputDialog(this, "Nombre del tipo de servicio?", "Adicionar Nombre tipo servicio", JOptionPane.QUESTION_MESSAGE);
+            if (nombreTipo != null) {
+                long tb = hotelAndes.adicionarTipoServicio(nombreTipo);
+                if (tb == 0) {
+                    throw new Exception("No se pudo crear un tipo de servicio con nombre: " + nombreTipo);
+                }
+                String resultado = "En adicionarTipoServicio\n\n";
+                resultado += "Tipo de servicio adicionado exitosamente: " + tb;
+                resultado += "\n Operación terminada";
+                panelDatos.actualizarInterfaz(resultado);
+            } else {
+                panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            }
+        } catch (Exception e) {
+//			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
+    }
+
+    public void registrarServicio(){
+        try{
+            System.out.println("Registrar servicio");
+            String nombreServicio = JOptionPane.showInputDialog(this, "Nombre del servicio?", "Adicionar Nombre servicio", JOptionPane.QUESTION_MESSAGE);
+            List<TipoServicio> tiposServicio = hotelAndes.gTipoServicios(); 
+            List<String> tiposServicioString = new ArrayList<String>();
+            for (TipoServicio tipoServicio : tiposServicio) {
+                tiposServicioString.add(tipoServicio.getTipo()+'-'+tipoServicio.getId());
+            }
+            int idTipoServicio = JOptionPane.showOptionDialog(this, "Seleccione el tipo de servicio", "Adicionar tipo servicio", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tiposServicioString.toArray(), null);
+            idTipoServicio++;
+            boolean descuentoTarjetaCredito = JOptionPane.showConfirmDialog(this, "¿Tiene descuento en tarjeta de crédito?", "Adicionar descuento tarjeta de crédito", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            if (nombreServicio != null) {
+                long tb = hotelAndes.adicionarServicio(nombreServicio, idTipoServicio, descuentoTarjetaCredito);
+                if (tb == 0) {
+                    throw new Exception("No se pudo crear un servicio con nombre: " + nombreServicio);
+                }
+                String resultado = "En adicionarServicio\n\n";
+                resultado += "Servicio adicionado exitosamente: " + tb;
+                resultado += "\n Operación terminada";
+                panelDatos.actualizarInterfaz(resultado);
+            } else {
+                panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+            }
+        } catch (Exception e) {
+//			e.printStackTrace();
+            String resultado = generarMensajeError(e);
+            panelDatos.actualizarInterfaz(resultado);
+        }
+    }
 
 
     /* ****************************************************************

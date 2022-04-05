@@ -16,8 +16,14 @@ public class SQLTipoDocumento {
     }
 
     public static List getDocumentTypes(PersistenceManager pm){
-        Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaTipoDocumento());
-        q.setResultClass(TipoDocumento.class);
-        return (List) q.executeList();
+        List tiposDocumento = null;
+        try{
+            Query q = pm.newQuery(SQL, "SELECT ID, TIPO FROM TipoDocumento");
+            q.setResultClass(TipoDocumento.class);
+            tiposDocumento = (List) q.executeList();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return tiposDocumento;
     }
 }

@@ -70,6 +70,14 @@
 				{
 					"label": "veinteServiciosPopulares",
 					"event": "veinteServiciosPopulares"
+				},
+				{
+					"label": "Registrar un tipo de servicio",
+					"event": "registrarTipoServicio"
+				},
+				{
+					"label": "Registrar un servicio",
+					"event": "registrarServicio"
 				}
 			]
 		},

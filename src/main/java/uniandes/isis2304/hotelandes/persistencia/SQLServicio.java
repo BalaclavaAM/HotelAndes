@@ -24,4 +24,21 @@ public class SQLServicio {
         return (List) q.execute();
     }
 
+    public long agregarTipoServicio(PersistenceManager persistenceManager, String nombreTipo) {
+        Query q = persistenceManager.newQuery(SQL, "INSERT INTO TipoServicio (TIPO) values (?)");
+        q.setParameters(nombreTipo);
+        return (long) q.executeUnique();
+    }
+
+    public long agregarServicio(PersistenceManager persistenceManager, String nombreServicio, long idTipoServicio,
+            boolean desc) {
+        int descuentoTCN = 0;
+        if (desc){
+            descuentoTCN = 1;
+        }
+        Query q = persistenceManager.newQuery(SQL, "INSERT INTO Servicio (NOMBRE, TIPOSERVICIO, DESCUENTOTC) values (?, ?, ?)");
+        q.setParameters(nombreServicio, idTipoServicio, descuentoTCN);
+        return (long) q.executeUnique();
+    }
+
 }

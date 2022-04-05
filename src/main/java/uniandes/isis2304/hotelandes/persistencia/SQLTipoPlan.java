@@ -3,6 +3,9 @@ package uniandes.isis2304.hotelandes.persistencia;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+
+import uniandes.isis2304.hotelandes.negocio.TipoPlan;
 
 public class SQLTipoPlan {
     public final static String SQL = PersistenciaHotelAndes.SQL;
@@ -16,7 +19,9 @@ public class SQLTipoPlan {
     public static List getTiposPlanes(PersistenceManager pm){
         List tiposPlanes = null;
         try{
-            tiposPlanes = (List)pm.newQuery(SQL, "SELECT * FROM TipoPlan").execute();
+            Query q = pm.newQuery(SQL, "SELECT ID, TIPO FROM TipoPlan");
+            q.setResultClass(TipoPlan.class);
+            tiposPlanes = (List) q.execute();
         }catch(Exception e){
             e.printStackTrace();
         }
