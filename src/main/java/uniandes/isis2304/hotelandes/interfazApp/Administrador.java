@@ -444,10 +444,10 @@ public class Administrador extends JFrame implements ActionListener {
     public void RFC5(){
 
         String nombreCliente = JOptionPane.showInputDialog(this, "Nombre cliente", "Nombre cliente", JOptionPane.QUESTION_MESSAGE);
-        String inicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 12-01-2012 dia-mes-año", "FECHA INICIO", JOptionPane.QUESTION_MESSAGE);
-        inicio+= " 00:00:01";
-        String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 12-01-2012 dia-mes-año", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
-        finals+= " 00:00:01";
+        String inicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 2012-01-12 año-mes dia", "FECHA INICIO", JOptionPane.QUESTION_MESSAGE);
+        inicio+= " 00:00:01.742000000";
+        String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 2012-01-12 año-mes dia", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
+        finals+= " 00:00:01.742000000";
         List<RegistroServicio> listaServicios= hotelAndes.darRegistrosServicioPorUsuario(nombreCliente, inicio, finals);
         String resultado = " "+ listaServicios.toString();
         panelDatos.actualizarInterfaz(resultado);

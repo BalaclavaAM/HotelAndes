@@ -24,9 +24,9 @@ public class SQLRegistroServicio {
     public List<RegistroServicio> darRegistrosServicio(PersistenceManager pm, String nombreCliente, String fechaInicio,String fechaFin) {
         Query q = pm.newQuery(SQL, "Select *" +
                 " From "+pHotelAndes.obtenerRegistroServicio() +
-                " WHERE NOMBRECLIENTE ='?'" +
-                " AND FECHA<TO_TIMESTAMP('?', 'YYYY-MM-DD HH24:MI:SS.FF') AND" +
-                " FECHA>TO_TIMESTAMP('?', 'YYYY-MM-DD HH24:MI:SS.FF')");
+                " WHERE NOMBRECLIENTE =?" +
+                " AND FECHA < TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF') AND" +
+                " FECHA>TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF')");
         q.setParameters( nombreCliente, fechaInicio, fechaFin);
         q.setResultClass(RegistroServicio.class);
         return (List<RegistroServicio>) q.executeList();
