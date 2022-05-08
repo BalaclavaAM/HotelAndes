@@ -27,7 +27,7 @@ public class SQLRegistroServicio {
                 " WHERE NOMBRECLIENTE =?" +
                 " AND FECHA < TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF') AND" +
                 " FECHA>TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF')");
-        q.setParameters( nombreCliente, fechaInicio, fechaFin);
+        q.setParameters( nombreCliente, fechaFin,fechaInicio);
         q.setResultClass(RegistroServicio.class);
         return (List<RegistroServicio>) q.executeList();
     }
