@@ -39,5 +39,7 @@
     "Piscina",
     "Gym",
     "ServicioEspecifico",
-    "usoUsuario"]
+    "usoUsuario",
+    "reservaServicio",
+    "registroServicio"]
 }

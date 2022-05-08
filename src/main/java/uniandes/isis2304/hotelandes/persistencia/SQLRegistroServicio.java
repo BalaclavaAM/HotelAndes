@@ -16,10 +16,21 @@ public class SQLRegistroServicio {
     }
 
     public long agregarConsumoServicio(PersistenceManager pm, long idHabitacion, String lugarConsumo, String nombreCliente, long costoTotal, long idservicio, String fecha) {
-        String query="INSERT INTO REGISTROSERVICIO (idHabitacion,lugarConsumo,nombreCliente,costoTotal,servicio,fecha) VALUES (?,?,?,?,?,TO_TIMESTAMP('?', 'YYYY-MM-DD HH24:MI:SS.FF'))";
+        String query="INSERT INTO "+pHotelAndes.obtenerRegistroServicio()+" (idHabitacion,lugarConsumo,nombreCliente,costoTotal,servicio,fecha) VALUES (?,?,?,?,?,TO_TIMESTAMP('?', 'YYYY-MM-DD HH24:MI:SS.FF'))";
         Query q=pm.newQuery(SQL, query);
         q.setParameters(idHabitacion, lugarConsumo, nombreCliente, costoTotal, idservicio, fecha);
         return (long) q.executeUnique();
     }
+    public List<RegistroServicio> darRegistrosServicio(PersistenceManager pm, String nombreCliente, String fechaInicio,String fechaFin) {
+        Query q = pm.newQuery(SQL, "Select *" +
+                " From "+pHotelAndes.obtenerRegistroServicio() +
+                " WHERE NOMBRECLIENTE ='?'" +
+                " AND FECHA<TO_TIMESTAMP('?', 'YYYY-MM-DD HH24:MI:SS.FF') AND" +
+                " FECHA>TO_TIMESTAMP('?', 'YYYY-MM-DD HH24:MI:SS.FF')");
+        q.setParameters( nombreCliente, fechaInicio, fechaFin);
+        q.setResultClass(RegistroServicio.class);
+        return (List<RegistroServicio>) q.executeList();
+    }
+
 
 }

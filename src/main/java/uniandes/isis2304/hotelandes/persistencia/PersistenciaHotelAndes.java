@@ -78,6 +78,7 @@ public class PersistenciaHotelAndes {
         tablas.add("ServicioEspecifico"); //37
         tablas.add("usoUsuario"); //38
         tablas.add("reservaServicio"); //39
+        tablas.add("registroServicio"); //40
     }
 
     private PersistenciaHotelAndes (JsonObject tableConfig){
@@ -102,6 +103,7 @@ public class PersistenciaHotelAndes {
         sqlRegistroServicio= new SQLRegistroServicio(this);
         sqlTipoServicio = new SQLTipoServicio(this);
         sqlTipoPlan = new SQLTipoPlan(this);
+        sqlReservaServicio = new SQLReservaServicio(this);
 
     }
 
@@ -331,6 +333,9 @@ public class PersistenciaHotelAndes {
     public String obtenerTablaReservaServicio() {
         return tablas.get (39);
     }
+    public String obtenerRegistroServicio() {
+        return tablas.get (40);
+    }
     public String obtenerTablaPersonasHabitacion() {
         return tablas.get (17);
     }
@@ -411,7 +416,7 @@ public class PersistenciaHotelAndes {
             pm.close();
         }
     }
-    public List<Habitacion> obtenerHabitacionesSinOcuparConTipo(String tipo, String hotel,long cantidad) {
+    public List<Habitacion> obtenerHabitacionesSinOcuparConTipo(long tipo, long hotel,long cantidad) {
         return sqlHabitacion.obtenerHabitacionesSinOcuparConTipo(pmf.getPersistenceManager(), tipo, hotel, cantidad);
     }
 
@@ -518,7 +523,7 @@ public class PersistenciaHotelAndes {
         return 0;
     }
 
-    public List<Habitacion> obtenerHabitacionesSinOcupar(String hotel, String tipohabitacion, long cantidad) {
+    public List<Habitacion> obtenerHabitacionesSinOcupar(long hotel, long tipohabitacion, long cantidad) {
         return sqlHabitacion.obtenerHabitacionesSinOcuparConTipo(pmf.getPersistenceManager(),hotel, tipohabitacion, cantidad);
     }
     public long registrarReservaServicio(long idusuario, String fechaInicio, String fechafinal, long idservicio) {
@@ -527,4 +532,9 @@ public class PersistenciaHotelAndes {
     public long reservaServicioCambiarEstadoConUsuario(long id) {
         return sqlReservaServicio.reservaServicioCambiarEstadoConUsuario(pmf.getPersistenceManager(),id);
     }
+    public List<RegistroServicio> darRegistrosServicioPorUsuario( String nombreCliente, String fechaInicio,String fechaFin) {
+        return sqlRegistroServicio.darRegistrosServicio(pmf.getPersistenceManager(), nombreCliente, fechaInicio, fechaFin);
+    }
+
+
 }

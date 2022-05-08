@@ -6,10 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
-import uniandes.isis2304.hotelandes.negocio.Habitacion;
-import uniandes.isis2304.hotelandes.negocio.HotelAndes;
-import uniandes.isis2304.hotelandes.negocio.Reserva;
-import uniandes.isis2304.hotelandes.negocio.TipoPlan;
+import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
 
 import javax.swing.*;
@@ -27,7 +24,7 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
     /**
      * Ruta al archivo de configuración de la interfaz
      */
-    private static final String CONFIG_INTERFAZ = "./src/main/resources/config/interfaceConfigOrganizadorEventos.json";
+    private static final String CONFIG_INTERFAZ = "./src/main/resources/config/interfaceConfigOrganizador.json";
 
     /**
      * Ruta al archivo de configuración de los nombres de tablas de la base de datos
@@ -205,11 +202,11 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
             e.printStackTrace();
         }
     }
-    public void RF12() {
-        String hotel= JOptionPane.showInputDialog(this, "Ingrese el nombre del hotel", JOptionPane.QUESTION_MESSAGE);
-        String cuartos = JOptionPane.showInputDialog(this, "Ponga el tipo y la cantidad en el sigiente formato Tipo1, cantidad1, Tipo2, Cantidad2, ..., Tipon, cantidadn", JOptionPane.QUESTION_MESSAGE);
+    public void RF12() throws Exception {
+        String hotel= JOptionPane.showInputDialog(this, "Ingrese la id del hotel", JOptionPane.QUESTION_MESSAGE);
+        String cuartos = JOptionPane.showInputDialog(this, "Ponga el tipo y la cantidad en el sigiente formato Tipo1 (SIENDO LA ID DEL TIPO), cantidad1, Tipo2 (SIENDO LA ID DEL TIPO), Cantidad2, ..., Tipon, cantidadn", JOptionPane.QUESTION_MESSAGE);
         String[] CuartosArray = cuartos.split(",");
-        String inicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 2012-11-01 (si el numero no tiene decena poner 0) año-mes-dia ->dia(numero mayor que 0 y menor que 32, esto depende del mes )-mes(de 0 a 11 donde 0 es enero)-año(numerormayor que 0)", "FECHA INICIO", JOptionPane.QUESTION_MESSAGE);
+        String inicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 2012-10-01 (si el numero no tiene decena poner 0) año-mes-dia ->dia(numero mayor que 0 y menor que 32, esto depende del mes )-mes(de 0 a 11 donde 0 es enero)-año(numerormayor que 0)", "FECHA INICIO", JOptionPane.QUESTION_MESSAGE);
         inicio+= " 00:00:01.742000000";
         String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 2012-11-01 (si el numero no tiene decena poner 0)año-mes-dia", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
         finals+= " 00:00:01.742000000";
@@ -222,19 +219,23 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
         }
 
         for (int i = 0; i < CuartosArray.length; i+=2) {
-            String tipo = CuartosArray[i];
+            long tipo = Long.parseLong(CuartosArray[i]) ;
             int cantidad = Integer.parseInt(CuartosArray[i+1]);
-            List<Habitacion> tiposPlan = hotelAndes.obtenerHabitacionesSinOcupar(tipo, hotel,cantidad );
+            List<VOHabitacion> tiposPlan = hotelAndes.obtenerHabitacionesSinOcupar(tipo, Long.parseLong(hotel),cantidad );
             if (tiposPlan.isEmpty()) {
-                //escribir error en pantalla
+                throw new Exception("No hay habitaciones: ");
             }
             else if (tiposPlan.size() < cantidad) {
-                //escribir error en pantalla
+                throw new Exception("No hay habitaciones suficientes: ");
             }
             else {
-                for (Habitacion h : tiposPlan) {
-                    long tb = hotelAndes.registrarReserva(inicio,finals,idusuario, h.getId());
+                for (i=0; i<tiposPlan.size(); i++) {
+                    //a
+                    VOHabitacion habitacion = tiposPlan.get(i);
+                    long habitacionId = habitacion.getId();
+                    long tb = hotelAndes.registrarReserva(inicio,finals,idusuario, habitacionId);
                 }
+
             }
         }
         // reserva habitaciones

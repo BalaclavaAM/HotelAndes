@@ -10,16 +10,16 @@
       "options":[
         {
           "label":"RF12",
-          "event": "createUserType"
+          "event": "RF12"
         },
         {
           "label":"RF13",
-          "event": "createUser"
+          "event": "RF13"
         }
       ,
         {
           "label":"RF14",
-          "event": "createUser"
+          "event": "RF14"
         }
       ]
     }

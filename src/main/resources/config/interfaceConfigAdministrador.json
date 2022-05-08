@@ -73,6 +73,19 @@
 				}
 			]
 		},
+		{
+			"menuTitle": "RFC5 Y RFC6",
+			"options":[
+				{
+					"label":"RFC5",
+					"event": "RFC5"
+				},
+				{
+					"label":"RFC6",
+					"event": "RFC6"
+				}
+			]
+		},
 		{ "menuTitle": "Servicios",
 			"options":
 			[
@@ -146,44 +159,6 @@
 			]
 		},
 		{ "menuTitle": "Documentación",
-			"options":
-			[
-				{
-					"label": "Presentación general",
-					"event": "mostrarPresentacionGeneral"
-				},
-				{
-					"label": "Modelo conceptual",
-					"event": "mostrarModeloConceptual"
-				},
-				{
-					"label": "Esquema de la BD",
-					"event": "mostrarEsquemaBD"
-				},
-				{
-					"label": "Script creación de la BD",
-					"event": "mostrarScriptBD"
-				},
-				{
-					"label": "Arquitectura de referencia",
-					"event": "mostrarArqRef"
-				},
-				{
-					"label": "Javadoc Parranderos",
-					"event": "mostrarJavadoc"
-				}
-			]
-		},
-		{ "menuTitle": "Acerca de ...",
-			"options":
-			[
-				{
-					"label": "Acerca de ...",
-					"event": "acercaDe"
-				}
-			]
-		},
-		{ "menuTitle": "a",
 			"options":
 			[
 				{

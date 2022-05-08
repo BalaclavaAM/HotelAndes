@@ -54,11 +54,12 @@ public class SQLHabitacion {
         q.setResultClass(DineroPorHabitacion.class);
         return (List<DineroPorHabitacion>) q.executeList();
     }
-    public List<Habitacion> obtenerHabitacionesSinOcuparConTipo(PersistenceManager pm, String tipo, String hotel,long cantidad ) {
+    public List<Habitacion> obtenerHabitacionesSinOcuparConTipo(PersistenceManager pm, long tipo, long hotel,long cantidad ) {
 
-        String query="SELECT * FROM "+ pHotelAndes.obtenerTablaHabitacion() +" WHERE HOTEL = ? AND enuso = 0 AND tipo =? FETCH FIRST ? ROWS ONLY;";
+        String query="SELECT * FROM "+ pHotelAndes.obtenerTablaHabitacion() +" WHERE HOTEL = ? AND enuso = 0 AND tipo =? FETCH FIRST ? ROWS ONLY";
         Query q = pm.newQuery(SQL, query);
         q.setParameters(hotel, tipo, cantidad);
+        q.setResultClass(Habitacion.class);
         return (List<Habitacion>) q.executeList();
     }
 

@@ -1,5 +1,12 @@
 package uniandes.isis2304.hotelandes.negocio;
 
+import oracle.sql.TIMESTAMP;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+
 public class Habitacion implements VOHabitacion{
     public long id;
     public long tipo;
@@ -23,73 +30,81 @@ public class Habitacion implements VOHabitacion{
         this.numeroHabitacion=numberoHabitacion;
         this.valorAPagar=valorAPagar;
     }
-    @Override
+    public Habitacion(BigDecimal id, BigDecimal tipo,BigDecimal hotel,BigDecimal numberoHabitacion,BigDecimal valorAPagar, BigDecimal enuso) throws SQLException {
+        this.id=id.longValue();
+        this.tipo=tipo.longValue();
+        this.hotel=hotel.longValue();
+        this.enuso=enuso.longValue();
+        this.numeroHabitacion=numberoHabitacion.longValue();
+        this.valorAPagar=valorAPagar.longValue();
+    }
+
     public long getNumeroHabitacion() {
         return numeroHabitacion;
     }
-    @Override
+
     public void setNumeroHabitacion(long numeroHabitacion) {
         this.numeroHabitacion = numeroHabitacion;
     }
-    @Override
+
     public long getEnuso() {
         return enuso;
     }
-    @Override
+
     public void setEnuso(long ensuo) {
         this.enuso = ensuo;
     }
 
-    @Override
+
     public long getId() {
         return id;
     }
 
-    @Override
+
     public void setId(long id) {
         this.id = id;
     }
 
-    @Override
+
     public long getTipo() {
         return tipo;
     }
 
-    @Override
+
     public void setTipo(long tipo) {
         this.tipo = tipo;
     }
 
-    @Override
+
     public long getHotel() {
         return hotel;
     }
 
-    @Override
+
 
     public void setHotel(long hotel) {
         this.hotel = hotel;
     }
 
-    @Override
+
 
     public long getNumberoHabitacion() {
         return numeroHabitacion;
     }
 
-    @Override
+
 
     public void setNumberoHabitacion(long numberoHabitacion) {
         this.numeroHabitacion = numberoHabitacion;
     }
 
-    @Override
+
 
     public long getValorAPagar() {
         return valorAPagar;
     }
 
-    @Override
+
 
     public void setValorAPagar(long valorAPagar) {
         this.valorAPagar = valorAPagar;
