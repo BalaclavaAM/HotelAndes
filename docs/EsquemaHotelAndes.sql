@@ -30,7 +30,7 @@ CREATE TABLE Habitacion(
                            hotel NUMBER REFERENCES Hotel(id),
                            numeroHabitacion NUMBER NOT NULL,
                            valorAPagar NUMBER NOT NULL,
-
+                           enuso NUMBER CHECK(enuso BETWEEN 0 AND 1),
                            CONSTRAINT habitacionPk PRIMARY KEY(id)
 );
 Alter table  Habitacion ADD constraint HOTEL_HAB_UNIQUE UNIQUE (hotel,numeroHabitacion) ENABLE;
@@ -142,7 +142,7 @@ CREATE TABLE Reserva(
                         horaFin TIMESTAMP NOT NULL ,
                         idUsuario NUMBER REFERENCES Usuario(id) NOT NULL,
                         activo NUMBER NOT NULL,
-
+                        idHabitacion NUMBER NOT NULL,
                         CONSTRAINT reservaPk PRIMARY KEY (id)
 );
 ALTER TABLE RESERVA ADD CONSTRAINT ACTIVO_CK CHECK(activo=0 OR activo=1);
@@ -350,5 +350,14 @@ CREATE TABLE ServicioEspecifico(
 CREATE TABLE usoUsuario(
                            idUso NUMBER REFERENCES PersonasHabitacion(idUso),
                            idUsuario NUMBER REFERENCES Usuario(id)
+);
+CREATE TABLE ReservaServicio(
+                        id NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+                        horaInicio TIMESTAMP NOT NULL,
+                        horaFin TIMESTAMP NOT NULL ,
+                        idUsuario NUMBER REFERENCES Usuario(id) NOT NULL,
+                        activo NUMBER NOT NULL,
+                        idServicio NUMBER REFERENCES Servicio(id) NOT NULL,
+                        CONSTRAINT reservaPk PRIMARY KEY (id)
 );
 COMMIT;

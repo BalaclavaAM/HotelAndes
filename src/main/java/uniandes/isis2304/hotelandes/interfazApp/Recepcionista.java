@@ -238,7 +238,8 @@ public class Recepcionista extends JFrame implements ActionListener {
                     throw new Exception("Falta Pagar: " + idHabitacion);
                 }
                 else{
-                    VOPersonasHabitacion tb = hotelAndes.obtenerPersonasHabitacion(idHabitacion);
+
+                    PersonasHabitacion tb = hotelAndes.obtenerPersonasHabitacion(idHabitacion);
 
                     if (tb == null) {
                         throw new Exception("No hay un servicio activo en esa habitacion: " + idHabitacion);

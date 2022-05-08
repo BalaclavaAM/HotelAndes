@@ -24,6 +24,16 @@ public interface VOHabitacion {
 
     public void setValorAPagar(long valorAPagar);
 
+    public long getNumeroHabitacion();
+
+    public void setNumeroHabitacion(long numeroHabitacion);
+
+    public long getEnuso();
+
+    public void setEnuso(long ensuo);
+
     @Override
     public String toString();
+
+
 }

@@ -1,6 +1,5 @@
 package uniandes.isis2304.hotelandes.persistencia;
-
-import uniandes.isis2304.hotelandes.negocio.PersonasHabitacion;
+import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.hotelandes.negocio.Usuario;
 
 import javax.jdo.PersistenceManager;

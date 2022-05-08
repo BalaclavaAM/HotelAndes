@@ -236,7 +236,7 @@ public class Administrador extends JFrame implements ActionListener {
         String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 12-01-2012 dia-mes-año", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
         finals+= " 00:00:01";
         try {
-            List<VOServicio> tb = hotelAndes.veinteServiciosPopulares(inicio, finals);
+            List<Servicio> tb = hotelAndes.veinteServiciosPopulares(inicio, finals);
             if (tb.get(0) == null) {
                 throw new Exception("No hay servicios con ese nombre: ");
             }

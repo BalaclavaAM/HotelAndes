@@ -1,0 +1,27 @@
+{
+  "title": "Soy organizador",
+  "frameH": 600,
+  "frameW": 800,
+  "bannerPath": "./src/main/resources/config/logo.png",
+  "menuBar":
+  [
+    {
+      "menuTitle":"Requerimientos FUNCIONALES",
+      "options":[
+        {
+          "label":"RF12",
+          "event": "createUserType"
+        },
+        {
+          "label":"RF13",
+          "event": "createUser"
+        }
+      ,
+        {
+          "label":"RF14",
+          "event": "createUser"
+        }
+      ]
+    }
+  ]
+}

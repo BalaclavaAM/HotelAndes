@@ -21,4 +21,5 @@ public class SQLRegistroServicio {
         q.setParameters(idHabitacion, lugarConsumo, nombreCliente, costoTotal, idservicio, fecha);
         return (long) q.executeUnique();
     }
+
 }

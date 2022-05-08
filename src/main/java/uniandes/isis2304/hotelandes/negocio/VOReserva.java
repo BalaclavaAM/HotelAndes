@@ -23,6 +23,10 @@ public interface VOReserva {
 
     public void setHoraFin(Timestamp horaFin);
 
+    public long getNumeroHabitacion();
+
+    public void setNumeroHabitacion(long numeroHabitacion);
+
     @Override
     public String toString();
 }

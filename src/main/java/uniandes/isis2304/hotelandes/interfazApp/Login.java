@@ -9,6 +9,7 @@ import uniandes.isis2304.parranderos.interfazApp.InterfazParranderosApp;
 import uniandes.isis2304.parranderos.negocio.Parranderos;
 import uniandes.isis2304.parranderos.negocio.VOTipoBebida;
 
+
 import javax.jdo.JDODataStoreException;
 import javax.swing.*;
 import java.awt.*;
@@ -125,6 +126,14 @@ public class Login extends JFrame{
                         recepcionista.setVisible(true);
                         this.setVisible(false);
                     }
+					else if(tipoUsuario.toUpperCase(Locale.ROOT).equals("ORGANIZADOR") && contrasena.equals(contrasenausuario)){
+						JOptionPane.showMessageDialog(frame, "Ingreso de " + login +"succesfull");
+						OrganizadorEventos organizador = new OrganizadorEventos();
+						organizador.setLocationRelativeTo(null);
+						organizador.setVisible(true);
+						this.setVisible(false);
+					}
+
                 }
                 else
                 {

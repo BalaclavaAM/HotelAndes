@@ -31,6 +31,7 @@ public class PersistenciaHotelAndes {
     private SQLRegistroServicio sqlRegistroServicio;
     private SQLTipoServicio sqlTipoServicio;
     private SQLTipoPlan sqlTipoPlan;
+    private SQLReservaServicio sqlReservaServicio;
     private Logger logger;
 
 
@@ -76,6 +77,7 @@ public class PersistenciaHotelAndes {
         tablas.add("Gym"); //36
         tablas.add("ServicioEspecifico"); //37
         tablas.add("usoUsuario"); //38
+        tablas.add("reservaServicio"); //39
     }
 
     private PersistenciaHotelAndes (JsonObject tableConfig){
@@ -208,7 +210,7 @@ public class PersistenciaHotelAndes {
             System.out.println("salio del sql");
             theLogger.trace ("Inserción de tipo habitacion: " + tipo + ": " + tuplasInsertadas + " tuplas insertadas");
 
-            return new Habitacion(id,tipo,hotel, numberoHabitacion,0);
+            return new Habitacion(id,tipo,hotel, numberoHabitacion,0,0);
         }
         catch (Exception e)
         {
@@ -326,6 +328,9 @@ public class PersistenciaHotelAndes {
     public String obtenerTablaReserva() {
         return tablas.get (16);
     }
+    public String obtenerTablaReservaServicio() {
+        return tablas.get (39);
+    }
     public String obtenerTablaPersonasHabitacion() {
         return tablas.get (17);
     }
@@ -370,7 +375,7 @@ public class PersistenciaHotelAndes {
 
 
 
-    public long registrarReserva(String fechaentrada, String fechasalida, long idUsuario) {
+    public long registrarReserva(String fechaentrada, String fechasalida, long idUsuario,long idHabitacion) {
         PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         int id=0; //toca hacer una consulta para averiguar cual es la id de este tipo
@@ -378,7 +383,7 @@ public class PersistenciaHotelAndes {
         {
             try {
                 tx.begin();
-                long tuplasInsertadas = sqlReserva.registrarReserva(pm, fechaentrada, fechasalida, idUsuario);
+                long tuplasInsertadas = sqlReserva.registrarReserva(pm, fechaentrada, fechasalida, idUsuario, idHabitacion);
                 tx.commit();
 
                 theLogger.trace ("Inserción de Reserva iniciando: " + fechaentrada + " terminando: " + fechasalida+"añadidas:"+ tuplasInsertadas + " tuplas insertadas");
@@ -406,6 +411,9 @@ public class PersistenciaHotelAndes {
             pm.close();
         }
     }
+    public List<Habitacion> obtenerHabitacionesSinOcuparConTipo(String tipo, String hotel,long cantidad) {
+        return sqlHabitacion.obtenerHabitacionesSinOcuparConTipo(pmf.getPersistenceManager(), tipo, hotel, cantidad);
+    }
 
 
     public List<Habitacion> obtenerHabitacionConNumero(long numeroHabitacion) {
@@ -415,7 +423,9 @@ public class PersistenciaHotelAndes {
     public List<Reserva> obtenerReservaActivaConUsuario( long usuario) {
         return sqlReserva.obtenerReservaActivaConUsuario(pmf.getPersistenceManager(), usuario);
     }
-
+    public long reservaCambiarEstadoConUsuario(long idusuario){
+        return sqlReserva.reservaCambiarEstadoConUsuario(pmf.getPersistenceManager(),idusuario);
+    }
 
     public long reservaCambiarEstado(long id) {
         PersistenceManager pm = pmf.getPersistenceManager();
@@ -476,7 +486,7 @@ public class PersistenciaHotelAndes {
         }
     }
 
-    public List<VOServicio> veinteServiciosPopulares(String inicio, String finals) {
+    public List<Servicio> veinteServiciosPopulares(String inicio, String finals) {
         return sqlServicio.veinteServiciosPopulares(pmf.getPersistenceManager(),inicio, finals);
     }
 
@@ -506,5 +516,15 @@ public class PersistenciaHotelAndes {
 
     public long addReservaServicioHotel(long idusuario, long idhotel, long idhabitacion, long idservicio) {
         return 0;
+    }
+
+    public List<Habitacion> obtenerHabitacionesSinOcupar(String hotel, String tipohabitacion, long cantidad) {
+        return sqlHabitacion.obtenerHabitacionesSinOcuparConTipo(pmf.getPersistenceManager(),hotel, tipohabitacion, cantidad);
+    }
+    public long registrarReservaServicio(long idusuario, String fechaInicio, String fechafinal, long idservicio) {
+        return sqlReservaServicio.registrarReservaServicio(pmf.getPersistenceManager(), fechaInicio, fechafinal, idusuario,idservicio);
+    }
+    public long reservaServicioCambiarEstadoConUsuario(long id) {
+        return sqlReservaServicio.reservaServicioCambiarEstadoConUsuario(pmf.getPersistenceManager(),id);
     }
 }

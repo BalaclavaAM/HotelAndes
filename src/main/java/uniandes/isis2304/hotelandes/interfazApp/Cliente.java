@@ -8,6 +8,7 @@ import com.google.gson.stream.JsonReader;
 import oracle.sql.TIMESTAMP;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.HotelAndes;
+import uniandes.isis2304.hotelandes.negocio.VOHabitacion;
 import uniandes.isis2304.hotelandes.negocio.VOReserva;
 import uniandes.isis2304.hotelandes.negocio.VOTipoHabitacion;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
@@ -25,7 +26,7 @@ import java.util.GregorianCalendar;
 
 public class Cliente extends JFrame implements ActionListener {
 
-    private static Logger log = Logger.getLogger(Administrador.class.getName());
+    private static Logger log = Logger.getLogger(Cliente.class.getName());
 
     /**
      * Ruta al archivo de configuración de la interfaz
@@ -140,13 +141,19 @@ public class Cliente extends JFrame implements ActionListener {
             inicio+= " 00:00:01.742000000";
             String finals= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 2012-11-01 (si el numero no tiene decena poner 0)año-mes-dia", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
             finals+= " 00:00:01.742000000";
+            String habitacion= JOptionPane.showInputDialog(this, "Numero habitacion  a reservar", "Habitacion", JOptionPane.QUESTION_MESSAGE);
             long idusuario=Long.parseLong(JOptionPane.showInputDialog(this, "idUsuario", "IDUSUARIO", JOptionPane.QUESTION_MESSAGE));
+            VOHabitacion habitaciona = hotelAndes.obtenerHabitacionConNumero(Long.parseLong(habitacion));
+            long tb = hotelAndes.registrarReserva(inicio,finals,idusuario, habitaciona.getId());
 
-            long tb = hotelAndes.registrarReserva(inicio,finals,idusuario);
+            if (habitaciona == null) {
+                throw new Exception("No hay una habitacion con ese numero: " + inicio);
+            }
 
             if (tb == 0) {
                 throw new Exception("No se pudo crear un reserva con fecha inicio: " + inicio);
             }
+
             String resultado = "En adicionarTipoBebida\n\n";
             resultado += "Tipo de bebida adicionado exitosamente: " + tb;
             resultado += "\n Operación terminada";

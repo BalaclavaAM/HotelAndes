@@ -1,5 +1,10 @@
 package uniandes.isis2304.hotelandes.negocio;
 
+import oracle.sql.TIMESTAMP;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class Reserva implements VOReserva{
@@ -8,6 +13,7 @@ public class Reserva implements VOReserva{
     public Timestamp horaFin;
     public long idUsuario;
     public long activo;
+    public long idHabitacion;
     public Reserva(){
         this.id=0;
         this.horaInicio=null;
@@ -15,12 +21,34 @@ public class Reserva implements VOReserva{
         this.idUsuario=0;
         this.activo=0;
     }
-    public Reserva(long id,Timestamp horaInicio, Timestamp horaFinal,long idUsuario, long activo){
+    public Reserva(long id,Timestamp horaInicio, Timestamp horaFinal,long idUsuario, long activo, long numeroHabitacion) {
         this.id=id;
         this.horaInicio=horaInicio;
         this.horaFin=horaFinal;
         this.idUsuario=idUsuario;
         this.activo=activo;
+        this.idHabitacion=numeroHabitacion;
+
+    }
+    public Reserva(BigDecimal id, TIMESTAMP horaInicio, TIMESTAMP horaFinal, BigDecimal idUsuario, BigDecimal activo, BigDecimal idHabitacion) throws SQLException {
+        Date dateEntrada=horaInicio.dateValue();
+        Timestamp dateEntradat = new Timestamp(dateEntrada.getTime());
+        Date dateSalida=horaFinal.dateValue();
+        Timestamp dateSalidat = new Timestamp(dateSalida.getTime());
+        this.id=id.longValue();
+        this.horaInicio=dateEntradat;
+        this.horaFin=dateSalidat;
+        this.idUsuario=idUsuario.longValue();
+        this.activo=activo.longValue();
+        this.idHabitacion=idHabitacion.longValue();
+    }
+
+    public long getNumeroHabitacion() {
+        return idHabitacion;
+    }
+
+    public void setNumeroHabitacion(long numeroHabitacion) {
+        this.idHabitacion = numeroHabitacion;
     }
 
     public long getId() {

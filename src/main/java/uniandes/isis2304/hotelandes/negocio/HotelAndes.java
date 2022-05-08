@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.persistencia.PersistenciaHotelAndes;
+import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.hotelandes.negocio.TipoHabitacion;
 import uniandes.isis2304.parranderos.negocio.TipoBebida;
 
@@ -59,10 +60,10 @@ public class HotelAndes {
 
         return Habitacion;
     }
-    public long registrarReserva(String fechaentrada, String fechasalida, long idUsuario) {
+    public long registrarReserva(String fechaentrada, String fechasalida, long idUsuario, long idHabitacion) {
         System.out.println("entro a hotelandes");
         log.info("Adicionando Habitacion: " + fechaentrada);
-        long reserva = pp.registrarReserva(fechaentrada, fechasalida, idUsuario);
+        long reserva = pp.registrarReserva(fechaentrada, fechasalida, idUsuario,idHabitacion);
         log.info("Adicionando Habitacion: " + reserva);
 
         return reserva;
@@ -74,10 +75,10 @@ public class HotelAndes {
         return tipoUsuario;
     }
 
-    public VOPersonasHabitacion obtenerPersonasHabitacion(long idHabitacion) {
+    public PersonasHabitacion obtenerPersonasHabitacion(long idHabitacion) {
         log.info ("Buscando Tipo de bebida por idHabitacion: " + idHabitacion);
         List<PersonasHabitacion> tb = pp.obtenerPersonasHabitacion(idHabitacion);
-        return !tb.isEmpty () ? tb.get (0) : null;
+        return !tb.isEmpty () ? tb.get(0) : null;
     }
 
     public VOHabitacion obtenerHabitacion(long idHabitacion) {
@@ -114,6 +115,13 @@ public class HotelAndes {
         return tiposDocumentos;
 	}
 
+    public List<Habitacion> obtenerHabitacionesSinOcuparConTipo(String tipo, String hotel,long cantidad) {
+        log.info("Obteniendo Tipos de Documentos: ");
+        List<Habitacion> habitaciones  = pp.obtenerHabitacionesSinOcuparConTipo(tipo, hotel,cantidad);
+        log.info("Obteniendo Tipos de Documentos: " + habitaciones );
+        return habitaciones ;
+    }
+
     public long adicionarUsuario(String nombre, String documento, int tipoPlan, int tipoDocumento, int tipoUsuario, String login, String contrasena, String email){
         log.info ("Adicionando Usuario: " + nombre);
         long usuarioId = pp.adicionarUsuario(nombre, documento, tipoPlan, tipoDocumento, tipoUsuario, login, contrasena, email);
@@ -133,6 +141,12 @@ public class HotelAndes {
         return !tb.isEmpty () ? tb.get (0) : null;
     }
 
+    public List<Reserva> obtenerReservasActivaConUsuario( long usuario) {
+        log.info ("Buscando Reserva con id de habitacion: " + usuario);
+        List<Reserva> tb = pp.obtenerReservaActivaConUsuario(usuario);
+        return !tb.isEmpty () ? tb : null;
+    }
+
     public long reservaCambiarEstado(long id) {
         log.info ("Buscando Tipo de bebida por idHabitacion: " + id);
         long tb = pp.reservaCambiarEstado(id);
@@ -147,9 +161,9 @@ public class HotelAndes {
         return tb;
     }
 
-    public List<VOServicio> veinteServiciosPopulares(String inicio, String finals) {
+    public List<Servicio> veinteServiciosPopulares(String inicio, String finals) {
         log.info ("20 servicios más populares: ");
-        List<VOServicio> tb = pp.veinteServiciosPopulares(inicio, finals);
+        List<Servicio> tb = pp.veinteServiciosPopulares(inicio, finals);
         log.info ("20 servicios más populares:" );
         return tb;
     }
@@ -199,4 +213,33 @@ public class HotelAndes {
         log.info("Agregando ReservaServicioHotel: " + tb);
         return tb;
     }
-}
+
+    public List<Habitacion> obtenerHabitacionesSinOcupar(String hotel, String tipohabitacion, long cantidad) {
+        log.info("Agregando ReservaServicioHotel: ");
+        List<Habitacion> tb = pp.obtenerHabitacionesSinOcupar(hotel, tipohabitacion, cantidad);
+        log.info("Agregando ReservaServicioHotel: " + tb);
+        return tb;
+
+    }
+    public long reservaCambiarEstadoConUsuario(long idusuario){
+        log.info("Agregando ReservaServicioHotel: ");
+        long tb = pp.reservaCambiarEstadoConUsuario(idusuario);
+        log.info("Agregando ReservaServicioHotel: " + tb);
+        return tb;
+    }
+    public long registrarReservaServicio(long idusuario, String fechaInicio, String fechafinal, long idservicio) {
+
+        log.info("Agregando ReservaServicio: ");
+        long tb = pp.registrarReservaServicio(idusuario, fechaInicio, fechafinal, idservicio);
+        log.info("Agregando ReservaServicio: " + tb);
+        return tb;
+    }
+    public long reservaServicioCambiarEstadoConUsuario(long id) {
+        log.info("Agregando ReservaServicio: ");
+        long tb = pp.reservaServicioCambiarEstadoConUsuario(id);
+        log.info("Agregando ReservaServicio: " + tb);
+        return tb;
+    }
+
+
+    }

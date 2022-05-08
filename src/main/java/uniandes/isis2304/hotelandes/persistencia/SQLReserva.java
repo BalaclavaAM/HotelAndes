@@ -17,10 +17,10 @@ public class SQLReserva {
         this.pHotelAndes = pHotelAndes;
     }
 
-    public long registrarReserva(PersistenceManager pm, String fechaentrada, String fechasalida, long idUsuario) {
-        String sql = "INSERT INTO " + pHotelAndes.obtenerTablaReserva() + " (horaInicio, horaFin, idUsuario,ACTIVO) VALUES (TO_TIMESTAMP ('"+fechaentrada+"', 'YYYY-MM-DD HH24:MI:SS.FF'),TO_TIMESTAMP ('"+fechasalida+"', 'YYYY-MM-DD HH24:MI:SS.FF'), ?,1)";
+    public long registrarReserva(PersistenceManager pm, String fechaentrada, String fechasalida, long idUsuario,long idHabitacion) {
+        String sql = "INSERT INTO " + pHotelAndes.obtenerTablaReserva() + " (horaInicio, horaFin, idUsuario,ACTIVO, idHabitacion ) VALUES (TO_TIMESTAMP ('"+fechaentrada+"', 'YYYY-MM-DD HH24:MI:SS.FF'),TO_TIMESTAMP ('"+fechasalida+"', 'YYYY-MM-DD HH24:MI:SS.FF'), ?,1,?)";
         Query q=pm.newQuery(SQL, sql);
-        q.setParameters(idUsuario);
+        q.setParameters(idUsuario, idHabitacion);
         return (long) q.executeUnique();
     }
 
@@ -32,13 +32,17 @@ public class SQLReserva {
         return (List<Reserva>) q.executeList();
     }
 
-
-
     public long reservaCambiarEstado(PersistenceManager pm, long id) {
         Query q = pm.newQuery(SQL, "UPDATE " + pHotelAndes.obtenerTablaReserva() + " SET USO = 0 WHERE" + " USO=1 AND IDHABITACION=?");
         q.setParameters(id);
         return (long) q.executeUnique();
     }
+    public long reservaCambiarEstadoConUsuario(PersistenceManager pm, long id) {
+        Query q = pm.newQuery(SQL, "UPDATE " + pHotelAndes.obtenerTablaReserva() + " SET USO = 0 WHERE USO=1 AND idusuario=?");
+        q.setParameters(id);
+        return (long) q.executeUnique();
+    }
+
 
 
 }

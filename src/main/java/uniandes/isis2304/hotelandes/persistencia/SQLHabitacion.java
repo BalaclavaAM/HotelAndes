@@ -1,8 +1,9 @@
 package uniandes.isis2304.hotelandes.persistencia;
 
-import uniandes.isis2304.hotelandes.negocio.DineroPorHabitacion;
+import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.hotelandes.negocio.Habitacion;
 import uniandes.isis2304.hotelandes.negocio.Usuario;
+
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -48,10 +49,17 @@ public class SQLHabitacion {
         return (List<Habitacion>) q.executeList();
     }
     public List<DineroPorHabitacion> dineroServiciosPorHabitacion(PersistenceManager pm, String inicio, String finals) {
-        String query ="SELECT REGISTROSERVICIO.HABITACION as numHabitacion, SUM(COSTOTOTAL) as dinero FROM REGISTROSERVICIO WHERE REGISTROSERVICIO.fecha> to_timestamp('"+inicio+"', 'dd-mm-yyyy hh24:mi:ss') and REGISTROSERVICIO.fecha< to_timestamp('"+finals+"', 'dd-mm-yyyy hh24:mi:ss') GROUP BY REGISTROSERVICIO.HABITACION";
+        String query ="SELECT REGISTROSERVICIO.IDHABITACION as numHabitacion, SUM(COSTOTOTAL) as dinero FROM REGISTROSERVICIO WHERE REGISTROSERVICIO.fecha> to_timestamp('"+inicio+"', 'dd-mm-yyyy hh24:mi:ss') and REGISTROSERVICIO.fecha< to_timestamp('"+finals+"', 'dd-mm-yyyy hh24:mi:ss') GROUP BY REGISTROSERVICIO.IDHABITACION";
         Query q = pm.newQuery(SQL, query);
         q.setResultClass(DineroPorHabitacion.class);
         return (List<DineroPorHabitacion>) q.executeList();
+    }
+    public List<Habitacion> obtenerHabitacionesSinOcuparConTipo(PersistenceManager pm, String tipo, String hotel,long cantidad ) {
+
+        String query="SELECT * FROM "+ pHotelAndes.obtenerTablaHabitacion() +" WHERE HOTEL = ? AND enuso = 0 AND tipo =? FETCH FIRST ? ROWS ONLY;";
+        Query q = pm.newQuery(SQL, query);
+        q.setParameters(hotel, tipo, cantidad);
+        return (List<Habitacion>) q.executeList();
     }
 
 
