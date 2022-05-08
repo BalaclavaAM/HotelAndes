@@ -257,12 +257,6 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
         long idusuario=Long.parseLong(JOptionPane.showInputDialog(this, "idUsuario", "IDUSUARIO", JOptionPane.QUESTION_MESSAGE));
         //Liberacion de habitaciones
         long ln= hotelAndes.reservaCambiarEstadoConUsuario(idusuario);
-        if (ln==0) {
-            throw new Exception("No se pudo realizar: ");
-        }
         long ln2= hotelAndes.reservaServicioCambiarEstadoConUsuario(idusuario);
-        if (ln2==0) {
-            throw new Exception("No se pudo realizar: ");
-        }
     }
 }

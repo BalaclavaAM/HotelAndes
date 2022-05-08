@@ -33,12 +33,12 @@ public class SQLReserva {
     }
 
     public long reservaCambiarEstado(PersistenceManager pm, long id) {
-        Query q = pm.newQuery(SQL, "UPDATE " + pHotelAndes.obtenerTablaReserva() + " SET USO = 0 WHERE" + " USO=1 AND IDHABITACION=?");
+        Query q = pm.newQuery(SQL, "UPDATE " + pHotelAndes.obtenerTablaReserva() + " SET ACTIVO = 0 WHERE" + " ACTIVO=1 AND IDHABITACION=?");
         q.setParameters(id);
         return (long) q.executeUnique();
     }
     public long reservaCambiarEstadoConUsuario(PersistenceManager pm, long id) {
-        Query q = pm.newQuery(SQL, "UPDATE " + pHotelAndes.obtenerTablaReserva() + " SET USO = 0 WHERE USO=1 AND idusuario=?");
+        Query q = pm.newQuery(SQL, "UPDATE " + pHotelAndes.obtenerTablaReserva() + " SET ACTIVO = 0 WHERE ACTIVO=1 AND idusuario=?");
         q.setParameters(id);
         return (long) q.executeUnique();
     }
