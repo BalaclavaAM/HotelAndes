@@ -229,9 +229,10 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
                 throw new Exception("No hay habitaciones suficientes: ");
             }
             else {
-                for (i=0; i<tiposPlan.size(); i++) {
+                int a = 0;
+                for (a=0; a<tiposPlan.size(); a++) {
                     //a
-                    VOHabitacion habitacion = tiposPlan.get(i);
+                    VOHabitacion habitacion = tiposPlan.get(a);
                     long habitacionId = habitacion.getId();
                     long tb = hotelAndes.registrarReserva(inicio,finals,idusuario, habitacionId);
                 }
