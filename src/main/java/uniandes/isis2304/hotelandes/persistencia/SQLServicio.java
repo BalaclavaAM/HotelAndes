@@ -15,8 +15,10 @@ public class SQLServicio {
         this.pp = pp;
     }
 
-    public List<Servicio> veinteServiciosPopulares(PersistenceManager pm, String inicio, String finals ) {
-        String query="WITH TABLA_MARCADORES AS (SELECT * FROM( SELECT REGISTROSERVICIO.SERVICIO AS ID,SERVICIO.NOMBRE, COUNT(*) FROM REGISTROSERVICIO  INNER JOIN SERVICIO ON SERVICIO.ID=REGISTROSERVICIO.SERVICIO WHERE REGISTROSERVICIO.fecha> to_timestamp('"+inicio+"', 'dd-mm-yyyy hh24:mi:ss') and REGISTROSERVICIO.fecha< to_timestamp('"+finals+"', 'dd-mm-yyyy hh24:mi:ss') GROUP BY REGISTROSERVICIO.SERVICIO , SERVICIO.NOMBRE ORDER BY COUNT(*) DESC) WHERE ROWNUM<21), SERVICIOS_REALLY AS (SELECT  SERVICIO.ID, SERVICIO.NOMBRE,  SERVICIO.TIPOSERVICIO, SERVICIO.DESCUENTOTC FROM TABLA_MARCADORES INNER JOIN SERVICIO ON SERVICIO.ID = TABLA_MARCADORES.ID) SELECT SERVICIOS_REALLY.id as Id, SERVICIOS_REALLY.nombre as nombre, servicios_really.tiposervicio as tipoServicio, servicios_really.descuentotc as descuentoTC FROM SERVICIOS_REALLY";
+    public List<Servicio> veinteServiciosPopulares(PersistenceManager pm, String inicio, String finals) {
+        String query = "WITH TABLA_MARCADORES AS (SELECT * FROM( SELECT REGISTROSERVICIO.SERVICIO AS ID,SERVICIO.NOMBRE, COUNT(*) FROM REGISTROSERVICIO  INNER JOIN SERVICIO ON SERVICIO.ID=REGISTROSERVICIO.SERVICIO WHERE REGISTROSERVICIO.fecha> to_timestamp('"
+                + inicio + "', 'dd-mm-yyyy hh24:mi:ss') and REGISTROSERVICIO.fecha< to_timestamp('" + finals
+                + "', 'dd-mm-yyyy hh24:mi:ss') GROUP BY REGISTROSERVICIO.SERVICIO , SERVICIO.NOMBRE ORDER BY COUNT(*) DESC) WHERE ROWNUM<21), SERVICIOS_REALLY AS (SELECT  SERVICIO.ID, SERVICIO.NOMBRE,  SERVICIO.TIPOSERVICIO, SERVICIO.DESCUENTOTC FROM TABLA_MARCADORES INNER JOIN SERVICIO ON SERVICIO.ID = TABLA_MARCADORES.ID) SELECT SERVICIOS_REALLY.id as Id, SERVICIOS_REALLY.nombre as nombre, servicios_really.tiposervicio as tipoServicio, servicios_really.descuentotc as descuentoTC FROM SERVICIOS_REALLY";
         Query q = pm.newQuery(SQL, query);
         q.setResultClass(Servicio.class);
         return (List<Servicio>) q.execute();
@@ -31,12 +33,25 @@ public class SQLServicio {
     public long agregarServicio(PersistenceManager persistenceManager, String nombreServicio, long idTipoServicio,
             boolean desc) {
         int descuentoTCN = 0;
-        if (desc){
+        if (desc) {
             descuentoTCN = 1;
         }
-        Query q = persistenceManager.newQuery(SQL, "INSERT INTO Servicio (NOMBRE, TIPOSERVICIO, DESCUENTOTC) values (?, ?, ?)");
+        Query q = persistenceManager.newQuery(SQL,
+                "INSERT INTO Servicio (NOMBRE, TIPOSERVICIO, DESCUENTOTC) values (?, ?, ?)");
         q.setParameters(nombreServicio, idTipoServicio, descuentoTCN);
         return (long) q.executeUnique();
+    }
+
+    public List obtenerServicios(PersistenceManager persistenceManager) {
+        List servicios = null;
+        try {
+            Query q = persistenceManager.newQuery(SQL, "SELECT ID, NOMBRE, TIPOSERVICIO, DESCUENTOTC FROM Servicio");
+            q.setResultClass(Servicio.class);
+            servicios = (List) q.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return servicios;
     }
 
 }

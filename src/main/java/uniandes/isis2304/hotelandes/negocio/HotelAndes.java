@@ -5,7 +5,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.persistencia.PersistenciaHotelAndes;
 import uniandes.isis2304.hotelandes.negocio.*;
-import uniandes.isis2304.hotelandes.negocio.TipoHabitacion;
 import uniandes.isis2304.parranderos.negocio.TipoBebida;
 
 import uniandes.isis2304.parranderos.negocio.VOTipoBebida;
@@ -259,6 +258,27 @@ public class HotelAndes {
         log.info("Agregando ReservaServicio: ");
         List<RegistroServicio> tb = pp.darRegistrosServicioPorUsuario(nombreCliente, fechaInicio, fechaFin);
         log.info("Agregando ReservaServicio: " + tb);
+        return tb;
+    }
+
+    public List<Habitacion> darHabitacionesPorHotel(long idHotel) {
+        log.info("Obteniendo habitaciones del hotel: "+idHotel);
+        List<Habitacion> tb = pp.obtenerHabitaciones(idHotel);
+        log.info("Habitaciones del hotel: " + tb);
+        return tb;
+    }
+
+    public List<Hotel> darHoteles() {
+        log.info("Obteniendo todos los hoteles registrados en hotelandes");
+        List<Hotel> tb = pp.obtenerHoteles();
+        log.info("Hoteles registrados en hotelandes: " + tb);
+        return tb;
+    }
+
+    public List<Servicio> obtenerServicios() {
+        log.info("Obteniendo todos los servicios registrados en hotelandes");
+        List<Servicio> tb = pp.obtenerServicios();
+        log.info("Servicios registrados en hotelandes: " + tb);
         return tb;
     }
 }

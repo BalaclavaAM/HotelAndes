@@ -1,5 +1,7 @@
 package uniandes.isis2304.hotelandes.negocio;
 
+import java.math.BigDecimal;
+
 public class Servicio implements VOServicio{
     public long id;
     public String nombre;
@@ -11,6 +13,13 @@ public class Servicio implements VOServicio{
         this.nombre = nombre;
         this.tipoServicio = tipoServicio;
         this.descuentoTC = descuentoTC;
+    }
+
+    public Servicio(BigDecimal id, String nombre, BigDecimal tipoServicio, BigDecimal descuentoTC) {
+        this.id = id.longValue();
+        this.nombre = nombre;
+        this.tipoServicio = tipoServicio.longValue();
+        this.descuentoTC = descuentoTC.longValue();
     }
 
     public long getId() {

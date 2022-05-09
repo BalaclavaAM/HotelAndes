@@ -6,7 +6,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
+
+import uniandes.isis2304.hotelandes.negocio.Habitacion;
+import uniandes.isis2304.hotelandes.negocio.Hotel;
 import uniandes.isis2304.hotelandes.negocio.HotelAndes;
+import uniandes.isis2304.hotelandes.negocio.Servicio;
 import uniandes.isis2304.hotelandes.negocio.VOHabitacion;
 import uniandes.isis2304.hotelandes.negocio.VOReserva;
 import uniandes.isis2304.hotelandes.negocio.VOUsuario;
@@ -19,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.util.List;
 
 public class Empleado extends JFrame implements ActionListener {
     private static Logger log = Logger.getLogger(Administrador.class.getName());
@@ -132,19 +137,53 @@ public class Empleado extends JFrame implements ActionListener {
     public void agregarConsumoServicio() {
         System.out.println("entro en la interfaz");
         try {
-            long idHabitacion= Long.parseLong(JOptionPane.showInputDialog(this, "idHabitacion (dado que el recepcionista sabe, que habitaciones hay, el debe elegir en cual ponerlo):", "idHabitacion", JOptionPane.QUESTION_MESSAGE));
+            List<Hotel> hoteles = hotelAndes.darHoteles();
+            if (hoteles.get(0) == null) {
+                JOptionPane.showMessageDialog(null, "No hay hoteles", "HotelAndes", JOptionPane.ERROR_MESSAGE);
+                throw new Exception("No hay hoteles");
+            }
+            int posHotel = JOptionPane.showOptionDialog(this, "Seleccione el hotel", "Seleccion de Hotel", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, hoteles.toArray(), null);
+            long idHotel = hoteles.get(posHotel).getId();
+
+            List<Habitacion> habitaciones = hotelAndes.darHabitacionesPorHotel(idHotel);
+            if(habitaciones.get(0) == null){
+                JOptionPane.showMessageDialog(this, "No hay habitaciones", "HotelAndes", JOptionPane.ERROR_MESSAGE);
+                throw new Exception("No hay habitaciones");
+            }
+            JComboBox jcd = new JComboBox(habitaciones.toArray());
+            jcd.setSelectedIndex(0);
+            jcd.setEditable(false);
+            JOptionPane.showMessageDialog(this, jcd, "Seleccione la habitacion", JOptionPane.QUESTION_MESSAGE, null);
+
+            int posHabitacion = jcd.getSelectedIndex();
+            long idHabitacion = habitaciones.get(posHabitacion).getId();
+
+
+            List<Servicio> servicios = hotelAndes.obtenerServicios();
+            JComboBox jcs = new JComboBox(servicios.toArray());
+            jcs.setSelectedIndex(0);
+            jcs.setEditable(false);
+
+            JOptionPane.showMessageDialog(this, jcs, "Seleccione el servicio", JOptionPane.QUESTION_MESSAGE, null);
+
+            int posServicio = jcs.getSelectedIndex();
+            long idServicio = servicios.get(posServicio).getId();
+
+
             String lugarConsumo = JOptionPane.showInputDialog(this, "Donde se hizo este consumo?:", "Lugar", JOptionPane.QUESTION_MESSAGE);
+
             String nombreCliente = JOptionPane.showInputDialog(this, "Nombre del cliente:", "Lugar", JOptionPane.QUESTION_MESSAGE);
+
             long costoTotal= Long.parseLong(JOptionPane.showInputDialog(this, "costo total: diguite un numero:", "costototal", JOptionPane.QUESTION_MESSAGE));
-            long idservicio= Long.parseLong(JOptionPane.showInputDialog(this, "idservicio:", "idservicio", JOptionPane.QUESTION_MESSAGE));
+
+
             String fecha= JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 2012-11-01 (si el numero no tiene decena poner 0)año-mes-dia", "FECHA FINAL", JOptionPane.QUESTION_MESSAGE);
-            fecha+= " 00:00:01.742000000";
-            long tb  = hotelAndes.agregarConsumoServicio(idHabitacion,lugarConsumo,nombreCliente,costoTotal,idservicio,fecha);
+            long tb  = hotelAndes.agregarConsumoServicio(idHabitacion,lugarConsumo,nombreCliente,costoTotal,idServicio,fecha);
             if(tb!=1){
                 throw new Exception("no se realizo: ");
             }
 
-            String resultado = "En agregarConsumoServicio\n\n";
+            String resultado = "Se insertó en agregarConsumoServicio:\n\n";
             resultado += "agregarConsumoServicio: " + tb;
             resultado += "\n Operación terminada";
             panelDatos.actualizarInterfaz(resultado);

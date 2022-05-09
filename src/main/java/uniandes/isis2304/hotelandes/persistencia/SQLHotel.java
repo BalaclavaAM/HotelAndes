@@ -1,6 +1,11 @@
 package uniandes.isis2304.hotelandes.persistencia;
 
+import java.util.List;
+
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+
+import uniandes.isis2304.hotelandes.negocio.Hotel;
 
 public class SQLHotel {
     private final static String SQL = PersistenciaHotelAndes.SQL;
@@ -26,5 +31,25 @@ public class SQLHotel {
             e.printStackTrace();
         }
         return idHotel;
+    }
+    public List getAllHoteles(PersistenceManager persistenceManager) {
+        List hoteles = null;
+        try{
+            String query = "SELECT\n" +
+                    "    ID,\n" +
+                    "    NOMBRE,\n" +
+                    "    ESTRELLAS,\n" +
+                    "    CADENAHOTELERA\n" +
+                    "FROM\n" +
+                    "    HOTEL";
+            System.out.println("QUERY A UTILIZAR: "+query);
+            Query q = persistenceManager.newQuery(SQL, query);
+            q.setResultClass(Hotel.class);
+            hoteles = (List) q.execute();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return hoteles;
     }
 }

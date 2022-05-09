@@ -2,7 +2,6 @@ package uniandes.isis2304.hotelandes.persistencia;
 
 import uniandes.isis2304.hotelandes.negocio.*;
 import uniandes.isis2304.hotelandes.negocio.Habitacion;
-import uniandes.isis2304.hotelandes.negocio.Usuario;
 
 
 import javax.jdo.PersistenceManager;
@@ -59,6 +58,14 @@ public class SQLHabitacion {
         String query="SELECT * FROM "+ pHotelAndes.obtenerTablaHabitacion() +" WHERE HOTEL = ? AND enuso = 0 AND tipo =? FETCH FIRST ? ROWS ONLY";
         Query q = pm.newQuery(SQL, query);
         q.setParameters(hotel, tipo, cantidad);
+        q.setResultClass(Habitacion.class);
+        return (List<Habitacion>) q.executeList();
+    }
+
+    public List<Habitacion> obtenerHabitaciones(PersistenceManager pm, long hotel ) {
+        String query="SELECT * FROM "+ pHotelAndes.obtenerTablaHabitacion() +" WHERE HOTEL = ? ";
+        Query q = pm.newQuery(SQL, query);
+        q.setParameters(hotel);
         q.setResultClass(Habitacion.class);
         return (List<Habitacion>) q.executeList();
     }

@@ -32,6 +32,7 @@ public class PersistenciaHotelAndes {
     private SQLTipoServicio sqlTipoServicio;
     private SQLTipoPlan sqlTipoPlan;
     private SQLReservaServicio sqlReservaServicio;
+    private SQLHotel sqlHotel;
     private Logger logger;
 
 
@@ -104,6 +105,7 @@ public class PersistenciaHotelAndes {
         sqlTipoServicio = new SQLTipoServicio(this);
         sqlTipoPlan = new SQLTipoPlan(this);
         sqlReservaServicio = new SQLReservaServicio(this);
+        sqlHotel = new SQLHotel(this);
 
     }
 
@@ -534,6 +536,18 @@ public class PersistenciaHotelAndes {
     }
     public List<RegistroServicio> darRegistrosServicioPorUsuario( String nombreCliente, String fechaInicio,String fechaFin) {
         return sqlRegistroServicio.darRegistrosServicio(pmf.getPersistenceManager(), nombreCliente, fechaInicio, fechaFin);
+    }
+
+    public List<Habitacion> obtenerHabitaciones(long hotel){
+        return sqlHabitacion.obtenerHabitaciones(pmf.getPersistenceManager(),hotel);
+    }
+
+    public List<Hotel> obtenerHoteles() {
+        return sqlHotel.getAllHoteles(pmf.getPersistenceManager());
+    }
+
+    public List<Servicio> obtenerServicios() {
+        return sqlServicio.obtenerServicios(pmf.getPersistenceManager());
     }
 
 
