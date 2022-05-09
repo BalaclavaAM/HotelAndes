@@ -279,7 +279,7 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
         long idUsuario = usuario.getId();
 
         List<Reserva> reservasServicios = hotelAndes.obtenerReservasActivaConUsuario(idUsuario);
-        if (reservasServicios.isEmpty()) {
+        if (reservasServicios == null) {
             JOptionPane.showMessageDialog(this, "No hay convenciones con este usuario activas");
             throw new Exception("No hay convenciones con este usuario activas");
         }

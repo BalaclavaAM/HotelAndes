@@ -70,6 +70,10 @@
 				{
 					"label": "veinteServiciosPopulares",
 					"event": "veinteServiciosPopulares"
+				},
+				{
+					"label": "Analisis Operacion",
+					"event": "analisisOperacion"
 				}
 			]
 		},

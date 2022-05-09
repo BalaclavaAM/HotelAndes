@@ -558,5 +558,9 @@ public class PersistenciaHotelAndes {
         return sqlReserva.terminarConvencion(pmf.getPersistenceManager(),horaInicio, horaFin, idUsuario);
     }
 
+    public List<TipoHabitacion> gTiposHabitacion() {
+        return sqlTipoHabitacion.gTipoHabitacion(pmf.getPersistenceManager());
+    }
+
 
 }

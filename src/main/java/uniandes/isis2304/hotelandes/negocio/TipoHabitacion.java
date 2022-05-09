@@ -1,5 +1,7 @@
 package uniandes.isis2304.hotelandes.negocio;
 
+import java.math.BigDecimal;
+
 public class TipoHabitacion implements VOTipoHabitacion{
 
     public long id;
@@ -22,6 +24,17 @@ public class TipoHabitacion implements VOTipoHabitacion{
         this.tipo=tipo;
         this.precio=precio;
         this.descripcion=descripcion;
+    }
+
+    public TipoHabitacion(BigDecimal id, String tipo, BigDecimal precio, String descripcion){
+        this.id=id.longValue();
+        this.tipo=tipo;
+        this.precio=precio.floatValue();
+        this.descripcion=descripcion;
+    }
+    @Override
+    public String toString() {
+        return "TipoHabitacion [id=" + id + ", tipo=" + tipo + ", precio=" + precio + ", descripcion=" + descripcion + "]";
     }
 
     public long getId() {
@@ -55,13 +68,4 @@ public class TipoHabitacion implements VOTipoHabitacion{
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    @Override
-    public String toString()
-    {
-        return "TipoHabitacion [tipo=" + tipo + ", descripcion=" + descripcion + "]";
-    }
-
-
-
 }

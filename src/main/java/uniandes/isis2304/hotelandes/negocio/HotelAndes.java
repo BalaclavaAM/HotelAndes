@@ -295,4 +295,17 @@ public class HotelAndes {
         log.info("Convention terminated");
         return filasEditadas;
     }
+
+    public void analisisTipoServicio(TipoServicio tipoServicio) {
+    }
+
+    public void analisisTipoHabitacion() {
+    }
+
+    public List<TipoHabitacion> gTiposHabitacion() {
+        log.info("Getting all types of rooms");
+        List<TipoHabitacion> tb = pp.gTiposHabitacion();
+        log.info("Types of rooms: " + tb);
+        return tb;
+    }
 }
