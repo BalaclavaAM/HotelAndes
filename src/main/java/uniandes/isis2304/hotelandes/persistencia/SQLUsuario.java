@@ -52,5 +52,19 @@ public class SQLUsuario {
 			return (long) q.executeUnique();
 	}
 
+	public List<Usuario> getUsersWConvenciones(PersistenceManager persistenceManager) {
+		List usuariosWConvenciones=null;
+		try{
+			String theStringQuery = "SELECT USUARIO.ID, USUARIO.NOMBRE, USUARIO.DOCUMENTO, USUARIO.TIPOPLAN, USUARIO.TIPODOCUMENTO, USUARIO.TIPOUSUARIO, USUARIO.LOGIN, USUARIO.CONTRASENA, USUARIO.EMAIL FROM USUARIO INNER JOIN RESERVASERVICIO ON USUARIO.ID = IDUSUARIO WHERE (SELECT COUNT(RS.HORAINICIO) FROM RESERVASERVICIO RS WHERE RS.IDUSUARIO = IDUSUARIO AND RS.ACTIVO=1 GROUP BY RS.HORAINICIO OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY)>1 AND RESERVASERVICIO.ACTIVO=1 OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY";
+			Query q = persistenceManager.newQuery(SQL, theStringQuery);
+			q.setResultClass(Usuario.class);
+			usuariosWConvenciones = (List) q.executeList();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return usuariosWConvenciones;
+	}
+
 }
 

@@ -15,6 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.security.Timestamp;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -258,5 +261,72 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
         //Liberacion de habitaciones
         long ln= hotelAndes.reservaCambiarEstadoConUsuario(idusuario);
         long ln2= hotelAndes.reservaServicioCambiarEstadoConUsuario(idusuario);
+    }
+
+
+    public void RF14() throws Exception {
+        List<Usuario> usuariosConConvenciones = hotelAndes.getUsersWConvenciones(); 
+        if (usuariosConConvenciones.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay usuarios con convenciones");
+            throw new Exception("No hay usuarios con convenciones");
+        }
+        JComboBox usuarios = new JComboBox(usuariosConConvenciones.toArray());
+        usuarios.setSelectedIndex(0);
+        usuarios.setEditable(false);
+
+        JOptionPane.showMessageDialog(this, usuarios, "Seleccione el usuario que creó la convención", JOptionPane.QUESTION_MESSAGE);
+        Usuario usuario = (Usuario) usuarios.getSelectedItem();
+        long idUsuario = usuario.getId();
+
+        List<Reserva> reservasServicios = hotelAndes.obtenerReservasActivaConUsuario(idUsuario);
+        if (reservasServicios.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay convenciones con este usuario activas");
+            throw new Exception("No hay convenciones con este usuario activas");
+        }
+        HashMap <java.sql.Timestamp, List<Reserva>> convenciones = new HashMap<java.sql.Timestamp, List<Reserva>>();
+        for (Reserva reserva : reservasServicios) {
+            if (convenciones.containsKey(reserva.horaInicio)){
+                convenciones.get(reserva.horaInicio).add(reserva);
+            } else {
+                List<Reserva> reservas = new LinkedList<>();
+                reservas.add(reserva);
+                convenciones.put(reserva.horaInicio, reservas);
+            }
+        }
+        List convencionesList = new LinkedList();
+        for (java.sql.Timestamp hora : convenciones.keySet()) {
+            List<Reserva> reservas = convenciones.get(hora);
+            List asistentes = new LinkedList<>();
+            for (Reserva reserva : reservas) {
+                asistentes.add(reserva.getIdUsuario());
+            }
+            convencionesList.add(new Convencion(asistentes, hora, reservas.get(0).getHoraFin()));
+        }
+        if (convencionesList.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay convenciones con este usuario activas");
+            throw new Exception("No hay convenciones con este usuario activas");
+        }
+        JComboBox convencionesCombo = new JComboBox(convencionesList.toArray());
+        convencionesCombo.setSelectedIndex(0);
+        convencionesCombo.setEditable(false);
+        
+        JOptionPane.showMessageDialog(this, convencionesCombo, "Seleccione la convención", JOptionPane.QUESTION_MESSAGE);
+
+        Convencion convencion = (Convencion) convencionesCombo.getSelectedItem();
+
+        Boolean delete = JOptionPane.showConfirmDialog(this, "¿Desea terminar la convención?", "Terminar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+
+        if (delete) {
+            long filasModificadas = hotelAndes.terminarConvencion(convencion.getHoraInicio(), convencion.getHoraFin(), idUsuario);
+            if (filasModificadas == 0) {
+                JOptionPane.showMessageDialog(this, "No se pudo terminar la convención");
+                throw new Exception("No se pudo terminar la convención");
+            } else {
+                JOptionPane.showMessageDialog(this, "Se terminó la convención");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No se terminó la convención");
+        }
+
     }
 }

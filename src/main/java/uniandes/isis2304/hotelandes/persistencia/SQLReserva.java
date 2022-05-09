@@ -43,6 +43,20 @@ public class SQLReserva {
         return (long) q.executeUnique();
     }
 
+    public long terminarConvencion(PersistenceManager persistenceManager, Timestamp horaInicio, Timestamp horaFin,
+            long idUsuario) {
+        long filasEditadas = 0;
+        try {
+            String sql = "UPDATE " + pHotelAndes.obtenerTablaReserva() + " SET ACTIVO = 0 WHERE" + " ACTIVO=1 AND idUsuario=? AND horaInicio=? AND horaFin=?";
+            Query q = persistenceManager.newQuery(SQL, sql);
+            q.setParameters(idUsuario, horaInicio, horaFin);
+            filasEditadas = (long) q.executeUnique();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return filasEditadas;
+    }
+
 
 
 }

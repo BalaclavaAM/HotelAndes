@@ -281,4 +281,18 @@ public class HotelAndes {
         log.info("Servicios registrados en hotelandes: " + tb);
         return tb;
     }
+
+    public List<Usuario> getUsersWConvenciones() {
+        log.info("Getting all users with conventions");
+        List<Usuario> tb = pp.getUsersWConvenciones();
+        log.info("Users with conventions: " + tb);
+        return tb;
+    }
+
+    public long terminarConvencion(Timestamp horaInicio, Timestamp horaFin, long idUsuario) {
+        log.info("Terminating convention");
+        long filasEditadas = pp.terminarConvencion(horaInicio, horaFin, idUsuario);
+        log.info("Convention terminated");
+        return filasEditadas;
+    }
 }

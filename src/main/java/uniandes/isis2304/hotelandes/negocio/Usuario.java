@@ -1,5 +1,6 @@
 package uniandes.isis2304.hotelandes.negocio;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 
 public class Usuario implements VOUsuario{
@@ -37,6 +38,18 @@ public class Usuario implements VOUsuario{
 
         // Estos valores no se conocen en el momento de la construcción del bebedor
 
+    }
+
+    public Usuario(BigDecimal id, String nombre, BigDecimal documento, BigDecimal tipoPlan, BigDecimal tipoDocumento, BigDecimal tipoUsuario, String login, String contrasena, String email){
+        this.id = id.longValue();
+        this.nombre = nombre;
+        this.documento = documento.longValue();
+        this.tipoUsuario = tipoUsuario.longValue();
+        this.tipoDocumento = tipoDocumento.longValue();
+        this.login=login;
+        this.contrasena=contrasena;
+        this.tipoPlan=tipoPlan.longValue();
+        this.email = email;
     }
 
     public long getTipoPlan() {

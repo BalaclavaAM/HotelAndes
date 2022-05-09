@@ -550,5 +550,13 @@ public class PersistenciaHotelAndes {
         return sqlServicio.obtenerServicios(pmf.getPersistenceManager());
     }
 
+    public List<Usuario> getUsersWConvenciones() {
+        return sqlUsuario.getUsersWConvenciones(pmf.getPersistenceManager());
+    }
+
+    public long terminarConvencion(Timestamp horaInicio, Timestamp horaFin, long idUsuario) {
+        return sqlReserva.terminarConvencion(pmf.getPersistenceManager(),horaInicio, horaFin, idUsuario);
+    }
+
 
 }
