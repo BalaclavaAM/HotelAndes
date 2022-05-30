@@ -9,6 +9,7 @@ import uniandes.isis2304.parranderos.negocio.TipoBebida;
 
 import javax.jdo.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -379,10 +380,18 @@ public class PersistenciaHotelAndes {
         }
 
     }
-
+    public List<Usuario> darUsuarioPorConsumoEnRangoYOtrasCaracteristicas(ArrayList<String> newQuery){
+        PersistenceManager pm = pmf.getPersistenceManager();
+        return sqlUsuario.darUsuarioPorConsumoEnRangoYOtrasCaracteristicas(pmf.getPersistenceManager(), newQuery);
+    }
+    public List<Usuario> darUsuarioPorConsumoEnRangoYOtrasCaracteristicasConNumeroDeVeces(ArrayList<String> newQueries) {
+        PersistenceManager pm = pmf.getPersistenceManager();
+        return sqlUsuario.darUsuarioPorConsumoEnRangoYOtrasCaracteristicasConNumeroDeVeces(pm, newQueries);
+    }
 
 
     public long registrarReserva(String fechaentrada, String fechasalida, long idUsuario,long idHabitacion) {
+
         PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         int id=0; //toca hacer una consulta para averiguar cual es la id de este tipo
@@ -459,6 +468,9 @@ public class PersistenciaHotelAndes {
             }
             pm.close();
         }
+    }
+    public List<Usuario> RFC7 (){
+        return sqlUsuario.RFC7(pmf.getPersistenceManager());
     }
 
     public long adicionarPersonasHabitacion(long id, Timestamp horaInicio, Timestamp horaFinal, int uso) {

@@ -39,6 +39,22 @@ public class Usuario implements VOUsuario{
         // Estos valores no se conocen en el momento de la construcción del bebedor
 
     }
+    public Usuario(BigDecimal id, String nombre, BigDecimal documento, BigDecimal tipoUsuario, BigDecimal tipoDocumento, String login, String nombreTipoUsuario, String contrasena, BigDecimal tipoPlan, String email)
+    {
+        this.id = id.longValue();
+        this.nombre = nombre;
+        this.documento = documento.longValue();
+        this.tipoUsuario = tipoUsuario.longValue();
+        this.tipoDocumento = tipoDocumento.longValue();
+        this.login=login;
+        this.nombreTipoUsuario=nombreTipoUsuario;//esta variable no esta en la tabla perse del usuario, esta en tipo usuario, pero se pone aca por conveniencia
+        this.contrasena=contrasena;
+        this.tipoPlan=tipoPlan.longValue();
+        this.email = email;
+
+        // Estos valores no se conocen en el momento de la construcción del bebedor
+
+    }
 
     public Usuario(BigDecimal id, String nombre, BigDecimal documento, BigDecimal tipoPlan, BigDecimal tipoDocumento, BigDecimal tipoUsuario, String login, String contrasena, String email){
         this.id = id.longValue();

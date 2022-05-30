@@ -10,7 +10,9 @@ import uniandes.isis2304.parranderos.negocio.TipoBebida;
 import uniandes.isis2304.parranderos.negocio.VOTipoBebida;
 import uniandes.isis2304.parranderos.persistencia.PersistenciaParranderos;
 
+import javax.jdo.PersistenceManager;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 @SuppressWarnings("serial")
@@ -134,6 +136,16 @@ public class HotelAndes {
         log.info("Adicionando Usuario: " + usuarioId);
         return usuarioId;
     }
+    public List<Usuario> darUsuarioPorConsumoEnRangoYOtrasCaracteristicasConNumeroDeVeces(ArrayList<String> newQueries) {
+        log.info("Buscando Usuario por login : " + newQueries);
+        List<Usuario> tb = pp.darUsuarioPorConsumoEnRangoYOtrasCaracteristicasConNumeroDeVeces(newQueries);
+        return !tb.isEmpty() ? tb : null;
+    }
+    public List<Usuario> darUsuarioPorConsumoEnRangoYOtrasCaracteristicas(ArrayList<String> newQuery){
+        log.info("Buscando Usuario por PorConsumoEnRangoYOtrasCaracteristicas : " + newQuery);
+        List<Usuario> tb = pp.darUsuarioPorConsumoEnRangoYOtrasCaracteristicas(newQuery);
+        return !tb.isEmpty() ? tb : null;
+    }
 
     public Habitacion obtenerHabitacionConNumero(long numeroHabitacion) {
         log.info("Buscando Tipo de bebida por idHabitacion: " + numeroHabitacion);
@@ -230,6 +242,9 @@ public class HotelAndes {
         log.info("Agregando ReservaServicioHotel: " + voH.size());
         return voH;
 
+    }
+    public List<Usuario> RFC7 () {
+        return pp.RFC7();
     }
 
     public long reservaCambiarEstadoConUsuario(long idusuario) {

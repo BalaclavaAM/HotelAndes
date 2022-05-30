@@ -241,6 +241,7 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
                 }
 
             }
+            panelDatos.actualizarInterfaz(tiposPlan.toString());
         }
         // reserva habitaciones
         // reserva servicios
@@ -252,7 +253,9 @@ public class OrganizadorEventos extends JFrame implements ActionListener {
             if (tb == 0) {
                 //escribir error en pantalla
             }
+
         }
+
         // reserva servicios
 
     }

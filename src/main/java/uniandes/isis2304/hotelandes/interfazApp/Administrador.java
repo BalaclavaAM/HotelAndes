@@ -406,6 +406,59 @@ public class Administrador extends JFrame implements ActionListener {
             panelDatos.actualizarInterfaz(resultado);
         }
     }
+    public void RFC10() {
+        try {
+            String nombreUsuario = JOptionPane.showInputDialog(this, "Nombre del usuario?", "Adicionar Nombre usuario", JOptionPane.QUESTION_MESSAGE);
+            String idUsuario = JOptionPane.showInputDialog(this, "ID del usuario?", "Adicionar ID usuario", JOptionPane.QUESTION_MESSAGE);
+            String tipoPlan = JOptionPane.showInputDialog(this, "Tipo plan de la persona? (int)", "Tipo planEmail persona", JOptionPane.QUESTION_MESSAGE);
+            String numeroDocumento = JOptionPane.showInputDialog(this, "Numero de documento?", "Adicionar numero documento", JOptionPane.QUESTION_MESSAGE);
+            //dropdown to tipousuario
+            String fechaInicio = JOptionPane.showInputDialog(this, "Fecha de inicio? ano-mes-dia", "Adicionar fecha inicio", JOptionPane.QUESTION_MESSAGE);
+            String fechaFin = JOptionPane.showInputDialog(this, "Fecha de fin? ano-mes-dia", "Adicionar fecha fin", JOptionPane.QUESTION_MESSAGE);
+            ArrayList<String> newQuery = new ArrayList<String>();
+            if (!nombreUsuario.equals("-")){
+                String query = " WHERE nombre ='" + nombreUsuario + "' ";
+                newQuery.add(query);
+            }
+            if (!idUsuario.equals("-")){
+                String query = " WHERE USUARIO.ID = " + idUsuario+" ";
+                newQuery.add(query);
+            }
+            if (!numeroDocumento.equals("-")){
+                String query = " WHERE USUARIO.DOCUMENTO = " + numeroDocumento +" ";
+                newQuery.add(query);
+            }
+            if (!tipoPlan .equals("-")){
+                String query = " WHERE USUARIO.EMAIL = '" + tipoPlan + "' ";
+                newQuery.add(query);
+            }
+            if (!fechaInicio.equals("-")){
+                String query = " WHERE fecha >TO_DATE('" + fechaInicio + "', 'yyyy-mm-dd') ";
+                newQuery.add(query);
+            }
+            if (!fechaFin.equals("-")){
+                String query = " WHERE fecha < TO_DATE('" + fechaFin + "', 'yyyy-mm-dd') ";
+                newQuery.add(query);
+            }
+            String conteo = JOptionPane.showInputDialog(this, "Cuantas veces tuvo que consumirlo (ponga - si no importa)", "Veces consumo persona", JOptionPane.QUESTION_MESSAGE);
+            if (conteo.equals("-")){
+                List<Usuario> result= hotelAndes.darUsuarioPorConsumoEnRangoYOtrasCaracteristicas( newQuery);
+                panelDatos.actualizarInterfaz(result.toString());
+            }
+            else   {
+                String query = " WHERE COUNT(*) >= " + conteo ;
+                List<Usuario> result=hotelAndes.darUsuarioPorConsumoEnRangoYOtrasCaracteristicasConNumeroDeVeces(newQuery);
+                panelDatos.actualizarInterfaz(result.toString());
+            }
+
+        } catch (HeadlessException e) {
+            e.printStackTrace();
+        }
+    }
+    public void RFC7 () {
+        List<Usuario> a =hotelAndes.RFC7();
+        panelDatos.actualizarInterfaz(a.toString());
+    }
 
     public void registrarTipoServicio() {
         try {

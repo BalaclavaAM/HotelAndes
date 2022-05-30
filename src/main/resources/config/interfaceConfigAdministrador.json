@@ -83,6 +83,14 @@
 				{
 					"label":"RFC6",
 					"event": "RFC6"
+				},
+				{
+					"label":"RFC7",
+					"event": "RFC7"
+				},
+				{
+					"label":"RFC10",
+					"event": "RFC10"
 				}
 			]
 		},
