@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.*;
+import uniandes.isis2304.hotelandes.negocio.enums.FilterAnalisisType;
 import uniandes.isis2304.parranderos.interfazApp.PanelDatos;
 
 import javax.jdo.JDODataStoreException;
@@ -16,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -563,44 +566,94 @@ public class Administrador extends JFrame implements ActionListener {
 
     public void analisisOperacion() {
         try {
-            ArrayList<String> filtroHorario = new ArrayList<String>();
-            filtroHorario.add("Semana");
-            filtroHorario.add("Mes");
-
-            JComboBox comboBox = new JComboBox(filtroHorario.toArray());
+            ArrayList<String> listaFiltroAnalisis = new ArrayList<String>();
+            listaFiltroAnalisis.add("Tipo de Habitacion");
+            listaFiltroAnalisis.add("Servicio");
+            JComboBox<String> comboBox = new JComboBox<>(listaFiltroAnalisis.toArray(new String[listaFiltroAnalisis.size()]));
             comboBox.setEditable(false);
             JOptionPane.showMessageDialog(this, comboBox, "Seleccione el filtro", JOptionPane.QUESTION_MESSAGE);
 
             String filtro = (String) comboBox.getSelectedItem();
 
+            FilterAnalisisType filtroAnalisis = FilterAnalisisType.SERVICIO;
+            if (filtro.equals("Tipo de Habitacion")){
+                filtroAnalisis = FilterAnalisisType.TIPOHABITACION;
+            }
+
             ArrayList<String> opciones = new ArrayList<String>();
-            opciones.add("TipoHabitacion");
-            opciones.add("TipoServicio");
-            int opcion = JOptionPane.showOptionDialog(this, "Seleccione el tipo de operación", "Analisis operación",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, opciones.toArray(), null);
-            switch (opcion) {
-                case 0:
+            opciones.add("Semana");
+            opciones.add("Mes");
+            opciones.add("Año");
+            opciones.add("Dia");
+            JComboBox<String> comboBox2 = new JComboBox<>(opciones.toArray(new String[opciones.size()]));
+            comboBox2.setEditable(false);
+            JOptionPane.showMessageDialog(this, comboBox2, "Seleccione el filtro", JOptionPane.QUESTION_MESSAGE);
+
+            String tipoTiempo = (String) comboBox2.getSelectedItem();
+
+            long parameterExtra = 0;
+            switch (filtroAnalisis) {
+                case TIPOHABITACION:
                     List<TipoHabitacion> tiposHabitacion = hotelAndes.gTiposHabitacion();
                     JComboBox comboBox3 = new JComboBox(tiposHabitacion.toArray());
                     comboBox3.setEditable(false);
                     JOptionPane.showMessageDialog(this, comboBox3, "Seleccione el tipo de habitación",
                             JOptionPane.QUESTION_MESSAGE);
                     TipoHabitacion tipoHabitacion = (TipoHabitacion) comboBox3.getSelectedItem();
-                    hotelAndes.analisisTipoHabitacion();
+                    parameterExtra = tipoHabitacion.getId();
                     break;
-                case 1:
+                case SERVICIO:
                     List<TipoServicio> tiposServicios = hotelAndes.gTipoServicios();
-                    JComboBox comboBox2 = new JComboBox(tiposServicios.toArray());
-                    comboBox2.setEditable(false);
-                    JOptionPane.showMessageDialog(this, comboBox2, "Seleccione el tipo de servicio",
+                    JComboBox comboBox4 = new JComboBox(tiposServicios.toArray());
+                    comboBox4.setEditable(false);
+                    JOptionPane.showMessageDialog(this, comboBox4, "Seleccione el tipo de servicio",
                             JOptionPane.QUESTION_MESSAGE);
-                    TipoServicio tipoServicio = (TipoServicio) comboBox2.getSelectedItem();
-                    hotelAndes.analisisTipoServicio(tipoServicio);
-                    break;
-                default:
-                    panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+                    TipoServicio tipoServicio = (TipoServicio) comboBox4.getSelectedItem();
+                    parameterExtra = tipoServicio.getId();
                     break;
             }
+            List<ResponseRegistroServicioStatistics> topCounters =  this.hotelAndes.analisisHotelandes(filtroAnalisis, true, parameterExtra, tipoTiempo, true);
+            List<ResponseRegistroServicioStatistics> downCounters =  this.hotelAndes.analisisHotelandes(filtroAnalisis, false, parameterExtra, tipoTiempo, true);
+
+            List<ResponseRegistroServicioStatistics> topRecaudo = this.hotelAndes.analisisHotelandes(filtroAnalisis, true, parameterExtra, tipoTiempo, false);
+            List<ResponseRegistroServicioStatistics> downRecaudo = this.hotelAndes.analisisHotelandes(filtroAnalisis, false, parameterExtra, tipoTiempo, false);
+            String resultado = "-----------TOP ACTIVIDAD-------------\n";
+            for (ResponseRegistroServicioStatistics counter : topCounters) {
+                resultado+= "filtro"+counter.filter+" cantidad: "+counter.quantity+" "+tipoTiempo+": "+counter.tiempo+"\n";
+            }
+            resultado += "-----------DOWN ACTIVIDAD-------------\n";
+            for (ResponseRegistroServicioStatistics counter : downCounters) {
+                resultado+= "filtro"+counter.filter+" cantidad: "+counter.quantity+" "+tipoTiempo+": "+counter.tiempo+"\n";
+            }
+            resultado += "-----------TOP RECAUDO-------------\n";
+            for (ResponseRegistroServicioStatistics counter : topRecaudo) {
+                resultado+= "filtro"+counter.filter+" cantidad: "+counter.quantity+" "+tipoTiempo+": "+counter.tiempo+"\n";
+            }
+            resultado += "-----------DOWN RECAUDO-------------\n";
+            for (ResponseRegistroServicioStatistics counter : downRecaudo) {
+                resultado+= "filtro"+counter.filter+" cantidad: "+counter.quantity+" "+tipoTiempo+": "+counter.tiempo+"\n";
+            }
+            panelDatos.actualizarInterfaz(resultado);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void RFC9IT4(){
+        try{
+            String fechaInicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 2012-01-12 año-mes dia", "FECHA INICIO",
+                    JOptionPane.QUESTION_MESSAGE);
+            //format string yyyy-MM-dd to timestamp
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = (Date) sdf.parse(fechaInicio);
+            String fechaFinal = JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 2012-01-12 año-mes dia", "FECHA FINAL",
+                    JOptionPane.QUESTION_MESSAGE);
+            Date endDate = (Date) sdf.parse(fechaFinal);
+            panelDatos.actualizarInterfaz("Obteniendo servicios... ");
+            List<Servicio> servicios = hotelAndes.obtenerServicios();
+            panelDatos.actualizarInterfaz("Servicios obtenidos exitosamente. "+servicios.size()+ " servicios");
+        
         } catch (Exception e) {
             e.printStackTrace();
         }

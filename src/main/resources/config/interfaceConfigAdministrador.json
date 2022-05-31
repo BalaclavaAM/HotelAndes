@@ -112,6 +112,10 @@
 				{
 					"label": "Analisis Operacion",
 					"event": "analisisOperacion"
+				},
+				{
+					"label": "RFC9 IT4 - Consumo Hotelandes",
+					"event": "RFC9IT4"
 				}
 			]
 		},

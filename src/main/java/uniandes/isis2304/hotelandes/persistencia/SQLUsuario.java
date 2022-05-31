@@ -7,8 +7,13 @@ import uniandes.isis2304.parranderos.persistencia.PersistenciaParranderos;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SQLUsuario {
 	private final static String SQL = PersistenciaHotelAndes.SQL;
@@ -32,6 +37,14 @@ public class SQLUsuario {
 	{
 		this.pp = pp;
 	}
+
+
+	static Timestamp convertStringToTimestamp(String strDate) {
+        return Optional.ofNullable(strDate) // wrap the String into an Optional
+                       .map(str -> LocalDate.parse(str).atStartOfDay()) // convert into a LocalDate and fix the hour:minute:sec to 00:00:00
+                       .map(Timestamp::valueOf) // convert to Timestamp
+                       .orElse(null); // if no value is present, return null
+    }
 
 	public List<Usuario> darUsuarioPorLogin(PersistenceManager pm, String login) {
 
@@ -144,6 +157,22 @@ public class SQLUsuario {
 			e.printStackTrace();
 		}
 		return usuariosWConvenciones;
+	}
+	
+
+	public List<Usuario> getUsersWRegistroServicio(PersistenceManager persistenceManager, String fechaInicio, String fechaFin, boolean asc, String orderby){
+		List usuariosWRegistroServicio=null;
+		try{
+			String theStringQuery = "SELECT USUARIO.ID, USUARIO.NOMBRE, USUARIO.DOCUMENTO, USUARIO.TIPOPLAN, USUARIO.TIPODOCUMENTO, USUARIO.TIPOUSUARIO, USUARIO.LOGIN, USUARIO.CONTRASENA, USUARIO.EMAIL FROM USUARIO INNER JOIN REGISTROSERVICIO ON USUARIO.NOMBRE = REGISTROSERVICIO.NOMBRECLIENTE WHERE (SELECT COUNT(RS.HORAINICIO) FROM REGISTROSERVICIO RS WHERE RS.IDUSUARIO = IDUSUARIO AND RS.ACTIVO=1 GROUP BY RS.HORAINICIO OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY)>1 AND REGISTROSERVICIO.ACTIVO=1 AND REGISTROSERVICIO.FECHA BETWEEN ? AND ? ORDER BY ? ASC";
+			Query q = persistenceManager.newQuery(SQL, theStringQuery);
+			q.setResultClass(Usuario.class);
+			q.setParameters(fechaInicio, fechaFin, orderby);
+			usuariosWRegistroServicio = (List) q.executeList();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return usuariosWRegistroServicio;
 	}
 
 }

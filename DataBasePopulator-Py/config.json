@@ -1,0 +1,6 @@
+{
+    "connectionURL": "fn4.oracle.virtual.uniandes.edu.co:1521/prod",
+    "connectionDriverName": "oracle.jdbc.driver.OracleDriver",
+    "connectionUserName": "ISIS2304D27202210",
+    "connectionPassword": "wMVGcQVSpKwA"
+}

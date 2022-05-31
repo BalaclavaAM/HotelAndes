@@ -5,6 +5,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.persistencia.PersistenciaHotelAndes;
 import uniandes.isis2304.hotelandes.negocio.*;
+import uniandes.isis2304.hotelandes.negocio.enums.FilterAnalisisType;
 import uniandes.isis2304.parranderos.negocio.TipoBebida;
 
 import uniandes.isis2304.parranderos.negocio.VOTipoBebida;
@@ -322,5 +323,10 @@ public class HotelAndes {
         List<TipoHabitacion> tb = pp.gTiposHabitacion();
         log.info("Types of rooms: " + tb);
         return tb;
+    }
+
+    public List<ResponseRegistroServicioStatistics> analisisHotelandes(FilterAnalisisType filtro, boolean b,
+            long parameterExtra, String tipoTiempo, boolean c) {
+        return pp.analisisHotelandes(filtro, b, parameterExtra, tipoTiempo, c);
     }
 }

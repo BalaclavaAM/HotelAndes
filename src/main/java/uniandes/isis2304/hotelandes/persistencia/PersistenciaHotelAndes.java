@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import uniandes.isis2304.hotelandes.negocio.*;
+import uniandes.isis2304.hotelandes.negocio.enums.FilterAnalisisType;
 import uniandes.isis2304.parranderos.negocio.TipoBebida;
 
 import javax.jdo.*;
@@ -572,6 +573,11 @@ public class PersistenciaHotelAndes {
 
     public List<TipoHabitacion> gTiposHabitacion() {
         return sqlTipoHabitacion.gTipoHabitacion(pmf.getPersistenceManager());
+    }
+
+    public List<ResponseRegistroServicioStatistics> analisisHotelandes(FilterAnalisisType filtro, boolean b,
+            long parameterExtra, String tipoTiempo, boolean c) {
+        return sqlRegistroServicio.darRegistroServicioTop(pmf.getPersistenceManager(), filtro, b, parameterExtra, tipoTiempo, c);
     }
 
 
