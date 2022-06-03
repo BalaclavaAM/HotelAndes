@@ -580,5 +580,22 @@ public class PersistenciaHotelAndes {
         return sqlRegistroServicio.darRegistroServicioTop(pmf.getPersistenceManager(), filtro, b, parameterExtra, tipoTiempo, c);
     }
 
+    public List<ResponseLessUsedServices> lessUsedServices() {
+        return sqlRegistroServicio.darServiciosMenosUsados(pmf.getPersistenceManager());
+    }
+
+    public List<Usuario> getAllUsers() {
+        return sqlUsuario.getAllUsers(pmf.getPersistenceManager());
+    }
+
+    public List<Usuario> getUsersWRegistroServicio(long id, String fechaInicio, String fechaFinal, String userName,
+            boolean ascByName) {
+        return sqlRegistroServicio.darServicioClienteInfos(pmf.getPersistenceManager(), fechaInicio, fechaFinal, (int) id, userName, ascByName);
+    }
+
+    public List<Usuario> getUsersWRegistroServicio(long id, String fechaInicio, String fechaFinal, boolean ascByName) {
+        return sqlRegistroServicio.darServicioClienteInfos(pmf.getPersistenceManager(), fechaInicio, fechaFinal, (int) id, ascByName);
+    }
+
 
 }

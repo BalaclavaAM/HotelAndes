@@ -2,7 +2,9 @@ package uniandes.isis2304.hotelandes.persistencia;
 
 import uniandes.isis2304.hotelandes.negocio.DineroPorHabitacion;
 import uniandes.isis2304.hotelandes.negocio.RegistroServicio;
+import uniandes.isis2304.hotelandes.negocio.ResponseLessUsedServices;
 import uniandes.isis2304.hotelandes.negocio.ResponseRegistroServicioStatistics;
+import uniandes.isis2304.hotelandes.negocio.Usuario;
 import uniandes.isis2304.hotelandes.negocio.enums.FilterAnalisisType;
 import uniandes.isis2304.hotelandes.negocio.enums.FilterTimeType;
 
@@ -105,4 +107,50 @@ public class SQLRegistroServicio {
         return (List<ResponseRegistroServicioStatistics>) q.executeList();
     }
 
+    public List<ResponseLessUsedServices> darServiciosMenosUsados(PersistenceManager pm) {
+        String query = "SELECT UNIQUE(RS.Servicio), Nombre as NombreServicio, TS.TIPO as TipoServicio FROM (SELECT COUNT(RS.SERVICIO) as Veces, RS.Servicio, to_char(RS.FECHA, 'WW') FROM REGISTROSERVICIO RS WHERE RS.FECHA>TO_DATE('1/1/2022', 'DD/MM/YYYY') HAVING COUNT(RS.SERVICIO)<=3 GROUP BY RS.Servicio, to_char(RS.FECHA, 'WW')) RS, SERVICIO S, TIPOSERVICIO TS WHERE S.ID = RS.SERVICIO AND TS.ID = S.TipoServicio";
+        Query q = pm.newQuery(SQL, query);
+        q.setResultClass(ResponseLessUsedServices.class);
+        return (List<ResponseLessUsedServices>) q.executeList();
+    } 
+
+    public List<Usuario> darServicioClienteInfos(PersistenceManager pm, String fechaInicio, String fechaFin, int servicio, boolean asc) {
+        String queryString = "SELECT * FROM USUARIO WHERE NOMBRE IN (SELECT NOMBRECLIENTE FROM REGISTROSERVICIO WHERE FECHA >= TO_DATE(?, 'DD/MM/YYYY') AND FECHA< TO_DATE(?, 'DD/MM/YYYY') AND SERVICIO = ?) ORDER BY NOMBRE @ORDER";
+        if (asc){
+            queryString = queryString.replace("@ORDER", "ASC");
+        } else {
+            queryString = queryString.replace("@ORDER", "DESC");
+        }
+        Query q = pm.newQuery(SQL, queryString);
+        q.setParameters(fechaInicio, fechaFin, servicio);
+        q.setResultClass(Usuario.class);
+        return (List<Usuario>) q.executeList();
+    }
+
+    public List<Usuario> darServicioClienteInfos(PersistenceManager pm, String fechaInicio, String fechaFin, int servicio, String userId, boolean asc) {
+        String queryString = "SELECT * FROM USUARIO WHERE NOMBRE=? AND NOMBRE IN (SELECT NOMBRECLIENTE FROM REGISTROSERVICIO WHERE FECHA >= TO_DATE(?, 'DD/MM/YYYY') AND FECHA< TO_DATE(?, 'DD/MM/YYYY') AND SERVICIO = ?) ORDER BY NOMBRE @ORDER";
+        if (asc){
+            queryString = queryString.replace("@ORDER", "ASC");
+        } else {
+            queryString = queryString.replace("@ORDER", "DESC");
+        }
+        Query q = pm.newQuery(SQL, queryString);
+        q.setParameters(userId, fechaInicio, fechaFin, servicio);
+        q.setResultClass(Usuario.class);
+        System.out.println("Using query: " + q.toString());
+        return (List<Usuario>) q.executeList();
+    }
+
+    public List<Usuario> darServicioClienteInfos(PersistenceManager pm, String fechaInicio, String fechaFin, boolean asc) {
+        String stringQuery = "SELECT * FROM USUARIO WHERE NOMBRE IN (SELECT NOMBRECLIENTE FROM REGISTROSERVICIO WHERE FECHA >= TO_DATE(?, 'DD/MM/YYYY') AND FECHA< TO_DATE(?, 'DD/MM/YYYY')) ORDER BY NOMBRE @ORDER";
+        if (asc){
+            stringQuery = stringQuery.replace("@ORDER", "ASC");
+        } else {
+            stringQuery = stringQuery.replace("@ORDER", "DESC");
+        }
+        Query q = pm.newQuery(SQL, stringQuery);
+        q.setParameters(fechaInicio, fechaFin);
+        q.setResultClass(Usuario.class);
+        return (List<Usuario>) q.executeList();
+    }
 }

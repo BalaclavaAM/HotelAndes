@@ -175,5 +175,19 @@ public class SQLUsuario {
 		return usuariosWRegistroServicio;
 	}
 
+	public List<Usuario> getAllUsers(PersistenceManager pm){
+		List<Usuario> usuarios = null;
+		try{
+			String theStringQuery = "SELECT * FROM USUARIO";
+			Query q = pm.newQuery(SQL, theStringQuery);
+			q.setResultClass(Usuario.class);
+			usuarios = (List<Usuario>) q.executeList();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return usuarios;
+	}
+
 }
 

@@ -640,22 +640,71 @@ public class Administrador extends JFrame implements ActionListener {
         }
     }
 
-    private void RFC9IT4(){
+    public void RCF8IT4(){
         try{
-            String fechaInicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 2012-01-12 año-mes dia", "FECHA INICIO",
+            panelDatos.actualizarInterfaz("obteniendo los servicios menos usados");
+            List<ResponseLessUsedServices> lessUsedServices = hotelAndes.lessUsedServices();
+            String resultado = "SERVICIOS MENOS USADOS --------------------- \n";
+            for (ResponseLessUsedServices lessUsedService : lessUsedServices) {
+                resultado += lessUsedService.toString() + "\n";
+            }
+            panelDatos.actualizarInterfaz(resultado);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            panelDatos.actualizarInterfaz(e.getMessage());
+        }
+    }
+
+    public void RFC9IT4(){
+        try{
+            String fechaInicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 02/02/2002 dia/mes/año", "FECHA INICIO",
                     JOptionPane.QUESTION_MESSAGE);
-            //format string yyyy-MM-dd to timestamp
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date startDate = (Date) sdf.parse(fechaInicio);
-            String fechaFinal = JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 2012-01-12 año-mes dia", "FECHA FINAL",
+            //regexcheck string fechaInicio to check if dd/mm/yyyy
+            boolean fechaInicioValid = fechaInicio.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})");
+            while (!fechaInicioValid){
+                fechaInicio = JOptionPane.showInputDialog(this, "Ponga la fecha de inicio en el siguiente formato 02/02/2002 dia/mes/año", "FECHA INICIO",
+                        JOptionPane.QUESTION_MESSAGE);
+                fechaInicioValid = fechaInicio.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})");
+            }
+            
+            String fechaFinal = JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 02/02/2002 dia/mes/año", "FECHA FINAL",
                     JOptionPane.QUESTION_MESSAGE);
-            Date endDate = (Date) sdf.parse(fechaFinal);
+            boolean fechaFinalValid = fechaFinal.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})");
+            while (!fechaFinalValid){
+                fechaFinal = JOptionPane.showInputDialog(this, "Ponga la fecha de final en el siguiente formato 02/02/2002 dia/mes/año", "FECHA FINAL",
+                        JOptionPane.QUESTION_MESSAGE);
+                fechaFinalValid = fechaFinal.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})");
+            }
             panelDatos.actualizarInterfaz("Obteniendo servicios... ");
             List<Servicio> servicios = hotelAndes.obtenerServicios();
             panelDatos.actualizarInterfaz("Servicios obtenidos exitosamente. "+servicios.size()+ " servicios");
-        
-        } catch (Exception e) {
+            JComboBox serviciosCombobox = new JComboBox(servicios.toArray());
+            serviciosCombobox.setEditable(false);
+            JOptionPane.showMessageDialog(this, serviciosCombobox, "Seleccione el servicio", JOptionPane.QUESTION_MESSAGE);
+            Servicio servicio = (Servicio) serviciosCombobox.getSelectedItem();
+            boolean ascByName = JOptionPane.showConfirmDialog(this, "¿Desea ordenar ascendentemente por nombre?", "Ordenar por nombre", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            boolean putUserName = JOptionPane.showConfirmDialog(this, "¿Desea agregar el nombre del usuario?", "Nombre de usuario", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            if (putUserName){
+                String userName = JOptionPane.showInputDialog(this, "Ponga el nombre del usuario", "Nombre de usuario", JOptionPane.QUESTION_MESSAGE);
+                List<Usuario> resultado = hotelAndes.getUsersWRegistroServicio(servicio.getId(), fechaInicio, fechaFinal, userName, ascByName);
+                String resultadoString = "";
+                for (Usuario usuario : resultado) {
+                    resultadoString += usuario.toString() + "\n";
+                }
+                panelDatos.actualizarInterfaz(resultadoString);
+            } else {
+                List<Usuario> resultado = hotelAndes.getUsersWRegistroServicio(servicio.getId(), fechaInicio, fechaFinal, ascByName);
+                String resultadoString = "";
+                for (Usuario usuario : resultado) {
+                    resultadoString += usuario.toString() + "\n";
+                }
+                panelDatos.actualizarInterfaz(resultadoString);
+            }
+        }
+        catch (Exception e){
             e.printStackTrace();
+            panelDatos.actualizarInterfaz(e.getMessage());
         }
     }
 

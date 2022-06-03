@@ -110,8 +110,12 @@
 					"event": "registrarServicio"
 				},
 				{
-					"label": "Analisis Operacion",
+					"label": "RFC6 IT4 - Analisis Operacion",
 					"event": "analisisOperacion"
+				},
+				{
+					"label": "RFC8 IT4 - Servicios Sin Demanda",
+					"event": "RCF8IT4"
 				},
 				{
 					"label": "RFC9 IT4 - Consumo Hotelandes",

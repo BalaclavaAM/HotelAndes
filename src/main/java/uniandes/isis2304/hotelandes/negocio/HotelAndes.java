@@ -329,4 +329,21 @@ public class HotelAndes {
             long parameterExtra, String tipoTiempo, boolean c) {
         return pp.analisisHotelandes(filtro, b, parameterExtra, tipoTiempo, c);
     }
+
+    public List<ResponseLessUsedServices> lessUsedServices() {
+        return pp.lessUsedServices();
+    }
+
+    public List<Usuario> getAllUsers() {
+        return pp.getAllUsers();
+    }
+
+    public List<Usuario> getUsersWRegistroServicio(long id, String fechaInicio, String fechaFinal, String userName,
+            boolean ascByName) {
+        return pp.getUsersWRegistroServicio(id, fechaInicio, fechaFinal, userName, ascByName);
+    }
+
+    public List<Usuario> getUsersWRegistroServicio(long id, String fechaInicio, String fechaFinal, boolean ascByName) {
+        return pp.getUsersWRegistroServicio(id, fechaInicio, fechaFinal, ascByName);
+    }
 }

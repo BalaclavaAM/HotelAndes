@@ -3,6 +3,7 @@ import json
 from logging.handlers import RotatingFileHandler
 from pprint import pprint
 from random import choice, randint
+from threading import Thread
 from faker.providers import lorem
 from faker.providers import company
 import faker
@@ -79,32 +80,27 @@ class Populator:
         connection.commit()
         connection.close()
         
-    def populateRegistroServicioTable(self):
-        connection = self.getConnection()
+    def populateRegistroServicioTable(self, connection, servicios, habitaciones, usuarios, quantity, numThread):
         cursor = connection.cursor()
-        servicios = cursor.execute("SELECT ID FROM SERVICIO").fetchall()
-        habitaciones = cursor.execute("SELECT ID FROM HABITACION").fetchall()
-        usuarios = cursor.execute("SELECT NOMBRE FROM USUARIO").fetchall()
-        trange = 1000
-        for i in range (0, trange):
+        for i in range (0, quantity):
             try:
                 idHabitacion = choice(habitaciones)[0]
                 nombreCliente = choice(usuarios)[0]
                 lugarConsumo = self.fake.company()
                 servicio = choice(servicios)[0]
-                fecha = self.fake.date_time_between(start_date="-5y", end_date=datetime.now())
+                fecha = self.fake.date_time_between(start_date="-6M", end_date=datetime.now())
                 costoTotal = randint(0,100000)
                 fecha = fecha.strftime("%d/%m/%Y %H:%M:%S")
                 insertStatement = "INSERT INTO REGISTROSERVICIO (IDHABITACION, NOMBRECLIENTE, LUGARCONSUMO, SERVICIO, COSTOTOTAL, FECHA) VALUES (" + str(idHabitacion) + ", '" + nombreCliente + "', '" + lugarConsumo + "', " + str(servicio) + ", " + str(costoTotal) + ", TO_DATE('" + fecha + "', 'DD/MM/YYYY HH24:MI:SS'))"
+                print("inserting..." + str(i) + " - " + str(quantity))
                 cursor.execute(insertStatement)
-                print(i)
             except Exception as e:
                 self.logger.error(e)
         connection.commit()
         connection.close()
+        print('Registros insertados: ' + str(trange*numThread))
 
-    def registerUserInRegistroServicio(self):
-        connection = self.getConnection()
+    def registerUserInRegistroServicio(self, connection):
         cursor = connection.cursor()
         usernames = cursor.execute("SELECT NOMBRECLIENTE FROM REGISTROSERVICIO WHERE NOMBRECLIENTE NOT IN (SELECT NOMBRE FROM USUARIO GROUP BY NOMBRE) Group by NOMBRECLIENTE").fetchall()
         tipoDocumentos = cursor.execute("SELECT ID FROM TIPODOCUMENTO").fetchall()
@@ -135,4 +131,16 @@ class Populator:
         return cx_Oracle.connect(user=self.connectionUserName, password=self.connectionPassword, dsn=self.connectionURL)
     
 populator = Populator()
-populator.populateRegistroServicioTable()
+connection = populator.getConnection()
+cursor = connection.cursor()
+print("Getting services...")
+servicios = cursor.execute("SELECT ID FROM SERVICIO").fetchall()
+print("Getting rooms...")
+habitaciones = cursor.execute("SELECT ID FROM HABITACION").fetchall()
+print("Getting users...")
+usuarios = cursor.execute("SELECT NOMBRE FROM USUARIO").fetchall()
+connection.close()
+for k in range(0,10):
+    connection = populator.getConnection()
+    thread = Thread(target=populator.populateRegistroServicioTable, args=(connection, servicios, habitaciones, usuarios, 20, k, ))
+    thread.start()
